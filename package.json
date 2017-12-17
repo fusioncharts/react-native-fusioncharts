@@ -1,0 +1,57 @@
+{
+  "name": "react-native-fusioncharts",
+  "version": "1.0.0",
+  "description": "React Native component for FusionCharts Javascript Charting Library",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fusioncharts/react-native-fusioncharts"
+  },
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "test": "jest --coverage",
+    "android": "react-native run-android",
+    "ios": "react-native run-ios"
+  },
+  "author": {
+    "name": "FusionCharts",
+    "email": "support@fusioncharts.com"
+  },
+  "contributors": [
+    {
+      "name": "Rousan Ali",
+      "email": "rousan@fusioncharts.com",
+      "url": "https://github.com/ariyankhan"
+    },
+    {
+      "name": "Subrata Mal",
+      "email": "subrata@fusioncharts.com",
+      "url": "https://github.com/subratamal"
+    }
+  ],
+  "main": "src/FusionCharts.js",
+  "bugs": {
+    "url": "https://github.com/fusioncharts/react-native-fusioncharts/issues"
+  },
+  "keywords": [
+    "android",
+    "ios",
+    "fusioncharts",
+    "wrapper",
+    "react",
+    "react-native",
+    "chart"
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "babel-jest": "21.2.0",
+    "babel-preset-react-native": "4.0.0",
+    "jest": "21.2.1",
+    "react": "16.0.0",
+    "react-native": "0.51.0",
+    "react-test-renderer": "16.0.0"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
+}
