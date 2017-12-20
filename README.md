@@ -179,7 +179,7 @@ When you build your Android app for release, you need to configure your app as f
 
 </html>
 ```
-{ uri: 'file:///android_asset/fusioncharts.html' }
+
 * Set `libraryPath` property to the `FusionCharts` component as follows:
 
 ```html
