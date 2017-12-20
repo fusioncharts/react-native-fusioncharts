@@ -11,7 +11,11 @@
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest --coverage",
     "android": "react-native run-android",
-    "ios": "react-native run-ios"
+    "android:release": "react-native run-android --variant=release",
+    "ios": "react-native run-ios",
+    "tplcompile": "node src/webview/template-compiler.js",
+    "build:android": "npm run tplcompile && cd android && ./gradlew assembleRelease && cd ..",
+    "build:ios": "npm run tplcompile && react-native run-ios --configuration Release"
   },
   "author": {
     "name": "FusionCharts",
@@ -42,10 +46,13 @@
     "react-native",
     "chart"
   ],
-  "dependencies": {},
+  "dependencies": {
+    "fusioncharts": "^3.12.2"
+  },
   "devDependencies": {
     "babel-jest": "21.2.0",
     "babel-preset-react-native": "4.0.0",
+    "ejs": "^2.5.7",
     "jest": "21.2.1",
     "react": "16.0.0",
     "react-native": "0.51.0",
