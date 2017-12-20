@@ -105,7 +105,7 @@ When you build your Android app for release, you need to configure your app as f
 
 * Create `assets` folder if it doesn't exist in `android/app/src/main` directory.
 * Copy the `fusioncharts` library into the `assets` folder (normally copy the `node_modules/fusioncharts` folder),
-* Create a file named `fuioncharts.html` with the following content:
+* Create a file named `fuioncharts.html` in `android/app/src/main` directory with the following content:
 
 ```html
 <!DOCTYPE html>
