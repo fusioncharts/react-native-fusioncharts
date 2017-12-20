@@ -16,7 +16,7 @@ $ npm install --save react-native-fusioncharts
 
 After installing `react-native-fusioncharts`, import it as follows:
 
-```javascipt
+```javascript
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import FusionCharts from 'react-native-fusioncharts';
