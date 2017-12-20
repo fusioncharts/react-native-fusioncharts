@@ -9,11 +9,12 @@
   },
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest --coverage",
-    "android": "react-native run-android",
-    "android:release": "react-native run-android --variant=release",
-    "ios": "react-native run-ios",
+    "test": "jest --coverage --verbose",
     "tplcompile": "node src/webview/template-compiler.js",
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
+    "android:release": "npm run tplcompile && react-native run-android --variant=release",
+    "ios:release": "npm run tplcompile && react-native run-ios --configuration Release",
     "build:android": "npm run tplcompile && cd android && ./gradlew assembleRelease && cd ..",
     "build:ios": "npm run tplcompile && react-native run-ios --configuration Release"
   },

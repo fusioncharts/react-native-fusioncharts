@@ -204,7 +204,6 @@ export default class FusionCharts extends Component {
   }
 
   runInWebView(script) {
-    console.log(script);
     if (this.webViewLoaded) {
       this.webView.injectJavaScript(`
         (function() { ${script} })();

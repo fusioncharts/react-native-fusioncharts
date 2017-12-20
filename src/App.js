@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View, Button, Platform } from 'react-native';
 import FusionCharts from './FusionCharts';
 
 export default class App extends Component {
@@ -16,6 +16,10 @@ export default class App extends Component {
       displayValue: '',
     };
 
+    this.libraryPath = Platform.select({
+      ios: require('../assets/fusioncharts.html'),
+      android: { uri: 'file:///android_asset/fusioncharts.html' },
+    });
     this.onPress = this.onPress.bind(this);
     this.events = {
       dataPlotClick: (eventObj, dataObj) => {
@@ -66,6 +70,7 @@ export default class App extends Component {
             dataSource={this.state.dataSource}
             containerBackgroundColor={this.state.containerBackgroundColor}
             events={this.events}
+            libraryPath={this.libraryPath}
           />
         </View>
         <Text style={styles.text}>

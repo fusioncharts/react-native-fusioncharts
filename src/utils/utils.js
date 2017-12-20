@@ -42,6 +42,6 @@ export function convertToNumber(value) {
 }
 
 export function portValueSafely(value) {
-  const stringified = JSON.stringify(value).replace(/\\/g, "\\\\");
+  const stringified = JSON.stringify(value).replace(/[`\\]/g, m => m === '`' ? '\\`' : '\\\\');
   return `JSON.parse(\`${stringified}\`)`;
 }
