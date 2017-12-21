@@ -22,6 +22,20 @@ describe("FusionCharts", () => {
     ).toJSON();
     expect(tree).toMatchSnapshot();
   });
+
+  it('should render the chart when webview is loaded', () => {
+    const instance = renderer.create(
+      <FusionCharts
+        {...chartOptions}
+      />
+    ).getInstance();
+
+    expect(instance.oldOptions).toBe(null);
+    expect(instance.webViewLoaded).toBe(false);
+    instance.onWebViewLoad();
+    expect(instance.oldOptions).not.toBe(null);
+    expect(instance.webViewLoaded).toBe(true);
+  });
 });
 
 const chartOptions = {
@@ -29,11 +43,5 @@ const chartOptions = {
   width: 400,
   height: 300,
   dataFormat: 'json',
-  dataSource: require('../assets/data.json'),
-  containerBackgroundColor: 'transparent',
-  events: {
-    dataPlotClick: (eventObj, dataObj) => {
-      console.log(dataObj.displayValue);
-    }
-  }
+  dataSource: require('../assets/data.json')
 };
