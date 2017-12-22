@@ -3,6 +3,7 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import App from '../src/App';
 
+/* global describe it expect jest */
 jest.unmock('ScrollView');
 jest.mock('../assets/fusioncharts.html', () => {
   const path = require('path');
@@ -10,21 +11,17 @@ jest.mock('../assets/fusioncharts.html', () => {
 
   // Library path respect to project directory
   const fcLibraryPath = path.resolve('./assets/fusioncharts.html');
-  return { html: fs.readFileSync(fcLibraryPath, 'utf8') }
+  return { html: fs.readFileSync(fcLibraryPath, 'utf8') };
 });
 
 describe('App', () => {
   it('should render as expected', () => {
-    const tree = renderer.create(
-      <App />
-    ).toJSON();
+    const tree = renderer.create(<App />).toJSON();
     expect(tree).toMatchSnapshot();
   });
 
   it('should change chart data on pressing the button', () => {
-    const instance = renderer.create(
-      <App />
-    ).getInstance();
+    const instance = renderer.create(<App />).getInstance();
 
     instance.onPress();
     expect(instance.state.dataFormat).toEqual('xml');
@@ -50,13 +47,11 @@ describe('App', () => {
   });
 
   it('should respond on `dataPlotClick` chart event', () => {
-    const instance = renderer.create(
-      <App />
-    ).getInstance();
-    
+    const instance = renderer.create(<App />).getInstance();
+
     const mockedEventObj = {};
     const mockedDataObj = { displayValue: Math.floor(Math.random() * 1000) };
-    instance.events['dataPlotClick'].apply(undefined, [mockedEventObj, mockedDataObj]);
+    instance.events.dataPlotClick.apply(undefined, [mockedEventObj, mockedDataObj]);
     expect(instance.state.displayValue).toBe(mockedDataObj.displayValue);
   });
 });

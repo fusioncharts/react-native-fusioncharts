@@ -1,5 +1,6 @@
 import fusonChartsOptions from '../../src/utils/options';
 
+/* global describe it expect */
 describe('It', () => {
   it('should return all FusionCharts supported chart options', () => {
     expect(fusonChartsOptions).toEqual([
@@ -54,7 +55,7 @@ describe('It', () => {
       'loadMessageImageHAlign',
       'loadMessageImageVAlign',
       'loadMessageImageAlpha',
-      'loadMessageImageScale'
+      'loadMessageImageScale',
     ]);
   });
 });

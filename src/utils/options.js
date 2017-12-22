@@ -50,5 +50,5 @@ export default [
   'loadMessageImageHAlign',
   'loadMessageImageVAlign',
   'loadMessageImageAlpha',
-  'loadMessageImageScale'
+  'loadMessageImageScale',
 ];

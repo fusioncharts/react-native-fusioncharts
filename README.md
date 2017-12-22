@@ -18,7 +18,7 @@ After installing `react-native-fusioncharts`, import it as follows:
 
 ```javascript
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { AppRegistry, StyleSheet, Text, View, Button } from 'react-native';
 import FusionCharts from 'react-native-fusioncharts';
 
 export default class App extends Component {
@@ -97,16 +97,20 @@ const styles = StyleSheet.create({
     height: 200
   }
 });
+
+// skip this line if using Create React Native App
+AppRegistry.registerComponent('ReactNativeFusionCharts', () => App);
 ```
 
-## Android Release Build
+## Release Build
 
-When you build your Android app for release, you need to configure your app as follows:
+The successful release build for `Android` requires following steps to be completed:
 
-* Create `assets` folder if it doesn't exist in `android/app/src/main` directory.
-* Copy the `fusioncharts` library into the `assets` folder (normally copy the `node_modules/fusioncharts` folder),
-* Create a file named `fuioncharts.html` in `android/app/src/main` directory with the following content:
+* create `assets` folder in `android/app/src/main` directory if it doesn't exist,
+* copy `fusioncharts` library into `assets` folder (normally copy `node_modules/fusioncharts` folder),
+* create a file named `fuioncharts.html` in `assets` folder with following content:
 
+The `android/app/src/main/assets/fuioncharts.html` file:
 ```html
 <!DOCTYPE html>
 <html>
@@ -180,22 +184,17 @@ When you build your Android app for release, you need to configure your app as f
 </html>
 ```
 
-* Set `libraryPath` property to the `FusionCharts` component as follows:
+* set `libraryPath` property to the `FusionCharts` component as follows:
 
 ```html
 <FusionCharts
-  type={this.state.type}
-  width={this.state.width}
-  height={this.state.height}
-  dataFormat={this.state.dataFormat}
-  dataSource={this.state.dataSource}
-  containerBackgroundColor={this.state.containerBackgroundColor}
-  events={this.events}
+  ......
+
   libraryPath={{ uri: 'file:///android_asset/fusioncharts.html' }}
  />
 ```
 
-## Test
+## Unit Test
 
 ```sh
 $ npm test
@@ -205,7 +204,7 @@ $ npm test
 
 * Clone the repository.
 * Install dependencies
-* Run `npm start` to start React Native packager server.
+* Run `npm start` to start React Native Packager server.
 * Run on Android or iOS emulator.
 
 ```sh
@@ -228,12 +227,12 @@ To run release version of iOS app, run:
 $ npm run ios:release
 ```
 
-To generate Android signed APK, run:
+To generate a signed release Android APK, run:
 ```sh
 $ npm run build:android
 ```
 
-To generate iOS app, run:
+To generate release iOS app, run:
 ```sh
 $ npm run build:ios
 ```

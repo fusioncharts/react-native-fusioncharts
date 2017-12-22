@@ -24,8 +24,8 @@ export default class App extends Component {
     this.events = {
       dataPlotClick: (eventObj, dataObj) => {
         this.setState({
-          displayValue: dataObj.displayValue
-        })
+          displayValue: dataObj.displayValue,
+        });
       },
     };
   }
@@ -51,7 +51,7 @@ export default class App extends Component {
         <set label="Golf" value="400000000" tooltext="Popular in: {br}US{br}Canada{br}Europe" />
         <set label="Basketball" value="400000000" tooltext="Popular in: {br}US{br}Canada" />
         <set label="American football" value="390000000" tooltext="Popular in:{br}US" />
-    </chart>`
+    </chart>`,
     });
   }
 
@@ -92,18 +92,18 @@ export default class App extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10
+    padding: 10,
   },
   heading: {
     fontSize: 20,
     textAlign: 'center',
-    marginBottom: 10
+    marginBottom: 10,
   },
   text: {
     fontSize: 15,
     margin: 13,
   },
   chartContainer: {
-    height: 200
-  }
+    height: 200,
+  },
 });

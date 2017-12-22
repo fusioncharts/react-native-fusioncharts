@@ -5,30 +5,31 @@ import {
   isUndefined,
   deepCopyOf,
   convertToNumber,
-  portValueSafely
+  portValueSafely,
 } from '../../src/utils/utils';
 
+/* global describe it expect */
 describe('isObject(value)', () => {
   it('should return true for object value', () => {
     expect(isObject({})).toBeTruthy();
   });
 
   it('should return false for null value', () => {
-    expect(isObject(null)).toBeFalsy()
+    expect(isObject(null)).toBeFalsy();
   });
 
   it('should return false for non-object values', () => {
-    expect(isObject(undefined)).toBeFalsy()
-    expect(isObject(22)).toBeFalsy()
-    expect(isObject('string')).toBeFalsy()
-    expect(isObject(function () { })).toBeFalsy()
-    expect(isObject(true)).toBeFalsy()
+    expect(isObject(undefined)).toBeFalsy();
+    expect(isObject(22)).toBeFalsy();
+    expect(isObject('string')).toBeFalsy();
+    expect(isObject(() => { })).toBeFalsy();
+    expect(isObject(true)).toBeFalsy();
   });
 });
 
 describe('isCallable(value)', () => {
   it('should return true for function value', () => {
-    expect(isCallable(function () { })).toBeTruthy();
+    expect(isCallable(() => { })).toBeTruthy();
   });
 
   it('should return false for non-function values', () => {
@@ -46,12 +47,12 @@ describe('isSameObjectContent(obj1, obj2)', () => {
     expect(isSameObjectContent(
       {
         a: 1,
-        b: 2
+        b: 2,
       },
       {
         a: 1,
-        b: 2
-      }
+        b: 2,
+      },
     )).toBeTruthy();
   });
 
@@ -60,20 +61,20 @@ describe('isSameObjectContent(obj1, obj2)', () => {
       {
         a: {
           c: 33,
-          d: 77
+          d: 77,
         },
         b: {
-          e: 22
-        }
+          e: 22,
+        },
       },
       {
         a: {
           c: 33,
-          d: 77
+          d: 77,
         },
         b: {
-          e: 22
-        }
+          e: 22,
+        },
       },
     )).toBeTruthy();
   });
@@ -82,7 +83,7 @@ describe('isSameObjectContent(obj1, obj2)', () => {
     expect(isSameObjectContent(
       {},
       {
-        a: 44
+        a: 44,
       },
     )).toBeFalsy();
 
@@ -90,30 +91,30 @@ describe('isSameObjectContent(obj1, obj2)', () => {
       {
         a: {
           c: 33,
-          d: 77
+          d: 77,
         },
         b: {
-          e: 22
-        }
+          e: 22,
+        },
       },
       {
         a: {
           c: 33,
-          d: 564
+          d: 564,
         },
         b: {
-          m: 255
-        }
+          m: 255,
+        },
       },
     )).toBeFalsy();
   });
 
   expect(isSameObjectContent(
     {
-      a: 2
+      a: 2,
     },
     {
-      b: 2
+      b: 2,
     },
   )).toBeFalsy();
 });
@@ -129,7 +130,7 @@ describe('isUndefined(value)', () => {
     expect(isUndefined(null)).toBeFalsy();
     expect(isUndefined({})).toBeFalsy();
     expect(isUndefined(true)).toBeFalsy();
-    expect(isUndefined(function () { })).toBeFalsy();
+    expect(isUndefined(() => { })).toBeFalsy();
   });
 });
 
@@ -139,8 +140,8 @@ describe('deepCopyOf(obj)', () => {
       a: 1,
       b: {
         c: 3,
-        d: 44
-      }
+        d: 44,
+      },
     };
     const deepCopy = deepCopyOf(obj);
     expect(isSameObjectContent(obj, deepCopy) && obj !== deepCopy).toBeTruthy();
@@ -178,24 +179,18 @@ describe('convertToNumber(value)', () => {
 
 describe('portValueSafely(value)', () => {
   it('should return portable version of object value', () => {
-    expect(portValueSafely(
-      { a: 1, b: 2 }
-    )).toBe('JSON.parse(`{"a":1,"b":2}`)');
+    expect(portValueSafely({ a: 1, b: 2 } )).toBe('JSON.parse(`{"a":1,"b":2}`)');
 
-    expect(portValueSafely(
-      { a: 1, b: "\"" }
-    )).toBe('JSON.parse(`{"a":1,"b":"\\\\""}`)');
+    expect(portValueSafely({ a: 1, b: '"' } )).toBe('JSON.parse(`{"a":1,"b":"\\\\""}`)');
 
-    expect(portValueSafely(
-      { a: 1, b: "\\" }
-    )).toBe('JSON.parse(`{"a":1,"b":"\\\\\\\\"}`)');
+    expect(portValueSafely({ a: 1, b: '\\' } )).toBe('JSON.parse(`{"a":1,"b":"\\\\\\\\"}`)');
   });
 
   it('should return portable version of non-object values', () => {
-    expect(portValueSafely(`abc123`)).toBe('JSON.parse(`"abc123"`)');
-    expect(portValueSafely(`abc"`)).toBe('JSON.parse(`"abc\\\\""`)');
-    expect(portValueSafely(`abc\\`)).toBe('JSON.parse(`"abc\\\\\\\\"`)');
-    expect(portValueSafely(`abc\``)).toBe('JSON.parse(`"abc\\`"`)');
+    expect(portValueSafely('abc123')).toBe('JSON.parse(`"abc123"`)');
+    expect(portValueSafely('abc"')).toBe('JSON.parse(`"abc\\\\""`)');
+    expect(portValueSafely('abc\\')).toBe('JSON.parse(`"abc\\\\\\\\"`)');
+    expect(portValueSafely('abc`')).toBe('JSON.parse(`"abc\\`"`)');
     expect(portValueSafely(111)).toBe('JSON.parse(`111`)');
     expect(portValueSafely(true)).toBe('JSON.parse(`true`)');
     expect(portValueSafely(null)).toBe('JSON.parse(`null`)');
