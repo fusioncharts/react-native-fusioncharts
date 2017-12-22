@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View, Button, Platform } from 'react-native';
 import FusionCharts from './FusionCharts';
 
 export default class App extends Component {
@@ -16,12 +16,16 @@ export default class App extends Component {
       displayValue: '',
     };
 
+    this.libraryPath = Platform.select({
+      ios: require('../assets/fusioncharts.html'),
+      android: { uri: 'file:///android_asset/fusioncharts.html' },
+    });
     this.onPress = this.onPress.bind(this);
     this.events = {
       dataPlotClick: (eventObj, dataObj) => {
         this.setState({
-          displayValue: dataObj.displayValue
-        })
+          displayValue: dataObj.displayValue,
+        });
       },
     };
   }
@@ -47,7 +51,7 @@ export default class App extends Component {
         <set label="Golf" value="400000000" tooltext="Popular in: {br}US{br}Canada{br}Europe" />
         <set label="Basketball" value="400000000" tooltext="Popular in: {br}US{br}Canada" />
         <set label="American football" value="390000000" tooltext="Popular in:{br}US" />
-    </chart>`
+    </chart>`,
     });
   }
 
@@ -66,6 +70,7 @@ export default class App extends Component {
             dataSource={this.state.dataSource}
             containerBackgroundColor={this.state.containerBackgroundColor}
             events={this.events}
+            libraryPath={this.libraryPath}
           />
         </View>
         <Text style={styles.text}>
@@ -87,18 +92,18 @@ export default class App extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10
+    padding: 10,
   },
   heading: {
     fontSize: 20,
     textAlign: 'center',
-    marginBottom: 10
+    marginBottom: 10,
   },
   text: {
     fontSize: 15,
     margin: 13,
   },
   chartContainer: {
-    height: 200
-  }
+    height: 200,
+  },
 });

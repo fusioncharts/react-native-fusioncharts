@@ -10,7 +10,7 @@ export function isSameObjectContent(obj1, obj2) {
   if (Object.keys(obj1).length !== Object.keys(obj2).length) { return false; }
   const keys = Object.keys(obj1);
 
-  for (let i = 0; i < keys.length; ++i) {
+  for (let i = 0; i < keys.length; i += 1) {
     const key = keys[i];
     if (isObject(obj1[key]) && isObject(obj2[key])) {
       if (!isSameObjectContent(obj1[key], obj2[key])) {
@@ -24,6 +24,7 @@ export function isSameObjectContent(obj1, obj2) {
 }
 
 export function isUndefined(value) {
+  // eslint-disable-next-line no-void
   const UNDEFINED = void (0);
   return value === UNDEFINED;
 }
@@ -34,14 +35,13 @@ export function deepCopyOf(obj) {
 
 export function convertToNumber(value) {
   const num = +value;
-  if(String(num) === String(value)) {
+  if (String(num) === String(value)) {
     return num;
-  } else {
-    return value;
   }
+  return value;
 }
 
 export function portValueSafely(value) {
-  const stringified = JSON.stringify(value).replace(/\\/g, "\\\\");
+  const stringified = JSON.stringify(value).replace(/[`\\]/g, m => (m === '`' ? '\\`' : '\\\\'));
   return `JSON.parse(\`${stringified}\`)`;
 }

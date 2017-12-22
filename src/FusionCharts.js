@@ -37,17 +37,17 @@ export default class FusionCharts extends Component {
     const response = this[msgData.targetFunc].apply(this, [msgData.data]);
     msgData.isSuccessfull = true;
     msgData.args = [response];
-    this.webView.postMessage(JSON.stringify(msgData))
+    this.webView.postMessage(JSON.stringify(msgData));
   }
 
   detectChanges(nextProps) {
     const currentOptions = this.resolveChartOptions(nextProps);
-    const oldOptions = this.oldOptions;
+    const { oldOptions } = this;
     const optionsUpdatedNatively = [
       'type',
       'dataFormat',
       'dataSource',
-      'events'
+      'events',
     ];
 
     this.checkAndUpdateChartType(currentOptions, oldOptions);
@@ -56,7 +56,7 @@ export default class FusionCharts extends Component {
     this.checkAndUpdateRestOptions(
       fusonChartsOptions.filter(option => optionsUpdatedNatively.indexOf(option) === -1),
       currentOptions,
-      oldOptions
+      oldOptions,
     );
 
     this.oldOptions = currentOptions;
@@ -103,17 +103,16 @@ export default class FusionCharts extends Component {
   isSameChartData(currData, oldData) {
     if (utils.isObject(currData) && utils.isObject(oldData)) {
       return utils.isSameObjectContent(currData, oldData);
-    } else {
-      return currData === oldData;
     }
+    return currData === oldData;
   }
 
   checkAndUpdateEvents(currentOptions, oldOptions) {
     const currEvents = currentOptions.events;
     const oldEvents = oldOptions.events;
 
-    const currEventNames = Object.keys(currEvents);
-    const oldEventNames = Object.keys(oldEvents);
+    const currEventNames = currEvents ? Object.keys(currEvents) : [];
+    const oldEventNames = oldEvents ? Object.keys(oldEvents) : [];
     currEventNames.forEach((eventName) => {
       if (oldEventNames.indexOf(eventName) === -1) {
         this.runInWebView(`
@@ -163,9 +162,8 @@ export default class FusionCharts extends Component {
   isSameOptionValue(currValue, oldValue) {
     if (utils.isObject(currValue) && utils.isObject(oldValue)) {
       return utils.isSameObjectContent(currValue, oldValue);
-    } else {
-      return String(currValue) === String(oldValue);
     }
+    return String(currValue) === String(oldValue);
   }
 
   renderChart() {
@@ -191,20 +189,19 @@ export default class FusionCharts extends Component {
     }, {});
     Object.assign(inlineOptions, chartConfig);
 
-    if (utils.isObject(inlineOptions['dataSource'])) {
-      inlineOptions['dataSource'] = utils.deepCopyOf(inlineOptions['dataSource']);
+    if (utils.isObject(inlineOptions.dataSource)) {
+      inlineOptions.dataSource = utils.deepCopyOf(inlineOptions.dataSource);
     }
-    if (utils.isObject(inlineOptions['link'])) {
-      inlineOptions['link'] = utils.deepCopyOf(inlineOptions['link']);
+    if (utils.isObject(inlineOptions.link)) {
+      inlineOptions.link = utils.deepCopyOf(inlineOptions.link);
     }
-    if (utils.isObject(inlineOptions['events'])) {
-      inlineOptions['events'] = Object.assign({}, inlineOptions['events']);
+    if (utils.isObject(inlineOptions.events)) {
+      inlineOptions.events = Object.assign({}, inlineOptions.events);
     }
     return inlineOptions;
   }
 
   runInWebView(script) {
-    console.log(script);
     if (this.webViewLoaded) {
       this.webView.injectJavaScript(`
         (function() { ${script} })();
@@ -213,7 +210,7 @@ export default class FusionCharts extends Component {
   }
 
   resolveChartStyles() {
-    let dimenStyles = {};
+    const dimenStyles = {};
     if (this.props.width) {
       dimenStyles.width = utils.convertToNumber(this.props.width);
     }
@@ -228,14 +225,13 @@ export default class FusionCharts extends Component {
       this.props.events[data.eventName].call(
         this,
         Object.assign(utils.deepCopyOf(data.eventObj), { sender: this }),
-        utils.deepCopyOf(data.dataObj)
+        utils.deepCopyOf(data.dataObj),
       );
     }
   }
 
   wrapEvents(events = {}) {
-    const eventsMap = Object.keys(events).map((eventName) => {
-      return `'${eventName}': function(eventObj, dataObj) {
+    const eventsMap = Object.keys(events).map(eventName => `'${eventName}': function(eventObj, dataObj) {
         window.webViewBridge.send('handleChartEvents', {
           eventName: '${eventName}',
           eventObj: {
@@ -247,13 +243,12 @@ export default class FusionCharts extends Component {
           },
           dataObj: dataObj
         });
-      }`;
-    }).join(',');
+      }`).join(',');
     return `{ ${eventsMap} }`;
   }
 
   render() {
-    let fcLibraryPath = utils.isUndefined(this.props.libraryPath) ? this.defaultFCLibraryPath : this.props.libraryPath;
+    const fcLibraryPath = utils.isUndefined(this.props.libraryPath) ? this.defaultFCLibraryPath : this.props.libraryPath;
 
     return (
       <View style={this.resolveChartStyles()}>
@@ -263,11 +258,11 @@ export default class FusionCharts extends Component {
           source={fcLibraryPath}
           onLoad={this.onWebViewLoad}
           onMessage={this.onWebViewMessage}
-          javaScriptEnabled={true}
-          domStorageEnabled={true}
-          scalesPageToFit={true}
+          javaScriptEnabled
+          domStorageEnabled
+          scalesPageToFit
           scrollEnabled={false}
-          automaticallyAdjustContentInsets={true}
+          automaticallyAdjustContentInsets
         />
       </View>
     );
@@ -278,5 +273,5 @@ const styles = StyleSheet.create({
   webview: {
     flex: 1,
     backgroundColor: 'transparent',
-  }
+  },
 });
