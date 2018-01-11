@@ -119,8 +119,10 @@ exports[`App should render as expected 1`] = `
   <script type='text/javascript'>
     \\"use strict\\"; (function () { var a = Promise.resolve(), b = {}, c = {}; (function d() { var f = function () { function g() { return Math.floor(65536 * (1 + Math.random())).toString(16).substring(1) } return g() + g() + \\"-\\" + g() + \\"-\\" + g() + \\"-\\" + g() + \\"-\\" + g() + g() + g() }; window.webViewBridge = { send: function send(g, h, i, j) { i = i || function () { }, j = j || function () { }; var k = { targetFunc: g, data: h || {}, msgId: f() }, l = JSON.stringify(k); a = a.then(function () { return new Promise(function (m, n) { b[k.msgId] = { resolve: m, reject: n }, c[k.msgId] = { onsuccess: i, onerror: j }, window.postMessage(l) }) }).catch(function () { }) } }, window.document.addEventListener(\\"message\\", function (g) { var h; try { h = JSON.parse(g.data) } catch (i) { return } b[h.msgId] && (b[h.msgId].resolve(), delete b[h.msgId]), h.args && c[h.msgId] && (h.isSuccessfull ? c[h.msgId].onsuccess.apply(null, h.args) : c[h.msgId].onerror.apply(null, h.args), delete c[h.msgId]) }) })() })();
   </script>
-  <script type='text/javascript'>
-    /*
+
+  
+    <script type='text/javascript'>
+      /*
  FusionCharts JavaScript Library
  Copyright FusionCharts Technologies LLP
  License Information at <http://www.fusioncharts.com/license>
@@ -2111,9 +2113,10 @@ heatmap:m.heatmap,boxandwhisker2d:m.boxandwhisker2d,multiaxisline:m.line,\\"defa
 
 //# sourceMappingURL=http://localhost:3052/3.12.2/map/eval/fusioncharts.js.map
 
-  </script>
-  <script type='text/javascript'>
-    /*
+    </script>
+  
+    <script type='text/javascript'>
+      /*
  FusionCharts JavaScript Library
  Copyright FusionCharts Technologies LLP
  License Information at <http://www.fusioncharts.com/license>
@@ -2374,9 +2377,10 @@ k,u,k,f,g,t,a-.5,t,a,c+b+.5,m,t,h,t,l,f,l,u,h,r,q,r,q,u,q,f,p,f,p,u,q,u,q,r,\\"Z
 
 //# sourceMappingURL=http://localhost:3052/3.12.2/map/eval/fusioncharts.charts.js.map
 
-  </script>
-  <script type='text/javascript'>
-    /*
+    </script>
+  
+    <script type='text/javascript'>
+      /*
  FusionCharts JavaScript Library - Gantt Chart
  Copyright FusionCharts Technologies LLP
  License Information at <http://www.fusioncharts.com/license>
@@ -2535,9 +2539,10 @@ process._attrib,h.rightPos=d+(h.rightPos-h.leftPos),h.leftPos=d,d+=h.rightPos-h.
 
 //# sourceMappingURL=http://localhost:3052/3.12.2/map/eval/fusioncharts.gantt.js.map
 
-  </script>
-  <script type='text/javascript'>
-    /*
+    </script>
+  
+    <script type='text/javascript'>
+      /*
  FusionCharts JavaScript Library
  Copyright FusionCharts Technologies LLP
  License Information at <http://www.fusioncharts.com/license>
@@ -3318,9 +3323,10 @@ X=c([],S.components.canvas.config.clip[\\"clip-canvas-init\\"]);var M=M.datalabe
 
 //# sourceMappingURL=http://localhost:3052/3.12.2/map/eval/fusioncharts.powercharts.js.map
 
-  </script>
-  <script type='text/javascript'>
-    /*
+    </script>
+  
+    <script type='text/javascript'>
+      /*
  FusionCharts JavaScript Library
  Copyright FusionCharts Technologies LLP
  License Information at <http://www.fusioncharts.com/license>
@@ -3350,9 +3356,10 @@ this.graphics.container,d=this.currentPage,g=a.graphics,m=g.pagePreNavigationLay
 
 //# sourceMappingURL=http://localhost:3052/3.12.2/map/eval/fusioncharts.ssgrid.js.map
 
-  </script>
-  <script type='text/javascript'>
-    /*
+    </script>
+  
+    <script type='text/javascript'>
+      /*
  FusionCharts JavaScript Library - Tree Map Chart
  Copyright FusionCharts Technologies LLP
  License Information at <http://www.fusioncharts.com/license>
@@ -3449,9 +3456,10 @@ b&&a.setVisibleRoot(b[c]),k.draw()};d.heightProportion=x;d.remove=function(){var
 
 //# sourceMappingURL=http://localhost:3052/3.12.2/map/eval/fusioncharts.treemap.js.map
 
-  </script>
-  <script type='text/javascript'>
-    /*
+    </script>
+  
+    <script type='text/javascript'>
+      /*
  FusionCharts JavaScript Library
  Copyright FusionCharts Technologies LLP
  License Information at <http://www.fusioncharts.com/license>
@@ -3939,9 +3947,10 @@ b.realtimecolumn,{isdual:!0,zeroplanethickness:1,zeroplanealpha:40,showzeroplane
 
 //# sourceMappingURL=http://localhost:3052/3.12.2/map/eval/fusioncharts.widgets.js.map
 
-  </script>
-  <script type='text/javascript'>
-    /*
+    </script>
+  
+    <script type='text/javascript'>
+      /*
  FusionCharts JavaScript Library - KDtree
  Copyright FusionCharts Technologies LLP
  License Information at <http://www.fusioncharts.com/license>
@@ -4036,9 +4045,10 @@ r+1.5,a+1.5,r-1,a+1,r,a,g+1,l+1,\\"Z\\",\\"M\\",c-2,b,\\"L\\",c+2,b,\\"Z\\",\\"M
 
 //# sourceMappingURL=http://localhost:3052/3.12.2/map/eval/fusioncharts.zoomscatter.js.map
 
-  </script>
-  <script type='text/javascript'>
-    /*
+    </script>
+  
+    <script type='text/javascript'>
+      /*
  FusionCharts JavaScript Library - KDtree
  Copyright FusionCharts Technologies LLP
  License Information at <http://www.fusioncharts.com/license>
@@ -4245,9 +4255,10 @@ this._buildKdTree(),c.update(b,d))},_removeMarkerItem:function(b){var a=this.com
 
 //# sourceMappingURL=http://localhost:3052/3.12.2/map/eval/fusioncharts.maps.js.map
 
-  </script>
-  <script type='text/javascript'>
-    /*
+    </script>
+  
+    <script type='text/javascript'>
+      /*
  FusionCharts JavaScript Library
  Copyright FusionCharts Technologies LLP
  License Information at <http://www.fusioncharts.com/license>
@@ -4529,9 +4540,10 @@ labelPosition:[544.5,199.9],labelAlignment:[\\"center\\",\\"middle\\"]},VA:{outl
 3359,5514,3350,5513,3349,5513,3347,5511,3328,5501,3311,5497,3305,5494,3299,5492,3296,5491,3293,5481,3258,5470,3223,5466,3211,5460,3198,5454,3183,5445,3168,5443,3166,5443,3161,5443,3152,5447,3143,5448,3139,5450,3135,5445,3135,5441,3135,5431,3135,5420,3134,5419,3123,5406,3123,\\"Q\\",5403,3123,5400,3122,\\"Z\\"]],label:\\"Florida\\",shortLabel:\\"FL\\",labelPosition:[539.3,350.8],labelAlignment:[\\"center\\",\\"middle\\"]}}}];e=f.length;if(a)for(;e--;)a=f[e],d(a.name.toLowerCase(),a,d.geo);else for(;e--;)a=f[e],g=a.name.toLowerCase(),
 c(\\"maps\\",g,1),h.maps.unshift({cmd:\\"_call\\",obj:window,args:[function(a,c){d.geo?d(a,c,d.geo):b.raiseError(b.core,\\"12052314141\\",\\"run\\",\\"JavaScriptRenderer~Maps._call()\\",Error(\\"FusionCharts.HC.Maps.js is required in order to define vizualization\\"))},[g,a],window]})}])});
 
-  </script>
-  <script type='text/javascript'>
-    /*
+    </script>
+  
+    <script type='text/javascript'>
+      /*
  FusionCharts JavaScript Library
  Copyright FusionCharts Technologies LLP
  License Information at <http://www.fusioncharts.com/license>
@@ -4844,9 +4856,10 @@ c(\\"maps\\",g,1),h.maps.unshift({cmd:\\"_call\\",obj:window,args:[function(a,c)
 3808,1819,3808,1819,\\"Q\\",3806,1825,3801,1832,\\"Z\\"]],label:\\"Africa\\",shortLabel:\\"AF\\",labelPosition:[359.4,213.3],labelAlignment:[\\"center\\",\\"middle\\"]}}}];e=f.length;if(a)for(;e--;)a=f[e],d(a.name.toLowerCase(),a,d.geo);else for(;e--;)a=f[e],g=a.name.toLowerCase(),c(\\"maps\\",g,1),h.maps.unshift({cmd:\\"_call\\",obj:window,args:[function(a,c){d.geo?d(a,c,d.geo):b.raiseError(b.core,\\"12052314141\\",\\"run\\",\\"JavaScriptRenderer~Maps._call()\\",Error(\\"FusionCharts.HC.Maps.js is required in order to define vizualization\\"))},
 [g,a],window]})}])});
 
-  </script>
-  <script type='text/javascript'>
-    /*
+    </script>
+  
+    <script type='text/javascript'>
+      /*
  Fint Theme v0.0.4
  FusionCharts JavaScript Library
 
@@ -4865,9 +4878,10 @@ bgAlpha:\\"100\\",borderColor:\\"#666666\\",bgHoverAlpha:\\"20\\"}]}},hlineargau
 verticalLineDashLen:\\"1\\",verticalLineDashGap:\\"1\\",verticalLineThickness:\\"1\\",verticalLineColor:\\"#000000\\",category:[{}]}],vtrendlines:[{line:[{alpha:\\"0\\"}]}]},scatter:{chart:{use3dlighting:\\"0\\",showYAxisLine:\\"1\\",yAxisLineThickness:\\"1\\",yAxisLineColor:\\"#999999\\",showAlternateHGridColor:\\"0\\",showAlternateVGridColor:\\"0\\"},categories:[{verticalLineDashed:\\"1\\",verticalLineDashLen:\\"1\\",verticalLineDashGap:\\"1\\",verticalLineThickness:\\"1\\",verticalLineColor:\\"#000000\\",category:[{}]}],vtrendlines:[{line:[{alpha:\\"0\\"}]}]},
 boxandwhisker2d:{chart:{valueBgColor:\\"#ffffff\\",valueBgAlpha:\\"90\\",valueBorderPadding:\\"-2\\",valueBorderRadius:\\"2\\"}},thermometer:{chart:{gaugeFillColor:\\"#0075c2\\"}},cylinder:{chart:{cylFillColor:\\"#0075c2\\"}},sparkline:{chart:{linecolor:\\"#0075c2\\"}},sparkcolumn:{chart:{plotFillColor:\\"#0075c2\\"}},sparkwinloss:{chart:{winColor:\\"#0075c2\\",lossColor:\\"#1aaf5d\\",drawColor:\\"#f2c500\\",scoreLessColor:\\"#f45b00\\"}},hbullet:{chart:{plotFillColor:\\"#0075c2\\",targetColor:\\"#1aaf5d\\"}},vbullet:{chart:{plotFillColor:\\"#0075c2\\",targetColor:\\"#1aaf5d\\"}}}})});
 
-  </script>
-  <script type='text/javascript'>
-    /*
+    </script>
+  
+    <script type='text/javascript'>
+      /*
  Ocean Theme v0.0.4
  FusionCharts JavaScript Library
 
@@ -4886,9 +4900,10 @@ bgAlpha:\\"100\\",borderColor:\\"#666666\\",bgHoverAlpha:\\"20\\"}]}},hlineargau
 verticalLineDashGap:\\"1\\",verticalLineThickness:\\"1\\",verticalLineColor:\\"#000000\\",category:[{}]}],vtrendlines:[{line:[{alpha:\\"0\\"}]}]},scatter:{chart:{use3dlighting:\\"0\\",showYAxisLine:\\"1\\",yAxisLineThickness:\\"1\\",yAxisLineColor:\\"#999999\\",showAlternateHGridColor:\\"0\\",showAlternateVGridColor:\\"0\\"},categories:[{verticalLineDashed:\\"1\\",verticalLineDashLen:\\"1\\",verticalLineDashGap:\\"1\\",verticalLineThickness:\\"1\\",verticalLineColor:\\"#000000\\",category:[{}]}],vtrendlines:[{line:[{alpha:\\"0\\"}]}]},boxandwhisker2d:{chart:{valueBgColor:\\"#ffffff\\",
 valueBgAlpha:\\"90\\",valueBorderPadding:\\"-2\\",valueBorderRadius:\\"2\\"}},thermometer:{chart:{gaugeFillColor:\\"#04476c\\"}},cylinder:{chart:{cylFillColor:\\"#04476c\\"}},sparkline:{chart:{linecolor:\\"#04476c\\"}},sparkcolumn:{chart:{plotFillColor:\\"#04476c\\"}},sparkwinloss:{chart:{winColor:\\"#04476c\\",lossColor:\\"#4d998d\\",drawColor:\\"#77be99\\",scoreLessColor:\\"#a7dca6\\"}},hbullet:{chart:{plotFillColor:\\"#04476c\\",targetColor:\\"#4d998d\\"}},vbullet:{chart:{plotFillColor:\\"#04476c\\",targetColor:\\"#4d998d\\"}}}})});
 
-  </script>
-  <script type='text/javascript'>
-    /*
+    </script>
+  
+    <script type='text/javascript'>
+      /*
  Zune Theme v0.0.4
  FusionCharts JavaScript Library
 
@@ -4907,9 +4922,10 @@ bgAlpha:\\"100\\",borderColor:\\"#666666\\",bgHoverAlpha:\\"20\\"}]}},hlineargau
 verticalLineDashGap:\\"1\\",verticalLineThickness:\\"1\\",verticalLineColor:\\"#000000\\",category:[{}]}],vtrendlines:[{line:[{alpha:\\"0\\"}]}]},scatter:{chart:{use3dlighting:\\"0\\",showYAxisLine:\\"1\\",yAxisLineThickness:\\"1\\",yAxisLineColor:\\"#999999\\",showAlternateHGridColor:\\"0\\",showAlternateVGridColor:\\"0\\"},categories:[{verticalLineDashed:\\"1\\",verticalLineDashLen:\\"1\\",verticalLineDashGap:\\"1\\",verticalLineThickness:\\"1\\",verticalLineColor:\\"#000000\\",category:[{}]}],vtrendlines:[{line:[{alpha:\\"0\\"}]}]},boxandwhisker2d:{chart:{valueBgColor:\\"#ffffff\\",
 valueBgAlpha:\\"90\\",valueBorderPadding:\\"-2\\",valueBorderRadius:\\"2\\"}},thermometer:{chart:{gaugeFillColor:\\"#0075c2\\"}},cylinder:{chart:{cylFillColor:\\"#0075c2\\"}},sparkline:{chart:{linecolor:\\"#0075c2\\"}},sparkcolumn:{chart:{plotFillColor:\\"#0075c2\\"}},sparkwinloss:{chart:{winColor:\\"#0075c2\\",lossColor:\\"#1aaf5d\\",drawColor:\\"#f2c500\\",scoreLessColor:\\"#f45b00\\"}},hbullet:{chart:{plotFillColor:\\"#0075c2\\",targetColor:\\"#1aaf5d\\"}},vbullet:{chart:{plotFillColor:\\"#0075c2\\",targetColor:\\"#1aaf5d\\"}}}})});
 
-  </script>
-  <script type='text/javascript'>
-    /*
+    </script>
+  
+    <script type='text/javascript'>
+      /*
  Carbon Theme v0.0.4
  FusionCharts JavaScript Library
 
@@ -4928,7 +4944,9 @@ bgAlpha:\\"100\\",borderColor:\\"#666666\\",bgHoverAlpha:\\"20\\"}]}},hlineargau
 verticalLineDashGap:\\"1\\",verticalLineThickness:\\"1\\",verticalLineColor:\\"#000000\\",category:[{}]}],vtrendlines:[{line:[{alpha:\\"0\\"}]}]},scatter:{chart:{use3dlighting:\\"0\\",showYAxisLine:\\"1\\",yAxisLineThickness:\\"1\\",yAxisLineColor:\\"#999999\\",showAlternateHGridColor:\\"0\\",showAlternateVGridColor:\\"0\\"},categories:[{verticalLineDashed:\\"1\\",verticalLineDashLen:\\"1\\",verticalLineDashGap:\\"1\\",verticalLineThickness:\\"1\\",verticalLineColor:\\"#000000\\",category:[{}]}],vtrendlines:[{line:[{alpha:\\"0\\"}]}]},boxandwhisker2d:{chart:{valueBgColor:\\"#ffffff\\",
 valueBgAlpha:\\"90\\",valueBorderPadding:\\"-2\\",valueBorderRadius:\\"2\\"}},thermometer:{chart:{gaugeFillColor:\\"#444444\\"}},cylinder:{chart:{cylFillColor:\\"#444444\\"}},sparkline:{chart:{linecolor:\\"#444444\\"}},sparkcolumn:{chart:{plotFillColor:\\"#444444\\"}},sparkwinloss:{chart:{winColor:\\"#444444\\",lossColor:\\"#666666\\",drawColor:\\"#888888\\",scoreLessColor:\\"#aaaaaa\\"}},hbullet:{chart:{plotFillColor:\\"#444444\\",targetColor:\\"#666666\\"}},vbullet:{chart:{plotFillColor:\\"#444444\\",targetColor:\\"#666666\\"}}}})});
 
-  </script>
+    </script>
+  
+
 </body>
 
 </html>",
