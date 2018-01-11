@@ -20,6 +20,7 @@ export default class App extends Component {
       ios: require('../assets/fusioncharts.html'),
       android: { uri: 'file:///android_asset/fusioncharts.html' },
     });
+
     this.onPress = this.onPress.bind(this);
     this.events = {
       dataPlotClick: (eventObj, dataObj) => {

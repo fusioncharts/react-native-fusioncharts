@@ -50,51 +50,13 @@
   <script type='text/javascript'>
     "use strict"; (function () { var a = Promise.resolve(), b = {}, c = {}; (function d() { var f = function () { function g() { return Math.floor(65536 * (1 + Math.random())).toString(16).substring(1) } return g() + g() + "-" + g() + "-" + g() + "-" + g() + "-" + g() + g() + g() }; window.webViewBridge = { send: function send(g, h, i, j) { i = i || function () { }, j = j || function () { }; var k = { targetFunc: g, data: h || {}, msgId: f() }, l = JSON.stringify(k); a = a.then(function () { return new Promise(function (m, n) { b[k.msgId] = { resolve: m, reject: n }, c[k.msgId] = { onsuccess: i, onerror: j }, window.postMessage(l) }) }).catch(function () { }) } }, window.document.addEventListener("message", function (g) { var h; try { h = JSON.parse(g.data) } catch (i) { return } b[h.msgId] && (b[h.msgId].resolve(), delete b[h.msgId]), h.args && c[h.msgId] && (h.isSuccessfull ? c[h.msgId].onsuccess.apply(null, h.args) : c[h.msgId].onerror.apply(null, h.args), delete c[h.msgId]) }) })() })();
   </script>
-  <script type='text/javascript'>
-    <%- FusionCharts.Core %>
-  </script>
-  <script type='text/javascript'>
-    <%- FusionCharts.Charts %>
-  </script>
-  <script type='text/javascript'>
-    <%- FusionCharts.Gantt %>
-  </script>
-  <script type='text/javascript'>
-    <%- FusionCharts.PowerCharts %>
-  </script>
-  <script type='text/javascript'>
-    <%- FusionCharts.SSGrid %>
-  </script>
-  <script type='text/javascript'>
-    <%- FusionCharts.TreeMap %>
-  </script>
-  <script type='text/javascript'>
-    <%- FusionCharts.Widgets %>
-  </script>
-  <script type='text/javascript'>
-    <%- FusionCharts.ZoomScatter %>
-  </script>
-  <script type='text/javascript'>
-    <%- FusionCharts.Maps %>
-  </script>
-  <script type='text/javascript'>
-    <%- FusionCharts.USAMap %>
-  </script>
-  <script type='text/javascript'>
-    <%- FusionCharts.WorldMap %>
-  </script>
-  <script type='text/javascript'>
-    <%- FusionCharts.FintTheme %>
-  </script>
-  <script type='text/javascript'>
-    <%- FusionCharts.OceanTheme %>
-  </script>
-  <script type='text/javascript'>
-    <%- FusionCharts.ZuneTheme %>
-  </script>
-  <script type='text/javascript'>
-    <%- FusionCharts.CarbonTheme %>
-  </script>
+
+  <% modules.forEach(function(module){ %>
+    <script type='text/javascript'>
+      <%- module %>
+    </script>
+  <% }); %>
+
 </body>
 
 </html>

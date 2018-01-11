@@ -10,7 +10,6 @@ export default class FusionCharts extends Component {
     this.webViewLoaded = false;
     this.onWebViewLoad = this.onWebViewLoad.bind(this);
     this.onWebViewMessage = this.onWebViewMessage.bind(this);
-    this.defaultFCLibraryPath = require('../assets/fusioncharts.html');
     this.oldOptions = null;
   }
 
@@ -248,14 +247,12 @@ export default class FusionCharts extends Component {
   }
 
   render() {
-    const fcLibraryPath = utils.isUndefined(this.props.libraryPath) ? this.defaultFCLibraryPath : this.props.libraryPath;
-
     return (
       <View style={this.resolveChartStyles()}>
         <WebView
           style={styles.webview}
           ref={(webView) => { this.webView = webView; }}
-          source={fcLibraryPath}
+          source={this.props.libraryPath}
           onLoad={this.onWebViewLoad}
           onMessage={this.onWebViewMessage}
           javaScriptEnabled
