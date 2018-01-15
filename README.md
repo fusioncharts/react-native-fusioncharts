@@ -185,7 +185,7 @@ The `App.js` file:
 
 ```javascript
 import React, { Component } from 'react';
-import { AppRegistry, StyleSheet, Text, View } from 'react-native';
+import { AppRegistry, StyleSheet, Text, View, Platform } from 'react-native';
 import FusionCharts from 'react-native-fusioncharts';
 
 export default class App extends Component {
