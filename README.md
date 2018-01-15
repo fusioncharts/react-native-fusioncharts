@@ -110,7 +110,7 @@ The `android/app/src/main/assets/fuioncharts.html` file:
 ### For iOS
 
 * create `assets` folder in your project root if it doesn't exist,
-* copy `fusioncharts` library into this `assets` folder (requires only when using licensed version of fusioncharts),
+* copy `fusioncharts` library into this `assets` folder (requires only when the licensed version of fusioncharts is used),
 * create a file named `fuioncharts-tpl.html` in this `assets` folder with following content:
 
 The `./assets/fuioncharts-tpl.html` file:
