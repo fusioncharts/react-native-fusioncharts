@@ -7,16 +7,19 @@
     "type": "git",
     "url": "https://github.com/fusioncharts/react-native-fusioncharts"
   },
+  "bin": {
+    "fc-build-assets": "./bin/fc-assets-builder.js"
+  },
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest --coverage --verbose",
-    "tplcompile": "node src/webview/template-compiler.js",
-    "android": "react-native run-android",
-    "ios": "react-native run-ios",
-    "android:release": "npm run tplcompile && react-native run-android --variant=release",
-    "ios:release": "npm run tplcompile && react-native run-ios --configuration Release",
-    "build:android": "npm run tplcompile && cd android && ./gradlew assembleRelease && cd ..",
-    "build:ios": "npm run tplcompile && react-native run-ios --configuration Release"
+    "build:assets": "node ./bin/fc-assets-builder.js",
+    "android": "npm run build:assets && react-native run-android",
+    "ios": "npm run build:assets && react-native run-ios",
+    "android:release": "npm run build:assets && react-native run-android --variant=release",
+    "ios:release": "npm run build:assets && react-native run-ios --configuration Release",
+    "build:android": "npm run build:assets && cd android && ./gradlew assembleRelease && cd ..",
+    "build:ios": "npm run build:assets && react-native run-ios --configuration Release"
   },
   "author": {
     "name": "FusionCharts",
@@ -48,12 +51,15 @@
     "chart"
   ],
   "dependencies": {
-    "fusioncharts": "^3.12.2"
+    "cheerio": "^1.0.0-rc.2",
+    "commander": "^2.13.0",
+    "ejs": "^2.5.7",
+    "fusioncharts": "^3.12.2",
+    "mkdirp": "^0.5.1"
   },
   "devDependencies": {
     "babel-jest": "21.2.0",
     "babel-preset-react-native": "4.0.0",
-    "ejs": "^2.5.7",
     "eslint": "^4.13.1",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.8.0",

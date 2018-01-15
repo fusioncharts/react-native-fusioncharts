@@ -9,6 +9,7 @@ module.exports = {
         "react/prop-types": 0,
         "no-return-assign": 0,
         "no-sequences": 0,
+        "func-names": 0,
         "max-len": ["error", { "code": 200 }],
         "no-param-reassign": ["error", { "props": false }],
         "react/sort-comp": [2, {
