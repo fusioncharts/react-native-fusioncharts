@@ -1,0 +1,5 @@
+# Don't push source codes to npm
+android/
+ios/
+assets/
+templates/
