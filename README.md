@@ -18,7 +18,7 @@ After installing `react-native-fusioncharts`, follow the steps below:
 
 * Create `assets` folder in `android/app/src/main` directory if it doesn't exist.
 * Copy `FusionCharts` library in the `assets` folder (in most cases copy `node_modules/fusioncharts` folder).
-* Create a file named `fuioncharts.html` in this `assets` folder with the required `FusionCharts` module files. Find the sample html file [here](https://raw.githubusercontent.com/fusioncharts/react-native-fusioncharts/master/templates/fuioncharts-tpl-android.html).
+* Create a file named `fuioncharts.html` in this `assets` folder with the required `FusionCharts` module files. Find the sample html file [here](https://github.com/fusioncharts/react-native-fusioncharts/blob/master/templates/fuioncharts-tpl-android.html).
 * Set `libraryPath` property to the `FusionCharts` component as follows:
 
 ```html
@@ -33,7 +33,7 @@ After installing `react-native-fusioncharts`, follow the steps below:
 
 * Create `assets` folder in your project root if it doesn't exist.
 * Copy `FusionCharts` library in this `assets` folder (requires only when the licensed version of `FusionCharts` is used).
-* Create a file named `fuioncharts-tpl.html` in this `assets` folder with the required `FusionCharts` module files. Find the sample html file [here](https://raw.githubusercontent.com/fusioncharts/react-native-fusioncharts/master/templates/fuioncharts-tpl-ios.html).
+* Create a file named `fuioncharts-tpl.html` in this `assets` folder with the required `FusionCharts` module files. Find the sample html file [here](https://github.com/fusioncharts/react-native-fusioncharts/blob/master/templates/fuioncharts-tpl-ios.html).
 * Add a `build:assets` script in Application's `package.json` file as follows:
 
 `package.json` file:
