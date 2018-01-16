@@ -1,0 +1,229 @@
+<div class="qs-section">
+  <h3 class="qs-heading">
+    Step 1: Install the
+    <span class="qs-highlight">react-native-fusioncharts</span> wrapper framework
+  </h3>
+  <p class="qs-text">
+    In the terminal run the following command:
+  </p>
+  <pre class="qs-code"><code class="language-javascript">$ npm install --save react-native-fusioncharts</code></pre>
+  <br/>
+  <p class="qs-text">
+    After installing
+    <span class="qs-highlight">react-native-fusioncharts</span>, follow the steps below:
+  </p>
+
+  <h5 class="qs-heading">
+    For Android
+  </h5>
+  <div class="setup-steps-list">
+    <style>
+      .setup-steps-list li {
+        margin: 5px 0 5px 0;
+      }
+    </style>
+    <ol>
+      <li>
+        Create
+        <span class="qs-highlight">assets</span> folder in
+        <span class="qs-highlight">android/app/src/main</span> directory if it doesn't exist.
+      </li>
+      <li>
+        Copy
+        <span class="qs-highlight">FusionCharts</span> library in the
+        <span class="qs-highlight">assets</span> folder (in most cases copy
+        <span class="qs-highlight">node_modules/fusioncharts</span> folder).
+      </li>
+      <li>
+        Create a file named
+        <span class="qs-highlight">fuioncharts.html</span> in this
+        <span class="qs-highlight">assets</span> folder with the required FusionCharts module files. Find the sample html file
+        <a href="https://raw.githubusercontent.com/fusioncharts/react-native-fusioncharts/master/templates/fuioncharts-tpl-android.html"
+          target="_blank">here</a>.
+      </li>
+      <li>
+        Set
+        <span class="qs-highlight">libraryPath</span> property to the
+        <span class="qs-highlight">FusionCharts</span> component as follows:
+        <pre class="qs-code"><code class="language-javascript">&lt;FusionCharts
+......
+
+libraryPath={{ uri: 'file:///android_asset/fusioncharts.html' }}
+/&gt;</code></pre>
+      </li>
+    </ol>
+  </div>
+
+  <h5 class="qs-heading">
+    For iOS
+  </h5>
+  <div class="setup-steps-list">
+    <style>
+      .setup-steps-list li {
+        margin: 5px 0 5px 0;
+      }
+    </style>
+    <ol>
+      <li>
+        Create
+        <span class="qs-highlight">assets</span> folder in your project root if it doesn't exist.
+      </li>
+      <li>
+        Copy
+        <span class="qs-highlight">FusionCharts</span> library in this
+        <span class="qs-highlight">assets</span> folder (requires only when the licensed version of
+        <span class="qs-highlight">FusionCharts</span> is used).
+      </li>
+      <li>
+        Create a file named
+        <span class="qs-highlight">fuioncharts-tpl.html</span> in this
+        <span class="qs-highlight">assets</span> folder with the required FusionCharts module files. Find the sample html file
+        <a href="https://raw.githubusercontent.com/fusioncharts/react-native-fusioncharts/master/templates/fuioncharts-tpl-ios.html"
+          target="_blank">here</a>.
+      </li>
+      <li>
+        Add a
+        <span class="qs-highlight">build:assets</span> script in Application's
+        <span class="qs-highlight">package.json</span>file as follows:
+        <p class="qs-text" style="margin-top: 10px;">
+          <span class="qs-highlight">package.json</span> file:
+        </p>
+        <pre class="qs-code"><code class="language-javascript"> ......
+
+"scripts": {
+  ......
+
+  "build:assets": "fc-build-assets --fc-template ./assets/fusioncharts-tpl.html --fc-library ./assets/fusioncharts"
+},
+
+......</code></pre>
+        <p class="qs-text">
+          The
+          <span class="qs-highlight">--fc-library ./assets/fusioncharts</span> option is only required when you copied
+          <span class="qs-highlight">FusionCharts</span> library in your
+          <span class="qs-highlight">assets</span> folder.
+        </p>
+        <p class="qs-text">
+          <span style="font-weight: bold;">Notes:</span>
+          <span class="qs-highlight">fc-build-assets</span> is an utility binary provided to package the FusionCharts libraries from the template
+          <span style="font-weight: bold;">.html</span> file as needed by the React Native iOS build process.
+        </p>
+      </li>
+      <li>
+        Set
+        <span class="qs-highlight">libraryPath</span> property to the
+        <span class="qs-highlight">FusionCharts</span> component as follows:
+        <pre class="qs-code"><code class="language-javascript">&lt;FusionCharts
+......
+
+libraryPath={require('./assets/fusioncharts.html')}
+/&gt;</code></pre>
+      </li>
+      <li>
+        run the following command before running the app:
+        <pre class="qs-code"><code class="language-javascript">$ npm run build:assets</code></pre>
+      </li>
+    </ol>
+  </div>
+</div>
+
+<div class="qs-section">
+  <h3 class="qs-heading">
+    Step 2: Import the
+    <span class="qs-highlight">react-native-fusioncharts</span> component
+  </h3>
+  <p class="qs-text">
+    After installing
+    <span class="qs-highlight">react-native-fusioncharts</span>, import it as follows:
+  </p>
+  <pre class="qs-code"><code class="language-javascript">import React, { Component } from 'react';
+import { AppRegistry, StyleSheet, Text, View, Platform } from 'react-native';
+import FusionCharts from 'react-native-fusioncharts';
+
+export default class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      type: 'column2d',
+      width: '100%',
+      height: '100%',
+      dataFormat: 'json',
+      dataSource: {
+            &quot;chart&quot;: {
+                &quot;caption&quot;: &quot;Harry's SuperMart&quot;,
+                &quot;subCaption&quot;: &quot;Top 5 stores in last month by revenue&quot;,
+                &quot;numberprefix&quot;: &quot;$&quot;,
+                &quot;theme&quot;: &quot;fint&quot;
+            },
+            &quot;data&quot;: [
+                {
+                    &quot;label&quot;: &quot;Bakersfield Central&quot;,
+                    &quot;value&quot;: &quot;880000&quot;
+                },
+                {
+                    &quot;label&quot;: &quot;Garden Groove harbour&quot;,
+                    &quot;value&quot;: &quot;730000&quot;
+                },
+                {
+                    &quot;label&quot;: &quot;Los Angeles Topanga&quot;,
+                    &quot;value&quot;: &quot;590000&quot;
+                },
+                {
+                    &quot;label&quot;: &quot;Compton-Rancho Dom&quot;,
+                    &quot;value&quot;: &quot;520000&quot;
+                },
+                {
+                    &quot;label&quot;: &quot;Daly City Serramonte&quot;,
+                    &quot;value&quot;: &quot;330000&quot;
+                }
+            ]
+        }
+    };
+
+    this.libraryPath = Platform.select({
+      // Specify fusioncharts.html file location
+      ios: require('./assets/fusioncharts.html'),
+      android: { uri: 'file:///android_asset/fusioncharts.html' },
+    });
+  }
+
+  render() {
+    return (
+      &lt;View style={styles.container}&gt;
+        &lt;Text style={styles.heading}&gt;
+          FusionCharts Integration with React Native
+        &lt;/Text&gt;
+        &lt;View style={styles.chartContainer}&gt;
+          &lt;FusionCharts
+            type={this.state.type}
+            width={this.state.width}
+            height={this.state.height}
+            dataFormat={this.state.dataFormat}
+            dataSource={this.state.dataSource}
+            libraryPath={this.libraryPath} // set the libraryPath property
+          /&gt;
+        &lt;/View&gt;
+      &lt;/View&gt;
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 10
+  },
+  heading: {
+    fontSize: 20,
+    textAlign: 'center',
+    marginBottom: 10
+  },
+  chartContainer: {
+    height: 200
+  }
+});
+
+// skip this line if using Create React Native App
+AppRegistry.registerComponent('ReactNativeFusionCharts', () =&gt; App);</code></pre>
+</div>
