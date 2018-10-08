@@ -250,6 +250,8 @@ export default class FusionCharts extends Component {
     return (
       <View style={this.resolveChartStyles()}>
         <WebView
+          originWhitelist={['*']}
+          useWebkit
           style={styles.webview}
           ref={(webView) => { this.webView = webView; }}
           source={this.props.libraryPath}
