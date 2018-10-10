@@ -48,7 +48,7 @@ export default class FusionCharts extends Component {
       'type',
       'dataFormat',
       'dataSource',
-      'events',
+      'events'
     ];
 
     this.checkAndUpdateChartType(currentOptions, oldOptions);
@@ -56,10 +56,10 @@ export default class FusionCharts extends Component {
     this.checkAndUpdateEvents(currentOptions, oldOptions);
     this.checkAndUpdateRestOptions(
       fusonChartsOptions.filter(
-        option => optionsUpdatedNatively.indexOf(option) === -1,
+        option => optionsUpdatedNatively.indexOf(option) === -1
       ),
       currentOptions,
-      oldOptions,
+      oldOptions
     );
 
     this.oldOptions = currentOptions;
@@ -91,7 +91,7 @@ export default class FusionCharts extends Component {
       if (!utils.isUndefined(currDataFormat) && !utils.isUndefined(currData)) {
         this.runInWebView(`
           window.chartObj.setChartData(${utils.portValueSafely(
-            currData,
+            currData
           )}, '${String(currDataFormat).toLowerCase()}');
           window.chartObj.render();
         `);
@@ -154,7 +154,7 @@ export default class FusionCharts extends Component {
           this.runInWebView(`
             if (window.chartObj.options && window.chartObj.options.hasOwnProperty('${optionName}')) {
               window.chartObj.options['${optionName}'] = ${utils.portValueSafely(
-            currValue,
+            currValue
           )};
             }
           `);
@@ -235,7 +235,7 @@ export default class FusionCharts extends Component {
       this.props.events[data.eventName].call(
         this,
         Object.assign(utils.deepCopyOf(data.eventObj), { sender: this }),
-        utils.deepCopyOf(data.dataObj),
+        utils.deepCopyOf(data.dataObj)
       );
     }
   }
@@ -255,7 +255,7 @@ export default class FusionCharts extends Component {
           },
           dataObj: dataObj
         });
-      }`,
+      }`
     );
 
     eventsMap.push(`'rendercomplete': function(eventObj, dataObj){
@@ -300,6 +300,6 @@ export default class FusionCharts extends Component {
 const styles = StyleSheet.create({
   webview: {
     flex: 1,
-    backgroundColor: 'transparent',
-  },
+    backgroundColor: 'transparent'
+  }
 });
