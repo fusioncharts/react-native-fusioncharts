@@ -6,13 +6,13 @@ module.exports = {
       {
         devDependencies: true,
         optionalDependencies: false,
-        peerDependencies: false,
-      },
+        peerDependencies: false
+      }
     ],
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
     'no-use-before-define': [
       'error',
-      { functions: false, classes: false, variables: false },
+      { functions: false, classes: false, variables: false }
     ],
     'class-methods-use-this': 0,
     'global-require': 0,
@@ -25,8 +25,8 @@ module.exports = {
     'react/sort-comp': [
       2,
       {
-        order: ['static-methods', 'lifecycle', 'everything-else', 'render'],
-      },
-    ],
-  },
+        order: ['static-methods', 'lifecycle', 'everything-else', 'render']
+      }
+    ]
+  }
 };
