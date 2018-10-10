@@ -242,9 +242,8 @@ export default class FusionCharts extends Component {
   }
 
   wrapEvents(events = {}) {
-    const eventsMap = Object.keys(events)
-      .map(
-        eventName => `'${eventName}': function(eventObj, dataObj) {
+    let eventsMap = Object.keys(events).map(
+      eventName => `'${eventName}': function(eventObj, dataObj) {
         window.webViewBridge.send('handleChartEvents', {
           eventName: '${eventName}',
           eventObj: {
@@ -258,9 +257,21 @@ export default class FusionCharts extends Component {
           dataObj: dataObj
         });
       }`
-      )
-      .join(',');
+    );
+
+    eventsMap.push(`'rendercomplete': function(eventObj, dataObj){
+      window.webViewBridge.send('chartRendered', {
+        eventName: 'chartrendered' 
+      });
+    }`);
+    eventsMap = eventsMap.join(',');
     return `{ ${eventsMap} }`;
+  }
+
+  chartRendered() {
+    if (this.props.onInitialized) {
+      this.props.onInitialized(this.runInWebView.bind(this));
+    }
   }
 
   render() {
