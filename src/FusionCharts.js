@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import { View, WebView, StyleSheet } from "react-native";
-import * as utils from "./utils/utils";
-import fusonChartsOptions from "./utils/options";
+import React, { Component } from 'react';
+import { View, WebView, StyleSheet } from 'react-native';
+import * as utils from './utils/utils';
+import fusonChartsOptions from './utils/options';
 
 export default class FusionCharts extends Component {
   constructor(props) {
@@ -45,10 +45,10 @@ export default class FusionCharts extends Component {
     const currentOptions = this.resolveChartOptions(nextProps);
     const { oldOptions } = this;
     const optionsUpdatedNatively = [
-      "type",
-      "dataFormat",
-      "dataSource",
-      "events"
+      'type',
+      'dataFormat',
+      'dataSource',
+      'events'
     ];
 
     this.checkAndUpdateChartType(currentOptions, oldOptions);
@@ -101,7 +101,7 @@ export default class FusionCharts extends Component {
         this.runInWebView(`
           window.chartObj.setChartData(
             ${utils.portValueSafely(currData)},
-            '${currDataFormat ? String(currDataFormat).toLowerCase() : "json"}'
+            '${currDataFormat ? String(currDataFormat).toLowerCase() : 'json'}'
           );
         `);
       }
@@ -259,7 +259,7 @@ export default class FusionCharts extends Component {
         });
       }`
       )
-      .join(",");
+      .join(',');
     return `{ ${eventsMap} }`;
   }
 
@@ -267,7 +267,7 @@ export default class FusionCharts extends Component {
     return (
       <View style={this.resolveChartStyles()}>
         <WebView
-          originWhitelist={["*"]}
+          originWhitelist={['*']}
           useWebkit
           style={styles.webview}
           ref={webView => {
@@ -290,6 +290,6 @@ export default class FusionCharts extends Component {
 const styles = StyleSheet.create({
   webview: {
     flex: 1,
-    backgroundColor: "transparent"
+    backgroundColor: 'transparent'
   }
 });
