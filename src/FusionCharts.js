@@ -132,7 +132,8 @@ export default class FusionCharts extends Component {
                  eventId: eventObj.eventId,
                  cancelled: eventObj.cancelled,
                  prevented: eventObj.prevented,
-                 detach: eventObj.detach
+                 detach: eventObj.detach,
+                 data: eventObj.data
                },
                dataObj: dataObj
             });
