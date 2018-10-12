@@ -69,6 +69,78 @@
     <ul>
       <li>Now run the following command before genarating the signed APK:</li>
     </ul>
+    <div class="h6">
+      <span>For iOS follow the below steps :</span>
+    </div>
+    <ul>
+      <li>
+        Create
+        <span class="highlighted">assets</span>
+        folder in your project root if it doesn't exist.
+      </li>
+      <li>
+        Copy
+        <span class="highlighted">FusionCharts</span>&nbsp;library in this assets folder
+        (requires only when the licensed version of
+        <span
+          class="highlighted"
+        >FusionCharts</span>&nbsp;is used).
+      </li>
+      <li>
+        Create a file named
+        <span class="highlighted">fusioncharts-tpl.html</span>&nbsp; in this assets folder with the required
+        <span class="highlighted">FusionCharts</span>&nbsp;module files.
+        Find the sample html file
+        <a
+          href="https://github.com/fusioncharts/react-native-fusioncharts/blob/master/templates/fuioncharts-tpl-ios.html"
+        >here</a>
+      </li>
+      <li>
+        Add a
+        <span class="highlighted">build:assets</span>&nbsp;script in Application's
+        <span class="highlighted">package.json</span>&nbsp;file as follows:
+      </li>
+    </ul>
+    <!-- Code frag -->
+    <div class="code-view mt-2">
+      <div class="card-shadow">
+        <div class="card-body p-0">
+          <div class="code-panel">
+            <div class="codeMirrorDiv" id="c1">
+              <codemirror :value="codeIOS" :options="jsOptions"></codemirror>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="div-margin">
+      The
+      <span class="highlighted">--fc-library ./assets/fusioncharts</span>&nbsp;option is only required when you copied FusionCharts library in your assets folder.
+    </div>
+    <div class="div-margin">
+      <span class="text-bold">Notes:</span>&nbsp;
+      <span class="highlighted">
+        fc-build-assets
+        <span>
+          &nbsp; is an utility binary provided to package the
+          <span class="highlighted">FusionCharts</span>&nbsp; libraries from the template .html file as needed by the React Native iOS build process.
+        </span>
+      </span>
+    </div>
+    <ul>
+      <li>Run the following command before running the app:</li>
+    </ul>
+    <div class="code-view mt-2">
+      <div class="card-shadow">
+        <div class="card-body p-0">
+          <div class="code-panel">
+            <div class="codeMirrorDiv" id="c1">
+              <codemirror :value="shellCode" :options="shellOptions"></codemirror>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -85,7 +157,13 @@ const packageCode = `......
 },
 ......
       `;
-
+const packageCodeIOS = `......
+"scripts": {
+  ......
+  "build:assets": "fc-build-assets --fc-template ./assets/fusioncharts-tpl.html --fc-library ./assets/fusioncharts"
+},
+......`;
+const shellCode = `$ npm run build:assets`;
 const cmOptions = {
   lineNumbers: true,
   theme: 'dracula',
@@ -100,7 +178,10 @@ export default {
       code: fLibraryCode,
       jsxOptions: { mode: 'jsx', ...cmOptions },
       packageCode: packageCode,
-      jsOptions: { mode: 'javascript', ...cmOptions }
+      jsOptions: { mode: 'javascript', ...cmOptions },
+      codeIOS: packageCodeIOS,
+      shellCode: shellCode,
+      shellOptions: { mode: 'shell', ...cmOptions }
     };
   }
 };
@@ -113,5 +194,14 @@ export default {
   padding-left: 4px;
   padding-right: 4px;
   border-radius: 3px;
+}
+
+.text-bold {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.div-margin {
+  margin-bottom: 8px;
 }
 </style>
