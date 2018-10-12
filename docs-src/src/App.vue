@@ -13,6 +13,12 @@
               <div class="h2 mt-2">Quick Start</div>
               <installation-component></installation-component>
               <setup-component></setup-component>
+              <div class="h2 mt-2">Getting Started</div>
+              <getting-started-component></getting-started-component>
+              <div class="h2 mt-2">Listening to Events</div>
+              <events-component></events-component>
+              <div class="h2 mt-2">Calling chart APIs</div>
+              <chart-a-p-i-component></chart-a-p-i-component>
             </div>
           </div>
         </div>
@@ -29,6 +35,10 @@ import FeatureComponent from './components/FeatureComponent';
 import FooterComponent from './components/FooterComponent';
 import InstallationComponent from './components/quick-start/InstallationComponent';
 import SetupComponent from './components/quick-start/SetupComponent';
+import GettingStartedComponent from './components/quick-start/GettingStartedComponent';
+import EventsComponent from './components/quick-start/EventsComponent';
+import ChartAPIComponent from './components/quick-start/ChartAPIComponent';
+
 export default {
   name: 'app',
   components: {
@@ -37,7 +47,10 @@ export default {
     FeatureComponent,
     FooterComponent,
     InstallationComponent,
-    SetupComponent
+    SetupComponent,
+    GettingStartedComponent,
+    EventsComponent,
+    ChartAPIComponent
   }
 };
 </script>
