@@ -5,7 +5,7 @@
       <div id="mainContainer" class="main-container">
         <banner-component></banner-component>
         <feature-component></feature-component>
-        <router-view></router-view>
+        <demo-section-component></demo-section-component>
         <div class="container container-1200 info-wrapper pt-4" style="z-index: 0;">
           <!-- Quick Start -->
           <div class="row">
@@ -18,7 +18,7 @@
               <div class="h2 mt-2">Listening to Events</div>
               <events-component></events-component>
               <div class="h2 mt-2">Calling chart APIs</div>
-              <chart-a-p-i-component></chart-a-p-i-component>
+              <chart-api-component></chart-api-component>
             </div>
           </div>
         </div>
@@ -37,7 +37,8 @@ import InstallationComponent from './components/quick-start/InstallationComponen
 import SetupComponent from './components/quick-start/SetupComponent';
 import GettingStartedComponent from './components/quick-start/GettingStartedComponent';
 import EventsComponent from './components/quick-start/EventsComponent';
-import ChartAPIComponent from './components/quick-start/ChartAPIComponent';
+import ChartApiComponent from './components/quick-start/ChartApiComponent';
+import DemoSectionComponent from './components/demo-section/DemoSectionComponent';
 
 export default {
   name: 'app',
@@ -50,7 +51,8 @@ export default {
     SetupComponent,
     GettingStartedComponent,
     EventsComponent,
-    ChartAPIComponent
+    ChartApiComponent,
+    DemoSectionComponent
   }
 };
 </script>

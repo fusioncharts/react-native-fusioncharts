@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
 });`;
 
 export default {
-  name: 'EventsComponent',
+  name: 'ChartApiComponent',
   data() {
     return {
       code: code,
