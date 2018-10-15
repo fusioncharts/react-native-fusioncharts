@@ -12,7 +12,6 @@ import ChangeTypeComponent from '../components/demo-section/sample-components//C
 Vue.use(Router);
 
 export default new Router({
-  base: '/react-native-fusioncharts',
   routes: [
     { path: '/', redirect: '/column_2d' },
     { path: '/column_2d', component: Column2DComponent },
