@@ -75,7 +75,12 @@ const jsonData = `{
     }, {
         "label": "China",
         "value": "30"
-    }]
+    }],
+    "events": {
+      dataplotclick: (e, a) => {
+        Alert.alert(\`You clicked on \${e.data.categoryLabel}\`)
+      }     
+    }
 }`;
 
 const myDataSource = {
