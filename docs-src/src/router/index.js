@@ -13,14 +13,14 @@ Vue.use(Router);
 
 export default new Router({
   routes: [
-    { path: '/', redirect: '/column_2d' },
-    { path: '/column_2d', component: Column2DComponent },
-    { path: '/3d_pie_chart', component: Pie3DComponent },
+    { path: '/', redirect: '/a_simple_chart' },
+    { path: '/a_simple_chart', component: Column2DComponent },
+    { path: '/a_3d_pie_chart', component: Pie3DComponent },
     { path: '/update_chart_data', component: UpdateChartData },
-    { path: '/listen_events_chart', component: ListenEventsComponent },
-    { path: '/drill_down', component: DrillDownComponent },
-    { path: '/gauge', component: GaugeComponent },
-    { path: '/theme', component: ThemeComponent },
-    { path: '/change_type_runtime', component: ChangeTypeComponent }
+    { path: '/listen_to_events_from_chart', component: ListenEventsComponent },
+    { path: '/add_drill_down_to_chart', component: DrillDownComponent },
+    { path: '/a_simple_gauge', component: GaugeComponent },
+    { path: '/applying_a_different_theme', component: ThemeComponent },
+    { path: '/change_chart_type_at_runtime', component: ChangeTypeComponent }
   ]
 });
