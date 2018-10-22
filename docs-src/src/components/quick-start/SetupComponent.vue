@@ -26,7 +26,10 @@
       <li>
         Create a file named
         <span class="highlighted">fusioncharts.html</span>
-        in this assets folder with the required FusionCharts module files. Find the sample html file
+        in this assets folder with the required FusionCharts module files which you've copied from
+        <span
+          class="highlighted"
+        >node_modules</span>. Find the sample html file
         <a
           href="https://github.com/fusioncharts/react-native-fusioncharts/blob/master/templates/fuioncharts-tpl-android.html"
         >here</a>
@@ -69,6 +72,22 @@
     <ul>
       <li>Now run the following command before genarating the signed APK:</li>
     </ul>
+    <!-- Code frag -->
+    <div class="code-view mt-2">
+      <div class="card-shadow">
+        <div class="card-body p-0">
+          <div class="code-panel">
+            <div class="codeMirrorDiv" id="c1">
+              <codemirror :value="codeAndroidApk" :options="shellOptions"></codemirror>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="div-margin">
+      Click
+      <a href="https://facebook.github.io/react-native/docs/signed-apk-android">here</a>&nbsp;to find more information about genarating signed APK for Android.
+    </div>
     <div class="h6">
       <span>For iOS follow the below steps :</span>
     </div>
@@ -164,6 +183,7 @@ const packageCodeIOS = `......
 },
 ......`;
 const shellCode = `$ npm run build:assets`;
+const codeAndroidApk = `$ npm run prod:android`;
 const cmOptions = {
   lineNumbers: true,
   theme: 'dracula',
@@ -181,7 +201,8 @@ export default {
       jsOptions: { mode: 'javascript', ...cmOptions },
       codeIOS: packageCodeIOS,
       shellCode: shellCode,
-      shellOptions: { mode: 'shell', ...cmOptions }
+      shellOptions: { mode: 'shell', ...cmOptions },
+      codeAndroidApk: codeAndroidApk
     };
   }
 };
