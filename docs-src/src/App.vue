@@ -13,7 +13,7 @@
               <div class="h2 mt-2">Quick Start</div>
               <installation-component></installation-component>
               <setup-component></setup-component>
-              <div class="h2 mt-2">Getting Started</div>
+              <div class="h2 mt-2">Creating your first chart</div>
               <getting-started-component></getting-started-component>
               <div class="h2 mt-2">Listening to Events</div>
               <events-component></events-component>
