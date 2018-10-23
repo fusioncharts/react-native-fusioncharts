@@ -141,8 +141,8 @@
       <span class="highlighted">
         fc-build-assets
         <span>
-          &nbsp; is an utility binary provided to package the
-          <span class="highlighted">FusionCharts</span>&nbsp; libraries from the template .html file as needed by the React Native iOS build process.
+          &nbsp;is an utility binary provided to package the
+          <span class="highlighted">FusionCharts</span>&nbsp;modules(.js files) referenced in template(.html file) as needed by the React Native iOS build process.
         </span>
       </span>
     </div>
