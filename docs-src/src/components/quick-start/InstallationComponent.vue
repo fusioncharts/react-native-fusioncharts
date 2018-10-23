@@ -4,7 +4,7 @@
       <div class="h5">
         <span>Step 1: Install the React Native FusionCharts</span>
       </div>
-      <p class="code-desc">In a react native app, add the react-native-fusioncharts module:</p>
+      <p class="code-desc">In your react native project install FusionCharts react native plugin:</p>
       <div class="code-view mt-2">
         <div class="card-shadow">
           <div class="card-body p-0">

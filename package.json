@@ -20,7 +20,7 @@
     "ios:release": "npm run build:assets && react-native run-ios --configuration Release",
     "build:android": "npm run build:assets && cd android && ./gradlew assembleRelease && cd ..",
     "build:ios": "npm run build:assets && react-native run-ios --configuration Release",
-    "build-samples": "mkdir -p docs && cd docs-src && VUE_MODE=prod npm run build && rm -rf ../docs/* &&cp -r dist/* ../docs && cd .."
+    "build-samples": "mkdir -p docs && cd docs-src/ && VUE_MODE=prod npm run build && rm -rf ../docs/* && cp -r dist/* ../docs && cd .."
   },
   "author": {
     "name": "FusionCharts",

@@ -37,7 +37,7 @@ import InstallationComponent from './components/quick-start/InstallationComponen
 import SetupComponent from './components/quick-start/SetupComponent';
 import GettingStartedComponent from './components/quick-start/GettingStartedComponent';
 import EventsComponent from './components/quick-start/EventsComponent';
-import ChartApiComponent from './components/quick-start/ChartApiComponent';
+import ChartApiComponent from './components/quick-start/ChartAPIComponent';
 import DemoSectionComponent from './components/demo-section/DemoSectionComponent';
 
 export default {

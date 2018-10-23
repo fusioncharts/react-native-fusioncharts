@@ -1,14 +1,14 @@
 var fcDemos = {};
 
 fcDemos['ex1'] = {
-  title: 'A Simple Chart',
+  title: 'A simple chart',
   description: 'A simple chart with all data embedded into the directive',
   code:
     'import React, { Component } from "react";\nimport { Platform, StyleSheet, Text, View } from "react-native";\nimport FusionCharts from "react-native-fusioncharts";\n\nexport default class PlainColumn2D extends Component {\n  constructor(props) {\n    super(props);\n\n    this.state = {\n      type: "column2d",\n      width: "100%",\n      height: "100%",\n      dataFormat: "json",\n      dataSource: {/* see data tab */};\n    this.libraryPath = Platform.select({\n      // Specify fusioncharts.html file location\n      android: { uri: "file:///android_asset/fusioncharts.html" },\n      ios: require("../assets/fusioncharts.html")\n    });\n  }\n\n  render() {\n    return (\n      <View style={styles.container}>\n        <Text style={styles.header}>A Column 2D Chart</Text>\n        <View style={styles.chartContainer}>\n          <FusionCharts\n            type={this.state.type}\n            width={this.state.width}\n            height={this.state.height}\n            dataFormat={this.state.dataFormat}\n            dataSource={this.state.dataSource}\n            libraryPath={this.libraryPath} // set the libraryPath property\n          />\n        </View>\n      </View>\n    );\n  }\n}\n\nconst styles = StyleSheet.create({\n  container: {\n    flex: 1,\n    padding: 10\n  },\n  header: {\n    fontWeight: "bold",\n    fontSize: 20,\n    textAlign: "center",\n    paddingBottom: 10\n  },\n  chartContainer: {\n    height: 400,\n    borderColor: "#000",\n    borderWidth: 1\n  }\n});\n'
 };
 
 fcDemos['ex2'] = {
-  title: 'A 3D Pie Chart',
+  title: 'A 3d pie chart',
   description:
     'A 3D pie chart using the datasource attribute from components scope',
   data: `// Setup needed in app.module.ts\n\nimport { NgModule, enableProdMode } from '@angular/core'\nimport { AppComponent } from './app.component';\nimport { BrowserModule } from '@angular/platform-browser';\nimport { FusionChartsModule } from 'angular-fusioncharts';\n\n// Load FusionCharts\nimport * as FusionCharts from 'fusioncharts';\n// Load Charts module\nimport * as Charts from 'fusioncharts/fusioncharts.charts';\n// Load fusion theme\nimport * as FusionTheme from 'fusioncharts/themes/fusioncharts.theme.fusion';\n\n// Add dependencies to FusionChartsModule\nFusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme)\n\n@NgModule({\n  declarations: [\n    AppComponent\n  ],\n  imports: [\n    BrowserModule,\n    FusionChartsModule\n  ],\n  providers: [\n  ],\n  bootstrap: [ AppComponent ]\n})\nexport class AppModule {\n}\n`,
@@ -33,7 +33,7 @@ fcDemos['ex4'] = {
 };
 
 fcDemos['ex5'] = {
-  title: 'Add drill-down to chart',
+  title: 'Add drill down to chart',
   description: 'Use LinkedCharts to quickly add drill-down to charts',
   code:
     "import React, { Component } from 'react';\nimport { Platform, StyleSheet, Text, View } from 'react-native';\nimport FusionCharts from 'react-native-fusioncharts';\n\nexport default class DrillDown extends Component {\n  constructor(props) {\n    super(props);\n    this.apiCaller = null;\n    this.state = {\n      type: 'column2d',\n      width: '100%',\n      height: '100%',\n      dataFormat: 'json',\n      dataSource: {/* see data tab */};\n    this.libraryPath = Platform.select({\n      // Specify fusioncharts.html file location\n      android: { uri: 'file:///android_asset/fusioncharts.html' },\n      ios: require('../assets/fusioncharts.html')\n    });\n  }\n\n  render() {\n    return (\n      <View style={styles.container}>\n        <Text style={styles.header}>A Chart with Drill-Down</Text>\n        <View style={styles.chartContainer}>\n          <FusionCharts\n            type={this.state.type}\n            width={this.state.width}\n            height={this.state.height}\n            dataFormat={this.state.dataFormat}\n            dataSource={this.state.dataSource}\n            libraryPath={this.libraryPath} // set the libraryPath property\n            onInitialized={caller => {\n              this.apiCaller = caller;\n              this.apiCaller(`window.chartObj.configureLink({\n                type: 'pie2d',\n                overlayButton: {\n                  message: 'Back',\n                  fontColor: '880000',\n                  bgColor: 'FFEEEE',\n                  borderColor: '660000',\n                }}, 0);`);\n            }}\n          />\n        </View>\n      </View>\n    );\n  }\n}\n\nconst styles = StyleSheet.create({\n  container: {\n    flex: 1,\n    padding: 10\n  },\n  header: {\n    fontWeight: 'bold',\n    fontSize: 20,\n    textAlign: 'center',\n    paddingBottom: 10\n  },\n  chartContainer: {\n    height: 400,\n    borderColor: '#000',\n    borderWidth: 1\n  }\n});\n"
