@@ -60,7 +60,7 @@ export default class ListenEvents extends Component {
     this.libraryPath = Platform.select({
       // Specify fusioncharts.html file location
       android: { uri: 'file:///android_asset/fusioncharts.html' },
-      ios: require('../assets/fusioncharts.html')
+      ios: require('./assets/fusioncharts.html')
     });
   }
 

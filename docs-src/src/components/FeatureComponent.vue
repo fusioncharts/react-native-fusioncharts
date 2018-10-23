@@ -11,7 +11,7 @@
                 <span>
                   <i class="icn-inline icn-success fc_select"></i>
                 </span>
-                <div>Adds chart to your native Android/iOS app.</div>
+                <div>Adds chart to your react native Android/iOS app</div>
               </li>
               <li>
                 <span>
@@ -23,7 +23,7 @@
                 <span>
                   <i class="icn-inline icn-success fc_select"></i>
                 </span>
-                <div>Auto-updates the chart object when the data source .</div>
+                <div>Auto-updates the chart object when the data source is updated.</div>
               </li>
             </ul>
           </div>
@@ -39,7 +39,7 @@
                 <span>
                   <i class="icn-inline icn-success fc_select"></i>
                 </span>
-                <div>Control fusioncharts chart instance using various APIs with simple callable bridge.</div>
+                <div>Control fusioncharts chart instance using various APIs and event methods.</div>
               </li>
             </ul>
           </div>
