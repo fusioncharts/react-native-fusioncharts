@@ -1,1 +1,0 @@
-import Spline from'../vendors/fc-powercharts/src/chart/spline';export default Spline;

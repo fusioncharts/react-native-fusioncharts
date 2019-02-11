@@ -1,1 +1,0 @@
-import ZoomScatter from'../viz/zoomscatter';export{ZoomScatter};export default{name:'zoomscatter',type:'package',requiresFusionCharts:!0,extension:a=>{a.addDep(ZoomScatter)}};

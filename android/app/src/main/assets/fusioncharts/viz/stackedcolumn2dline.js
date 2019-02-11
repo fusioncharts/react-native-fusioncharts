@@ -1,1 +1,0 @@
-import Stackedcolumn2dline from'../vendors/fc-charts/src/chart/stackedcolumn2dline';export default Stackedcolumn2dline;

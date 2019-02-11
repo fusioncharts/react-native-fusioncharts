@@ -1,1 +1,0 @@
-import Crossline from'../components/crossline';export default(a=>{let b=a.attachChild(Crossline,'verticalCrossLine');b.configure({scale:a.config.xConfigs[0].scale,type:'vertical',timeFormatterFn:a.config.xConfigs[0].timeFormatterFn})});

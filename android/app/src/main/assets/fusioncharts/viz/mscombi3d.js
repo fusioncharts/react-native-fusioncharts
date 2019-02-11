@@ -1,1 +1,0 @@
-import Mscombi3d from'../vendors/fc-charts/src/chart/mscombi3d';export default Mscombi3d;

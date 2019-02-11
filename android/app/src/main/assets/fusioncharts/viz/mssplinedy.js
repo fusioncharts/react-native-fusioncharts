@@ -1,1 +1,0 @@
-import Mssplinedy from'../vendors/fc-charts/src/chart/mssplinedy';export default Mssplinedy;

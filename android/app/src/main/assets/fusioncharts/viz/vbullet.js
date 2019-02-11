@@ -1,1 +1,0 @@
-import Vbullet from'../vendors/fc-widgets/src/chart/vbullet';export default Vbullet;

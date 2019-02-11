@@ -1,1 +1,0 @@
-import Bulb from'../vendors/fc-widgets/src/chart/bulb';export default Bulb;

@@ -1,1 +1,0 @@
-import Realtimelinedy from'../vendors/fc-widgets/src/chart/realtimelinedy';export default Realtimelinedy;

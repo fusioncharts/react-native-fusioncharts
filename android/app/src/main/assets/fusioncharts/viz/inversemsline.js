@@ -1,1 +1,0 @@
-import Inversemsline from'../vendors/fc-powercharts/src/chart/inversemsline';export default Inversemsline;

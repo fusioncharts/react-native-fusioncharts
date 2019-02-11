@@ -1,1 +1,0 @@
-import Scrollcolumn2d from'../vendors/fc-charts/src/chart/scrollcolumn2d';export default Scrollcolumn2d;

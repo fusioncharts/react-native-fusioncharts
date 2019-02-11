@@ -1,1 +1,0 @@
-import Stackedbar2d from'../vendors/fc-charts/src/chart/stackedbar2d';export default Stackedbar2d;

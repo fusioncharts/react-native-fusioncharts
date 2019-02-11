@@ -1,1 +1,0 @@
-import Realtimecolumn from'../vendors/fc-widgets/src/chart/realtimecolumn';export default Realtimecolumn;

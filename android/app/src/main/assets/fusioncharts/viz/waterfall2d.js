@@ -1,1 +1,0 @@
-import Waterfall2d from'../vendors/fc-powercharts/src/chart/waterfall2d';export default Waterfall2d;

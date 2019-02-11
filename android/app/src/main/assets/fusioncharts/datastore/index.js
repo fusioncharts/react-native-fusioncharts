@@ -1,1 +1,0 @@
-import DataStore from'../vendors/fc-datatable/src/index';import{getConfig,setConfig}from'../vendors/fc-datatable/src/globalConfig';export default DataStore;export{getConfig,setConfig};

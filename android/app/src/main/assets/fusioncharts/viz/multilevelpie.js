@@ -1,1 +1,0 @@
-import Multilevelpie from'../vendors/fc-powercharts/src/chart/multilevelpie';export default Multilevelpie;

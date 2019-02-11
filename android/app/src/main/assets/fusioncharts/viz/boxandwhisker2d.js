@@ -1,1 +1,0 @@
-import Boxandwhisker2d from'../vendors/fc-powercharts/src/chart/boxandwhisker2d';export default Boxandwhisker2d;

@@ -1,1 +1,0 @@
-import Pyramid from'../vendors/fc-widgets/src/chart/pyramid';export default Pyramid;

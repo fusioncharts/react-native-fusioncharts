@@ -1,1 +1,0 @@
-import Kagi from'../vendors/fc-powercharts/src/chart/kagi';export default Kagi;

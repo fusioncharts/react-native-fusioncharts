@@ -1,1 +1,0 @@
-import Hbullet from'../vendors/fc-widgets/src/chart/hbullet';export default Hbullet;

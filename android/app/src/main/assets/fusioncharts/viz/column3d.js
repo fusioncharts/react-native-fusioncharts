@@ -1,1 +1,0 @@
-import Column3d from'../vendors/fc-charts/src/chart/column3d';export default Column3d;

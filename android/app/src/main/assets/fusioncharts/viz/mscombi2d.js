@@ -1,1 +1,0 @@
-import Mscombi2d from'../vendors/fc-charts/src/chart/mscombi2d';export default Mscombi2d;

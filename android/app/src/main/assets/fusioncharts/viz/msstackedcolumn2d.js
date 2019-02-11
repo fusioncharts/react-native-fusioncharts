@@ -1,1 +1,0 @@
-import Msstackedcolumn2d from'../vendors/fc-charts/src/chart/msstackedcolumn2d';export default Msstackedcolumn2d;

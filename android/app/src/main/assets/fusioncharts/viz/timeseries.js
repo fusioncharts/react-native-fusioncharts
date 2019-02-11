@@ -1,1 +1,0 @@
-import{TimeSeries}from'../vendors/fc-timeseries/src';export default TimeSeries;

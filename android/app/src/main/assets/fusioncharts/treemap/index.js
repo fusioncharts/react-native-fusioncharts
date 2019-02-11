@@ -1,1 +1,0 @@
-import Treemap from'../viz/treemap';export{Treemap};export default{name:'treemap',type:'package',requiresFusionCharts:!0,extension:a=>a.addDep(Treemap)};

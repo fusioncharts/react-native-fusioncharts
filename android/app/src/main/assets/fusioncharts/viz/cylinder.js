@@ -1,1 +1,0 @@
-import Cylinder from'../vendors/fc-widgets/src/chart/cylinder';export default Cylinder;

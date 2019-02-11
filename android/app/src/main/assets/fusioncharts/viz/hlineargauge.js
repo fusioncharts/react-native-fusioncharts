@@ -1,1 +1,0 @@
-import Hlineargauge from'../vendors/fc-widgets/src/chart/hlineargauge';export default Hlineargauge;

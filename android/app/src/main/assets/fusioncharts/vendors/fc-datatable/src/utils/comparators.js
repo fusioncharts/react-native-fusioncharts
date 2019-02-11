@@ -1,1 +1,0 @@
-import{isNumber}from'./typeUtils';let numberComparator=(c,a)=>null===c||'undefined'==typeof c?a===c?0:1:isNumber(a)?c-a:isNaN(c)&&isNaN(a)?0:-1,stringComparator=(c,a)=>c&&c.localeCompare?c.localeCompare(a):(c+'').localeCompare(a);export{numberComparator,stringComparator};

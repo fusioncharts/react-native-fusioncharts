@@ -1,1 +1,0 @@
-import Dragnode from'../vendors/fc-powercharts/src/chart/dragnode';export default Dragnode;

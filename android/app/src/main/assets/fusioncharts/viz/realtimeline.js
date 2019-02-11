@@ -1,1 +1,0 @@
-import Realtimeline from'../vendors/fc-widgets/src/chart/realtimeline';export default Realtimeline;

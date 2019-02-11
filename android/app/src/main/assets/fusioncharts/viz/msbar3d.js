@@ -1,1 +1,0 @@
-import Msbar3d from'../vendors/fc-charts/src/chart/msbar3d';export default Msbar3d;

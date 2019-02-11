@@ -1,1 +1,0 @@
-import Stackedcolumn3dlinedy from'../vendors/fc-charts/src/chart/stackedcolumn3dlinedy';export default Stackedcolumn3dlinedy;

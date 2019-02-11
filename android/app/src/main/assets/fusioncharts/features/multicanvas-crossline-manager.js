@@ -1,1 +1,0 @@
-import Multicanvascrosslinemanager from'../vendors/fc-features/src/multicanvas-crossline-manager';export default Multicanvascrosslinemanager;

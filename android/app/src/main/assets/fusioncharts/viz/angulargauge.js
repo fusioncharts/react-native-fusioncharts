@@ -1,1 +1,0 @@
-import Angulargauge from'../vendors/fc-widgets/src/chart/angulargauge';export default Angulargauge;

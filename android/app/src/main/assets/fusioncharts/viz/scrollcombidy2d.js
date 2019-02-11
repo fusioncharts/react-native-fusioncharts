@@ -1,1 +1,0 @@
-import Scrollcombidy2d from'../vendors/fc-charts/src/chart/scrollcombidy2d';export default Scrollcombidy2d;

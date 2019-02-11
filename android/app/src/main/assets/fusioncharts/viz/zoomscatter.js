@@ -1,1 +1,0 @@
-import Zoomscatter from'../vendors/fc-charts/src/chart/zoomscatter';export default Zoomscatter;
