@@ -1,0 +1,1 @@
+import Selectscatter from'../vendors/fc-powercharts/src/chart/selectscatter';export default Selectscatter;

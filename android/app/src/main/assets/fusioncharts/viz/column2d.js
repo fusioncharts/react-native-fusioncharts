@@ -1,0 +1,1 @@
+import Column2d from'../vendors/fc-charts/src/chart/column2d';export default Column2d;

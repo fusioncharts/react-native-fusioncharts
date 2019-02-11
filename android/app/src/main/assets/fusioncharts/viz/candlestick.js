@@ -1,0 +1,1 @@
+import Candlestick from'../vendors/fc-powercharts/src/chart/candlestick';export default Candlestick;

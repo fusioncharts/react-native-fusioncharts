@@ -1,0 +1,1 @@
+import Splinearea from'../vendors/fc-charts/src/chart/splinearea';export default Splinearea;

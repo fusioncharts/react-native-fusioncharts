@@ -1,0 +1,1 @@
+import Bar3d from'../vendors/fc-charts/src/chart/bar3d';export default Bar3d;

@@ -1,0 +1,1 @@
+import Hled from'../vendors/fc-widgets/src/chart/hled';export default Hled;

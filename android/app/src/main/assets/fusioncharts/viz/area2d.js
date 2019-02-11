@@ -1,0 +1,1 @@
+import Area2d from'../vendors/fc-charts/src/chart/area2d';export default Area2d;

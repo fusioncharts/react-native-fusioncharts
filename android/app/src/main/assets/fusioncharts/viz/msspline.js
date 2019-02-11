@@ -1,0 +1,1 @@
+import Msspline from'../vendors/fc-powercharts/src/chart/msspline';export default Msspline;

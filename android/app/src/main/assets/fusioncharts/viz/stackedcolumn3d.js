@@ -1,0 +1,1 @@
+import Stackedcolumn3d from'../vendors/fc-charts/src/chart/stackedcolumn3d';export default Stackedcolumn3d;

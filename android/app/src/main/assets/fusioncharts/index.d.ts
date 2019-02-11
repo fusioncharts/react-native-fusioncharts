@@ -148,9 +148,9 @@ declare namespace FusionCharts {
 
         chartType(value?: string, options?: any): string;
 
-        addEventListener(type: string | string[], listener: (eventObject?: EventObject, eventArgs?: {}) => void): void;
+        addEventListener(eventType: string | string[], callback: (eventObject?: EventObject, eventArgs?: {}) => void, options?: {}): any;
 
-        removeEventListener(type: string | string[], listener: (eventObject?: EventObject, eventArgs?: {}) => void): void;
+        removeEventListener(eventType: string | string[], callback: (eventObject?: EventObject, eventArgs?: {}) => void): void;
 
         configureLink(param: {} | any[], level?: number): void;
 
@@ -163,12 +163,12 @@ declare namespace FusionCharts {
         setXMLData(data: string | {}): void;
 
         setXMLUrl(url: string): void;
+        
+        setChartDataUrl(url: string, format: ChartDataFormats, config?: any, callback?: () => any, silent?: boolean): any;
 
-        setChartDataUrl(url: string, format: ChartDataFormats): void;
+        setChartData(data: {}, format: ChartDataFormats, config?: any, callback?: () => any, silent?: boolean): void;
 
-        setChartData(data: string | {}, format: ChartDataFormats): void;
-
-        getChartData(format: ChartDataFormats): any;
+        getChartData(format: ChartDataFormats, advanced?: boolean, update?: boolean): any;
 
         dataReady(available?: boolean): boolean;
 
@@ -181,56 +181,54 @@ declare namespace FusionCharts {
         setData(value: number, label: string): void;
 
         stopUpdate(): void;
-
+        
         restartUpdate(): void;
-
+        
         isUpdateActive(): boolean;
-
+        
         clearChart(): void;
-
-        getSWFHTML(): any;
-
-        addVariable(): void;
-
-        getXML(): any;
-
+        
         setDataXML(data: string | {}): void;
-
-        setDataURL(url: string): void;
+        
+        setDataURL(url: string, dataType: ChartDataFormats): void;
 
         hasRendered(): boolean;
 
         setTransparent(transparency?: boolean): void;
-
+        
         isPlotItemSliced(index: number): boolean;
-
-        slicePlotItem(index: number, slice: boolean): void;
-
+        
+        slicePlotItem(index: number, slice?: boolean, callback?: () => any): void;
+        
         centerLabel(labelText: string, options?: {}): void;
 
-        startingAngle(angle?: number, relative?: boolean): void;
+        startingAngle(angle?: number, relative?: boolean, callback?: (output) => void): any;
 
         zoomOut(): void;
 
-        zoomTo(startIndex: number, endIndex: number): void;
+        zoomTo(startIndex: number, endIndex: number, event?: any): void;
 
         resetChart(): void;
 
         setZoomMode(yes: boolean): void;
 
-        getViewStartIndex(): number;
+        getViewStartIndex(callback?: (startIndex: number) => void): number;
 
-        getViewEndIndex(): number;
+        getViewEndIndex(callback?: (endIndex: number) => void): number;
 
-        print(options?: {}): void;
+        print(options?: {}): any;
 
-        exportChart(options?: {}): void;
+        exportChart(options?: {}): boolean;
 
-        getSVGString(): string;
+        getSVGString(callback?: (svg:string) => void): string;
 
         lockResize(state: boolean): boolean;
 
-        showChartMessage(text: string, modal?: boolean, cancelable?: boolean): void;
+        showChartMessage(text: string, modal?: boolean, cancelable?: boolean, customAttrs?: any): void;
+
+        showMessage(msg: string, attrs?: any, cancelable?: boolean): void;
+        
+        hideChartMessage(): void;   
 
         getJSONData(): JSON;
 
@@ -244,14 +242,171 @@ declare namespace FusionCharts {
 
         render(containerElement?: string | Element, insertMode?: string, callback?: () => any): FusionCharts;
 
-        resizeTo(width: number | string, height: number | string): any;
+        resizeTo(width: number | string, height: number | string, silent?: boolean): any;
 
         dispose(): void;
 
         configure(options: {}): void;
 
+        getLowerLimit(callback?: (lowerLimit: number) => void): number;
+
+        getUpperLimit(callback?: (upperLimit: number) => void): number;
+
+        setLowerLimit(limit: number, callback?: (isApplied: boolean) => void): void;
+
+        setUpperLimit(limit: number, callback?: (isApplied: boolean) => void): void;
+
+        showLog(): void;
+
+        hideLog(): void;
+
+        clearLog(): void;
+
+        annotations: {
+            update(id: string, config:any): any;
+            show(id: string): void;
+            hide(id: string): void;
+            destroy(id: string): void;
+            clear(): void;
+            addItem(groupId: any, itemConfig?: any, drawImmediate?: any, component?: any): any;
+            addGroup(config?: any, component?: any): any;
+        };
+
+        setDataForId(id: any, value: any): void;
+        getDataForId(id: any, callback?: (value: any) => void): any;
+        
+        scrollTo(value: number): void;
+
         ref: {};
 
+    }
+
+    interface Handler {
+        (eventObj: any): void;
+    }
+
+    interface DataTable {
+        count(): number;
+
+        getData(offset?:number, numberOfItems?:number): any;     
+
+        min(columnName: string) : number;
+
+        max(columnName: string) : number;
+
+        unique(columnName: string) : Array<any>;
+
+        extents(columnName: string): any;
+
+        getSchema(): Array<any>;
+
+        addColumns(...args: any[]): void;
+
+        query(queryOperations: any | Array<any>): DataTable;
+
+        getDataStore(): DataStore;
+
+        indexOf(columnName: string): number;
+
+        on(eventName: string, handler: Handler | Array<Handler>): void;
+
+        off(eventName: string, handler: Handler | Array<Handler>): void;
+
+        dispose(): void;
+    }
+
+    interface DataStore {
+        createDataTable(data: Array<any>, schema: Array<any>, config?: any, id?: string): DataTable;
+        
+        appendRows(rows: Array<Array<any>>, id?: string): void;
+
+        getDataTable(id: string): DataTable;
+
+        on(eventName: string, handler: Handler | Array<Handler>): void;
+
+        off(eventName: string, handler: Handler | Array<Handler>): void;
+        
+        trigger(eventName: string, data?: any): void;
+        
+        dispose(): void;        
+    }
+
+    interface DatetimeUnits {
+        Year: any;
+        Quarter: any;
+        Month: any;
+        Week: any;
+        Day: any;
+        Hour: any;
+        Minute: any;
+        Second: any;
+        Millisecond: any;
+    }
+
+    interface Weekdays {
+        Sunday: any;
+        Monday: any;
+        Tuesday: any;
+        Wednesday: any;
+        Thursday: any;
+        Friday: any;
+        Saturday: any;
+    }
+
+    interface Duration {
+        Unit: string;
+        number: number;
+        ms: number;
+    }
+
+    interface Utils {
+        DatetimeUnits: DatetimeUnits;
+
+        Weekdays: Weekdays;
+
+        duration(DatetimeUnits: DatetimeUnits, number: number): any;
+
+        before(duration: Duration, date?: number, isUTC?: boolean, weekStartFrom?: Weekdays): number;
+
+        after(duration: Duration, date?: number, isUTC?: boolean, weekStartFrom?: Weekdays): number;
+
+        parseDate(date: string, format?: string, isUTC?: boolean): number;
+
+        formatDate(timestamp: number, format?: string, isUTC?: boolean): number;
+    }
+
+    interface Operators {
+        select(columnName: string | Array<string>): any;
+
+        sort(customSortQuery: any | Array<any> | ((a: any, b: any) => any)): any;
+
+        equals(columnName: string, value: number): any;
+
+        greater(columnName: string, value: number): any;
+
+        greaterEquals(columnName: string, value: number): any;
+
+        less(columnName: string, value: number): any;
+
+        lessEquals(columnName: string, value: number): any;
+
+        between(columnName: string, startValue: number, endValue: number): any;
+
+        filter(customFilterQuery: ((row: Array<any>, columns: any) => any)): any;
+
+        groupBy(groupConfigArr: any | Array<any>, aggrConfigArr: any | Array<any>): any;
+
+        pivot(groupConfigArr: any | Array<any>, pivotColumn: string, aggrConfigArr: any | Array<any>): any;
+
+        pipe(...args: any[]): Array<any>;
+    }
+
+    interface DataStoreStatic {
+        new (): DataStore;
+
+        Operators: Operators;
+
+        Aggregators: any;
     }
 
     interface FusionChartStatic {
@@ -278,6 +433,26 @@ declare namespace FusionCharts {
         getCurrentRenderer(): string;
 
         render(options?: ChartObject, callback?: () => any): FusionCharts;
+
+        addDep(dep: any): void;
+
+        getDep(name: string, type: string): any;
+
+        on(type: string | string[], listener: (eventObject?: EventObject, eventArgs?: {}) => void): void;
+
+        setAnimation(rule: any): void;
+
+        setEasingEffect(name: string, fn: () => any): void;
+
+        getScriptBaseURI(): string;
+
+        setScriptBaseURI(scriptBaseURI: string): void;
+
+        getChartFromId(id: string): ChartObject;
+
+        DataStore: DataStoreStatic;
+        
+        Utils: Utils;
 
         version: string[];
 

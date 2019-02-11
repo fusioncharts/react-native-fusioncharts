@@ -1,0 +1,1 @@
+import Scrollstackedcolumn2d from'../vendors/fc-charts/src/chart/scrollstackedcolumn2d';export default Scrollstackedcolumn2d;

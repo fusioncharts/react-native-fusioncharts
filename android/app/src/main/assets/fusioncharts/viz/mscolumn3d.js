@@ -1,0 +1,1 @@
+import Mscolumn3d from'../vendors/fc-charts/src/chart/mscolumn3d';export default Mscolumn3d;

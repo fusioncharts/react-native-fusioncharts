@@ -1,0 +1,1 @@
+import Radar from'../vendors/fc-powercharts/src/chart/radar';export default Radar;

@@ -1,0 +1,1 @@
+import Realtimearea from'../vendors/fc-widgets/src/chart/realtimearea';export default Realtimearea;

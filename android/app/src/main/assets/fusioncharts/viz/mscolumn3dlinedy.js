@@ -1,0 +1,1 @@
+import Mscolumn3dlinedy from'../vendors/fc-charts/src/chart/mscolumn3dlinedy';export default Mscolumn3dlinedy;

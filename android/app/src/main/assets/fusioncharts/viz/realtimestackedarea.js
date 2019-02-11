@@ -1,0 +1,1 @@
+import Realtimestackedarea from'../vendors/fc-widgets/src/chart/realtimestackedarea';export default Realtimestackedarea;

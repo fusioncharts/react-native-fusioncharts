@@ -1,0 +1,1 @@
+import Vled from'../vendors/fc-widgets/src/chart/vled';export default Vled;

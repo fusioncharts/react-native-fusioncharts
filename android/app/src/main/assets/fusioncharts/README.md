@@ -1,264 +1,300 @@
-## Introduction
+FusionCharts is a JavaScript charting library providing 95+ charts and 1,400+ maps for your web and mobile applications. All the visualizations are interactive and animated, which are rendered in SVG and VML  (for IE 6/7/8).
 
-FusionCharts Suite XT is a front-end, JavaScript-based, comprehensive collection of 90+ charts and  1000+ maps. This includes simple and complex charts (like the column and bar charts, pie and doughnut charts, the treemap, heatmap, and logarithmic charts), gauges (like the angular gauge, bulb gauge, and the thermometer gauge) and maps (all continents, major countries, and all US states).
+This package also contains FusionWidgets  (gauges, real-time charts), PowerCharts  (statistical and advanced charts), and FusionMaps  (choropleth geo maps).
 
-The **fusioncharts** package includes files for all charts and widgets offered by the product. In order to limit the package size, it includes map definition files for only two maps—the world map and the USA map.
+* Official Website: [https://www.fusioncharts.com/](https://www.fusioncharts.com/)
+* Documentation: [https://www.fusioncharts.com/dev/](https://www.fusioncharts.com/dev/)
+* Download page: [https://www.fusioncharts.com/download/](https://www.fusioncharts.com/download/)
+* Licensing: [https://www.fusioncharts.com/buy/eula-perpetual](https://www.fusioncharts.com/buy/eula-perpetual)
+* Support: [https://www.fusioncharts.com/contact-support](https://www.fusioncharts.com/contact-support)
+* Issues: [https://github.com/fusioncharts/fusioncharts-dist/issues](https://github.com/fusioncharts/fusioncharts-dist/issues)
 
-It is recommended that you download the **fusionmaps** package if you want to render maps. This package includes the complete FusionCharts Suite XT as well as the map definition files for all maps.
+### What's New:
+* Introduced overlapped column and bar charts
+* Support for spline and spline area in combination charts.
+* Highlight effect customization options in multi-level pie chart
+* Introduced 3 new themes.
+* Support for exporting multi-level pie chart in CSV or XLS formats
+---
+### Table of Contents
+* [Installing FusionCharts](#installing-fusioncharts)
+* [Getting Started](#getting-started)
+* [Using FusionCharts as an ES Module](#using-fusioncharts-as-an-es-module)
+* [Related Packages](#related-packages)
+	* [Front-end Integrations](#front-end-integrations)
+	* [Back-end Integrations](#back-end-integrations)
+* [Using Themes](#using-themes)
+* [FusionMaps](#fusionmaps)
+* [Going beyond Charts](#going-beyond-charts)
+* [Version History](#version-history)
+* [Contact Support](#contact-support)
+* [Folder Structure](#folder-structure)
 
-* Official website: [http://www.fusioncharts.com/](http://www.fusioncharts.com/)
-* Download page: [http://www.fusioncharts.com/download/](http://www.fusioncharts.com/download/)
-* Licensing: [http://www.fusioncharts.com/buy/](http://www.fusioncharts.com/buy/)
-* Documentation: [http://www.fusioncharts.com/dev/](http://www.fusioncharts.com/dev/)
-* Support: [http://www.fusioncharts.com/support/](http://www.fusioncharts.com/support/)
 
-## Table of Contents
+## Installing FusionCharts
+There are multiple ways to install FusionCharts. For general instructions, refer to this [developer docs page](https://www.fusioncharts.com/dev/getting-started/plain-javascript/install-using-plain-javascript).
 
-- [Quick Start](#quick-start)
-  - [Installing FusionCharts from npm](#installing-fusioncharts-from-npm)
-    - [Package-specific dependencies for npm](#package-specific-dependencies-for-npm)
-    - [Chart-specific dependencies for npm](#chart-specific-dependencies-for-npm)
-  - [Installing FusionCharts from Bower](#installing-fusioncharts-from-bower)
-    - [Package-specific dependencies for Bower](#package-specific-dependencies-for-bower)
-    - [Chart-specific dependencies for Bower](#chart-specific-dependencies-for-bower)
-- [What's Included](#whats-included)
-  - [Directory structure for FusionCharts installed via npm](#directory-structure-for-fusioncharts-installed-via-npm)
-  - [Directory structure for FusionCharts installed via Bower](#directory-structure-for-fusioncharts-installed-via-bower)
+### Direct Download
+All binaries are located on our [github repository](https://github.com/fusioncharts/fusioncharts-dist). You can also download zipped version [here](https://www.fusioncharts.com/download/).
 
-
-## Quick Start
-
-### Installing FusionCharts from npm
-
-1. Install the FusionCharts package.
-
-   `npm install fusioncharts`
-   
-2. Load FusionCharts using require.
-
-   `var FusionCharts = require("fusioncharts");`
-   
-3. Load the charts module using require.
-
-   `require("fusioncharts/fusioncharts.charts")(FusionCharts);`
-   
-4. Create the FusionCharts instance required to render the chart.
-
-```
-var chart = new FusionCharts ({
-   "type": "column2d",
-   "width": "500",
-   "height": "300",
-   "dataFormat": "json",
-   "dataSource": {
-      chart:{},
-      data: [{value: 500}, {value: 600}, {value: 700}]
-   }
-}).render("chartContainer");
+### Using CDN
+Instead of downloading, you can also use FusionCharts’s CDN to access files directly. See below for details
+```html
+<script src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
 ```
 
-#### Package-specific dependencies for npm
-
-- To render a chart belonging to the PowerCharts package, load the PowerCharts module:
-
-  `require("fusioncharts/fusioncharts.powercharts")(FusionCharts);`
-
-- To render a chart belonging to the FusionWidgets package, load the FusionWidgets module:
-
-  `require("fusioncharts/fusioncharts.widgets")(FusionCharts);`
-
-To know which chart belongs to which package, refer the [list of charts](http://www.fusioncharts.com/dev/getting-started/list-of-charts.html).
-
-- To render a map, load the FusionMaps module and the map definition file for that map:
-
+### Install from NPM
+```sh
+npm install --save fusioncharts
 ```
-require("fusioncharts/fusioncharts.maps")(FusionCharts);
-require("fusioncharts/maps/fusioncharts.world")(FusionCharts);
+See [npm documentation](https://docs.npmjs.com/) to know more about npm usage.
+
+
+## Getting Started
+Easiest way to start with FusionCharts is to include the JavaScript library in your webpage, create a `<div>` container and chart instance, configure the data and render. Check this HTML snippet below:
+```javascript
+<!doctype html>
+<html>
+<head>
+    <script src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
+</head>
+<body>
+    <div id="chart-container"></div>
+    <script>
+        FusionCharts.ready(function () {
+            // chart instance
+            var chart = new FusionCharts({
+                type: "column2d",
+                renderAt: "chart-container", // container where chart will render
+                width: "600",
+                height: "400",
+                dataFormat: "json",
+                dataSource: {
+                    // chart configuration
+                    chart: {
+                        caption: "Countries With Most Oil Reserves [2017-18]",
+                        subcaption: "In MMbbl = One Million barrels"
+                    },
+                    // chart data
+                    data: [
+                        { label: "Venezuela", value: "290000" },
+                        { label: "Saudi", value: "260000" },
+                        { label: "Canada", value: "180000" },
+                        { label: "Iran", value: "140000" },
+                        { label: "Russia", value: "115000" },
+                        { label: "UAE", value: "100000" },
+                        { label: "US", value: "30000" },
+                        { label: "China", value: "30000" }
+                    ]
+                }
+            }).render();
+        });
+    </script>
+</body>
+</html>
+```
+Here’re links to quick start guides:
+* [FusionCharts](https://www.fusioncharts.com/dev/getting-started/plain-javascript/your-first-chart-using-plain-javascript#create-your-first-chart-1)
+* [FusionWidgets](https://www.fusioncharts.com/dev/getting-started/plain-javascript/your-first-chart-using-plain-javascript#create-your-first-gauge-8)
+* [FusionMaps](https://www.fusioncharts.com/dev/getting-started/plain-javascript/your-first-chart-using-plain-javascript#create-your-first-map-13)
+
+
+## Using FusionCharts as an ES Module
+FusionCharts can be loaded as an ES module via transpilers.
+
+*The following examples presumes you are using npm to install FusionCharts, see Install FusionCharts for more details.*
+```javascript
+import FusionCharts from 'fusioncharts/core'
+
+// include chart from viz folder - import ChartType from fusioncharts/viz/[ChartType];
+import Column2D from 'fusioncharts/viz/column2d';
+
+// add chart as dependency - FusionCharts.addDep(ChartType);
+FusionCharts.addDep(Column2D);
+
+// instantiate the chart.
+var chartInstance = new FusionCharts({
+  type: 'Column2D',
+  renderAt: "chart-container", // div container where chart will render
+  width: "600",
+  height: "400",
+  dataFormat: "json",
+  dataSource: {
+      // chart configuration
+      chart: {
+        caption: "Countries With Most Oil Reserves [2017-18]",
+        subcaption: "In MMbbl = One Million barrels"
+      },
+      // chart data
+      data: [
+        { label: "Venezuela", value: "290000" },
+        { label: "Saudi", value: "260000" },
+        { label: "Canada", value: "180000" },
+        { label: "Iran", value: "140000" },
+        { label: "Russia", value: "115000" },
+        { label: "UAE", value: "100000" },
+        { label: "US", value: "30000" },
+        { label: "China", value: "30000" }
+      ]
+    }
+});
+
+// render the chart
+chartInstance.render();
+```
+Want to render data-driven maps  (FusionMaps) - check out [this link](https://www.npmjs.com/package/fusionmaps).
+
+
+## Related Packages
+### Front-end Integrations
+||||
+|:----------------|:---------------|:---------|
+|AngularJS (1.x and above)|[Github Repo](https://github.com/fusioncharts/angularjs-fusioncharts)|[Documentation](https://www.fusioncharts.com/dev/getting-started/angular/angularjs/your-first-chart-using-angularjs)|
+|Angular (2.x and above)|[Github Repo](https://github.com/fusioncharts/angular-fusioncharts)|[Documentation](https://www.fusioncharts.com/dev/getting-started/angular/angular/your-first-chart-using-angular)|
+|jQuery|[Github Repo](https://github.com/fusioncharts/fusioncharts-jquery-plugin)|[Documentation](https://www.fusioncharts.com/dev/getting-started/jquery/your-first-chart-using-jquery)|
+|React|[Github Repo](https://github.com/fusioncharts/react-fusioncharts-component)|[Documentation](https://www.fusioncharts.com/dev/getting-started/react/your-first-chart-using-react)|
+|Vue.js|[Github Repo](https://github.com/fusioncharts/vue-fusioncharts)|[Documentation](https://www.fusioncharts.com/dev/getting-started/vue/your-first-chart-using-vuejs)|
+|Ember|[Github Repo](https://github.com/fusioncharts/ember-fusioncharts)|[Documentation](https://www.fusioncharts.com/dev/getting-started/ember/your-first-chart-using-ember)|
+
+### Back-end Integrations
+||||
+|:----------------|:---------------|:---------|
+|ASP.NET (C#)|[Github Repo](https://github.com/fusioncharts/asp-net-wrapper)|[Documentation](https://www.fusioncharts.com/dev/getting-started/aspnet/your-first-chart-using-aspnet)|
+|ASP.NET (VB)|[Github Repo](https://github.com/fusioncharts/vb-net-wrapper)|[Documentation](https://www.fusioncharts.com/dev/getting-started/aspnet/your-first-chart-using-aspnet)|
+|Java (JSP)|[Github Repo](https://github.com/fusioncharts/jsp-wrapper)|[Documentation](https://www.fusioncharts.com/dev/getting-started/java/your-first-chart-using-java)|
+|Django|[Github Repo](https://github.com/fusioncharts/django-wrapper)|[Documentation](https://www.fusioncharts.com/dev/getting-started/django/your-first-chart-using-django)|
+|PHP|[Github Repo](https://github.com/fusioncharts/php-wrapper)|[Documentation](https://www.fusioncharts.com/dev/getting-started/php/your-first-chart-using-php)|
+|Ruby on Rails|[Github Repo](https://github.com/fusioncharts/rails-wrapper)|[Documentation](https://www.fusioncharts.com/dev/getting-started/ruby-on-rails/your-first-chart-using-ruby-on-rails)|
+
+
+## Using Themes
+FusionCharts provides several out-of-the box themes that can be applied to all the charts to configure the visual appearance of the charts. Below is an example on how to use a theme:
+
+```html
+<!doctype html>
+<html>
+<head>
+    <script src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
+    <script src="https://cdn.fusioncharts.com/fusioncharts/latest/themes/fusioncharts.theme.fusion.js"></script>
+</head>
+<body>
+    <div id="chart-container"></div>
+    <script>
+        FusionCharts.ready(function () {
+            // chart instance
+            var chart = new FusionCharts({
+                type: "column2d",
+                renderAt: "chart-container", // container where chart will render
+                width: "600",
+                height: "400",
+                dataFormat: "json",
+                dataSource: {
+                    // chart configuration
+                    chart: {
+                        caption: "Countries With Most Oil Reserves [2017-18]",
+                        subcaption: "In MMbbl = One Million barrels",
+                        theme: "fusion" //Specifying which theme to use
+                    },
+                    // chart data
+                    data: [
+                        { label: "Venezuela", value: "290000" },
+                        { label: "Saudi", value: "260000" },
+                        { label: "Canada", value: "180000" },
+                        { label: "Iran", value: "140000" },
+                        { label: "Russia", value: "115000" },
+                        { label: "UAE", value: "100000" },
+                        { label: "US", value: "30000" },
+                        { label: "China", value: "30000" }
+                    ]
+                }
+            }).render();
+        });
+    </script>
+</body>
+</html>
 ```
 
-To know the map definition file names, refer the [list of maps](http://www.fusioncharts.com/dev/getting-started/list-of-maps.html).
+### Using themes in ES6
 
-**Note**: The map definition files have to be included for all maps that you want to render in your application. Unlike the core files that are stored in the **fusioncharts** directory, all map definition files are stored in the **maps** directory and are required to be fetched from there.
+```javascript
 
-#### Chart-specific dependencies for npm
+import FusionCharts from 'fusioncharts/core'
 
-For some chart types, you need to include/exclude certain files and in a certain order. These chart types and the corresponding files are mentioned below:
+// include chart from viz folder - import ChartType from fusioncharts/viz/[ChartType];
+import Column2D from 'fusioncharts/viz/column2d';
 
-- To render the zoom-scatter chart, it is necessary to include the **fusioncharts.js** and **fusioncharts.charts.js** files _before_ the **fusioncharts.zoomscatter.js** file. 
+// include theme from themes folder
+import fusionTheme from 'fusioncharts/themes/es/fusioncharts.theme.fusion';
 
+// add chart as dependency - FusionCharts.addDep(ChartType);
+FusionCharts.addDep(Column2D);
+FusionCharts.addDep(fusionTheme);
+
+// instantiate the chart.
+var chartInstance = new FusionCharts({
+  type: 'Column2D',
+  renderAt: "chart-container", // container where chart will render
+  width: "600",
+  height: "400",
+  dataFormat: "json",
+  dataSource: {
+      // chart configuration
+      chart: {
+        caption: "Countries With Most Oil Reserves [2017-18]",
+        subcaption: "In MMbbl = One Million barrels",
+        theme: "fusion"
+      },
+      // chart data
+      data: [
+        { label: "Venezuela", value: "290000" },
+        { label: "Saudi", value: "260000" },
+        { label: "Canada", value: "180000" },
+        { label: "Iran", value: "140000" },
+        { label: "Russia", value: "115000" },
+        { label: "UAE", value: "100000" },
+        { label: "US", value: "30000" },
+        { label: "China", value: "30000" }
+      ]
+    }
+});
+
+// render the chart
+chartInstance.render();
 ```
-var FusionCharts = require("fusioncharts");
-require("fusioncharts/fusioncharts.charts")(FusionCharts);
-require("fusioncharts/fusioncharts.zoomscatter")(FusionCharts);
+See all the themes live [here](https://www.fusioncharts.com/explore/chart-gallery/stacked-charts/stacked-columns). Check out [this link](https://www.fusioncharts.com/dev/themes/introduction-to-themes) to know more about themes. Want us to build a theme to suit your corporate branding? [Request one here](https://www.fusioncharts.com/contact-support)!
+
+
+## FusionMaps
+FusionMaps is a companion package meant to be used in conjunction with FusionCharts to render choropleth geo maps. FusionMaps provide over 1,400+ geographical maps, including all countries, US states, and regions in Europe for plotting business data like revenue by regions, employment levels by state and office locations. See below links to know more:
+* [Examples](https://www.fusioncharts.com/explore/chart-gallery?product=fusionmaps)
+* [Documentation](https://www.fusioncharts.com/dev/map-guide/setup)
+* [Github Repo](https://github.com/fusioncharts/fusionmaps-dist) and [NPM Package](https://www.npmjs.com/package/fusionmaps)
+
+
+## Going beyond Charts
+* Explore 20+ pre-built business specific dashboards for different industries like energy and manufacturing to business functions like sales, marketing and operations [here](https://www.fusioncharts.com/explore/dashboards).
+* See [Data Stories](https://www.fusioncharts.com/explore/data-stories) built using FusionCharts’ interactive JavaScript visualizations and learn how to communicate real-world narratives through underlying data to tell compelling stories.
+
+
+## Version History
+* [What’s New](https://www.fusioncharts.com/dev/upgrading/whats-new)
+* [Change Log](https://www.fusioncharts.com/dev/upgrading/change-log)
+* [Changed Behaviour & Depreciation](https://www.fusioncharts.com/dev/upgrading/changed-behavior)
+
+
+## Contact Support
+Fill [this form](https://www.fusioncharts.com/contact-support) or drop an email to [support@fusioncharts.com](mailto: support@fusioncharts.com)
+
+
+## Folder Structure
 ```
-
-- To render the treemap chart, it is necessary to include the **fusioncharts.js** and **fusioncharts.powercharts.js** files _before_ the **fusioncharts.treemap.js** file.
-
-```
-var FusionCharts = require("fusioncharts");
-require("fusioncharts/fusioncharts.powercharts")(FusionCharts);
-require("fusioncharts/fusioncharts.treemap")(FusionCharts);
-```
-
-- To render the SS Grid chart _only_ the **fusioncharts.js** and the **fusioncharts.ssgrid.js** files are needed.
-
-```
-var FusionCharts = require("fusioncharts");
-require("fusioncharts/fusioncharts.ssgrid")(FusionCharts);
-```
-
-- To render the Gantt chart _only_ the **fusioncharts.js** and the **fusioncharts.gantt.js** files are needed.
-
-```
-var FusionCharts = require("fusioncharts");
-require("fusioncharts/fusioncharts.gantt")(FusionCharts);
-```
-
-### Installing FusionCharts from Bower
-
-1. Install the FusionCharts package.
-
-   `bower install fusioncharts`
-   
-2. Load FusionCharts module.
-
-   `<script src="bower_components/fusioncharts/fusioncharts.js"></script>`
-   
-3. Load the charts module.
-
-   `<script src="bower_components/fusioncharts/fusioncharts.maps.js"></script>`
-   
-4. Create the FusionCharts instance required to render the chart.
-
-```
-<script>
-    new FusionCharts({
-        "type": "column2d",
-        "width": "500",
-        "height": "300",
-        "dataFormat": "json",
-        "dataSource": {
-            chart:{},
-            data: [{value: 500}, {value: 600}, {value: 700}]
-        }
-    }).render("chartContainer");
-</script>
-```
-
-#### Package-specific dependencies for Bower
-
-- To render a chart belonging to the PowerCharts package, load the PowerCharts module:
-
-  `<script src="bower_components/fusioncharts/fusioncharts.powercharts.js"> </script>`
-
-- To render a chart belonging to the FusionWidgets package, load the FusionWidgets module:
-
-  `<script src="bower_components/fusioncharts/fusioncharts.widgets.js"> </script>`
-
-To know which chart belongs to which package, refer the [list of charts](http://www.fusioncharts.com/dev/getting-started/list-of-charts.html).
-
-- To render a map, load the FusionMaps module and the map definition file for that map:
-
-```
-<script src="bower_components/fusioncharts/fusioncharts.maps.js"> </script>
-<script src="bower_components/fusioncharts/maps/fusioncharts.world.js"> </script>
-```
-
-To know the map definition file names, refer the [list of maps](http://www.fusioncharts.com/dev/getting-started/list-of-maps.html).
-
-**Note**: The map definition files have to be included for all maps that you want to render in your application. Unlike the core files that are stored in the **fusioncharts** directory, all map definition files are stored in the **maps** directory and are required to be fetched from there.
-
-#### Chart-specific dependencies for Bower
-
-For some chart types, you need to include/exclude certain files and in a certain order. These chart types and the corresponding files are mentioned below:
-
-- To render the zoom-scatter chart, it is necessary to include the **fusioncharts.js** and **fusioncharts.charts.js** files _before_ the **fusioncharts.zoomscatter.js** file.
-
-```
-<script src = "bower_components/fusioncharts/fusioncharts.js"> </script>
-<script src = "bower_components/fusioncharts/fusioncharts.charts.js"> </script>
-<script src = "bower_components/fusioncharts/fusioncharts.zoomscatter.js"> </script>
-```
-
-- To render the treemap chart, it is necessary to include the **fusioncharts.js** and **fusioncharts.powercharts.js** files _before_ the **fusioncharts.treemap.js** file.
-
-```
-<script src = "bower_components/fusioncharts/fusioncharts.js"> </script>
-<script src = "bower_components/fusioncharts/fusioncharts.powercharts.js"> </script>
-<script src = "bower_components/fusioncharts/fusioncharts.treemap.js"> </script>
-```
-
-- To render the SS Grid chart _only_ the **fusioncharts.js** and the **fusioncharts.ssgrid.js** files are needed.
-
-```
-<script src = "bower_components/fusioncharts/fusioncharts.js"> </script>
-<script src = "bower_components/fusioncharts/fusioncharts.ssgrid.js"> </script>
-```
-
-- To render the Gantt chart _only_ the **fusioncharts.js** and the **fusioncharts.gantt.js** files are needed.
-
-```
-<script src = "bower_components/fusioncharts/fusioncharts.js"> </script>
-<script src = "bower_components/fusioncharts/fusioncharts.gantt.js"> </script>
-```
-  
-## What's Included
-
-### Directory structure for FusionCharts installed via npm
-
-When FusionCharts is installed via npm, the downloaded package contains the following directories and files:
-
-```
-node_modules/
-└── fusioncharts/
-  │
-  ├── package.json
-  │
-  ├── maps/
-  │   ├── fusioncharts.world.js
-  │   └── fusioncharts.usa.js
-  │
-  ├── themes/
-  │   ├── fusioncharts.theme.carbon.js
-  │   ├── fusioncharts.theme.fint.js
-  │   ├── fusioncharts.theme.ocean.js
-  │   └── fusioncharts.theme.zune.js
-  │
-  ├── fusioncharts.js
-  ├── fusioncharts.charts.js
-  ├── fusioncharts.zoomscatter.js
-  ├── fusioncharts.powercharts.js
-  ├── fusioncharts.ssgrid.js
-  ├── fusioncharts.gantt.js
-  ├── fusioncharts.treemap.js
-  ├── fusioncharts.widgets.js
-  └── fusioncharts.maps.js
-```
-### Directory structure for FusionCharts installed via Bower 
-
-When FusionCharts is installed via Bower, the downloaded package contains the following directories and files:
-
-```
-bower_components/
-└── fusioncharts/
-  │
-  ├── maps/
-  │   ├── fusioncharts.world.js
-  │   └── fusioncharts.usa.js
-  │
-  ├── themes/
-  │   ├── fusioncharts.theme.carbon.js
-  │   ├── fusioncharts.theme.fint.js
-  │   ├── fusioncharts.theme.ocean.js
-  │   └── fusioncharts.theme.zune.js
-  │
-  ├── fusioncharts.js
-  ├── fusioncharts.charts.js
-  ├── fusioncharts.zoomscatter.js
-  ├── fusioncharts.powercharts.js
-  ├── fusioncharts.ssgrid.js
-  ├── fusioncharts.gantt.js
-  ├── fusioncharts.treemap.js
-  ├── fusioncharts.widgets.js
-  └── fusioncharts.maps.js
+fusioncharts/
+  ├── core/ - Contains the FusionCharts core.
+  ├── viz/ - Contains all the individual vizualizations (Column2D, SplineArea, AngularGauge etc.)
+  ├── charts/ - Contains all the visualizations of the Charts package (similar to fusioncharts.charts.js).
+  ├── powercharts/ - Contains all the visualizations of the PowerCharts package.
+  ├── widgets/ - Contains all the visualizations of the FusionWidgets package.
+  ├── maps/ - Contains the map renderer
+  │   └── es/ - Contains the map definition files of World and USA
+  └── themes/es - Contains all the theme files.
 ```

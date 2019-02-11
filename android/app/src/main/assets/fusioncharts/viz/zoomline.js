@@ -1,0 +1,1 @@
+import Zoomline from'../vendors/fc-charts/src/chart/zoomline';export default Zoomline;

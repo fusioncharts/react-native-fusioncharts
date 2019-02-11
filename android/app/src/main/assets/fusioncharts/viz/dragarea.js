@@ -1,0 +1,1 @@
+import Dragarea from'../vendors/fc-powercharts/src/chart/dragarea';export default Dragarea;

@@ -1,0 +1,1 @@
+import Multiaxisline from'../vendors/fc-powercharts/src/chart/multiaxisline';export default Multiaxisline;

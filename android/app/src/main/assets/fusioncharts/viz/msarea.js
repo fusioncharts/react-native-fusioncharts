@@ -1,0 +1,1 @@
+import Msarea from'../vendors/fc-charts/src/chart/msarea';export default Msarea;

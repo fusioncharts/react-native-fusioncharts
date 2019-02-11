@@ -1,0 +1,1 @@
+import Stackedbar3d from'../vendors/fc-charts/src/chart/stackedbar3d';export default Stackedbar3d;

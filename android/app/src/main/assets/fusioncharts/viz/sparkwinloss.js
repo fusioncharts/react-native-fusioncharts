@@ -1,0 +1,1 @@
+import Sparkwinloss from'../vendors/fc-widgets/src/chart/sparkwinloss';export default Sparkwinloss;

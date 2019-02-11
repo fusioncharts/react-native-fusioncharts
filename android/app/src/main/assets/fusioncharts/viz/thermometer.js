@@ -1,0 +1,1 @@
+import Thermometer from'../vendors/fc-widgets/src/chart/thermometer';export default Thermometer;

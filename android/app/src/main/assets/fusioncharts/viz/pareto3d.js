@@ -1,0 +1,1 @@
+import Pareto3d from'../vendors/fc-charts/src/chart/pareto3d';export default Pareto3d;

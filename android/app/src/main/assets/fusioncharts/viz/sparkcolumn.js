@@ -1,0 +1,1 @@
+import Sparkcolumn from'../vendors/fc-widgets/src/chart/sparkcolumn';export default Sparkcolumn;

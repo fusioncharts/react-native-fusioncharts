@@ -1,0 +1,1 @@
+import Line from'../vendors/fc-charts/src/chart/line';export default Line;
