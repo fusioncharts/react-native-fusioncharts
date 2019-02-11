@@ -40,7 +40,6 @@ yarn-error.log
 buck-out/
 \.buckd/
 *.keystore
-!ReactNativeFusionCharts.keystore
 
 # fastlane
 #
@@ -53,4 +52,5 @@ buck-out/
 */fastlane/Preview.html
 */fastlane/screenshots
 
-coverage/
+# Bundle artifact
+*.jsbundle

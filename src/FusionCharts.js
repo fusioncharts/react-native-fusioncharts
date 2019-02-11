@@ -3,9 +3,14 @@ import { View, WebView, StyleSheet } from 'react-native';
 import * as utils from './utils/utils';
 import fusonChartsOptions from './utils/options';
 
-export default class FusionCharts extends Component {
+export default class ReactNativeFusionCharts extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      dataJson: null,
+      schemaJson: null
+    };
 
     this.webViewLoaded = false;
     this.onWebViewLoad = this.onWebViewLoad.bind(this);
@@ -14,6 +19,15 @@ export default class FusionCharts extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    if (nextProps.dataJson && nextProps.dataJson !== this.props.dataJson) {
+      this.setState({ dataJson: nextProps.dataJson });
+    }
+    if (
+      nextProps.schemaJson &&
+      nextProps.schemaJson !== this.props.schemaJson
+    ) {
+      this.setState({ schemaJson: nextProps.schemaJson });
+    }
     if (!this.oldOptions) {
       return;
     }
@@ -51,6 +65,7 @@ export default class FusionCharts extends Component {
       'events'
     ];
 
+    // this.checkAndUpdateTimeSeries(currentOptions, oldOptions);
     this.checkAndUpdateChartType(currentOptions, oldOptions);
     this.checkAndUpdateChartData(currentOptions, oldOptions);
     this.checkAndUpdateEvents(currentOptions, oldOptions);
@@ -63,6 +78,11 @@ export default class FusionCharts extends Component {
     );
 
     this.oldOptions = currentOptions;
+  }
+
+  checkAndUpdateTimeSeries(currentOptions, oldOptions) {
+    console.log(currentOptions);
+    console.log(oldOptions);
   }
 
   checkAndUpdateChartType(currentOptions, oldOptions) {
@@ -109,6 +129,43 @@ export default class FusionCharts extends Component {
   }
 
   isSameChartData(currData, oldData) {
+    if (
+      utils.checkIfDataTableExists(currData) &&
+      !utils.checkIfDataTableExists(oldData)
+    ) {
+      return false;
+    }
+    // 2. Old has and Current doesn't
+    if (
+      !utils.checkIfDataTableExists(currData) &&
+      utils.checkIfDataTableExists(oldData)
+    ) {
+      return false;
+    }
+    // 3. Both has, check ref is equal, return false only if not equal
+    if (
+      utils.checkIfDataTableExists(currData) &&
+      utils.checkIfDataTableExists(oldData) &&
+      currData.data !== oldData.data
+    ) {
+      return false;
+    }
+    if (
+      utils.checkIfDataTableExists(currData) &&
+      utils.checkIfDataTableExists(oldData) &&
+      currData.data === oldData.data
+    ) {
+      // 4. Clone oldData for diff
+      const oldDataStringified = JSON.stringify(
+        utils.cloneDataSource(oldData, 'diff')
+      );
+      // 5. Clone currentData for diff
+      const currentDataStringified = JSON.stringify(
+        utils.cloneDataSource(currData, 'diff')
+      );
+      // 6. return string check.
+      return oldDataStringified === currentDataStringified;
+    }
     if (utils.isObject(currData) && utils.isObject(oldData)) {
       return utils.isSameObjectContent(currData, oldData);
     }
@@ -178,8 +235,35 @@ export default class FusionCharts extends Component {
   }
 
   renderChart() {
+    // var dataTable = new FusionCharts.DataStore().createDataTable(
+    //   ${utils.portValueSafely(this.state.dataJson)},
+    //   ${utils.portValueSafely(this.state.schemaJson)}
+    // );
+    // chartConfigs.dataSource.data = dataTable;
+    // let clonedDataSource = {};
     const chartOptions = this.resolveChartOptions(this.props);
-    const script = `
+    utils.PortTimeSeriesValueSafely(chartOptions);
+    if (this.props.type === 'timeseries') {
+      // clonedDataSource = utils.cloneDataSource(chartOptions.dataSource);
+      chartOptions.dataSource.data = null;
+      const script = `
+      var chartConfigs = ${utils.portValueSafely(chartOptions)};
+      chartConfigs.width = '100%';
+      chartConfigs.height = '100%';
+      chartConfigs.renderAt = 'chart-container';
+      chartConfigs.events = ${this.wrapEvents(chartOptions.events)};
+      var dataTable = new FusionCharts.DataStore().createDataTable(
+        ${utils.portValueSafely(this.state.dataJson)},
+        ${utils.portValueSafely(this.state.schemaJson)}
+      );
+      chartConfigs.dataSource.data = dataTable;
+      window.chartObj = new FusionCharts(chartConfigs);
+      window.chartObj.render();
+    `;
+      this.runInWebView(script);
+      this.oldOptions = chartOptions;
+    } else {
+      const script = `
       var chartConfigs = ${utils.portValueSafely(chartOptions)};
       chartConfigs.width = '100%';
       chartConfigs.height = '100%';
@@ -188,8 +272,9 @@ export default class FusionCharts extends Component {
       window.chartObj = new FusionCharts(chartConfigs);
       window.chartObj.render();
     `;
-    this.runInWebView(script);
-    this.oldOptions = chartOptions;
+      this.runInWebView(script);
+      this.oldOptions = chartOptions;
+    }
   }
 
   resolveChartOptions(props) {
@@ -200,7 +285,19 @@ export default class FusionCharts extends Component {
     }, {});
     Object.assign(inlineOptions, chartConfig);
 
-    if (utils.isObject(inlineOptions.dataSource)) {
+    if (
+      utils.isObject(inlineOptions.dataSource) &&
+      utils.checkIfDataTableExists(inlineOptions.dataSource)
+    ) {
+      console.log('DataTable exists');
+      inlineOptions.dataSource = utils.cloneDataSource(
+        inlineOptions.dataSource,
+        'clone'
+      );
+    } else if (
+      utils.isObject(inlineOptions.dataSource) &&
+      !utils.checkIfDataTableExists(inlineOptions.dataSource)
+    ) {
       inlineOptions.dataSource = utils.deepCopyOf(inlineOptions.dataSource);
     }
     if (utils.isObject(inlineOptions.link)) {
@@ -290,6 +387,7 @@ export default class FusionCharts extends Component {
           javaScriptEnabled
           domStorageEnabled
           scalesPageToFit
+          mixedContentMode="compatibility"
           scrollEnabled={false}
           automaticallyAdjustContentInsets
         />
