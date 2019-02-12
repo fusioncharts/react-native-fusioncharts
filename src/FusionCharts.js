@@ -242,7 +242,6 @@ export default class ReactNativeFusionCharts extends Component {
     // chartConfigs.dataSource.data = dataTable;
     // let clonedDataSource = {};
     const chartOptions = this.resolveChartOptions(this.props);
-    utils.PortTimeSeriesValueSafely(chartOptions);
     if (this.props.type === 'timeseries') {
       // clonedDataSource = utils.cloneDataSource(chartOptions.dataSource);
       chartOptions.dataSource.data = null;
@@ -252,11 +251,18 @@ export default class ReactNativeFusionCharts extends Component {
       chartConfigs.height = '100%';
       chartConfigs.renderAt = 'chart-container';
       chartConfigs.events = ${this.wrapEvents(chartOptions.events)};
-      var dataTable = new FusionCharts.DataStore().createDataTable(
-        ${utils.portValueSafely(this.state.dataJson)},
-        ${utils.portValueSafely(this.state.schemaJson)}
-      );
-      chartConfigs.dataSource.data = dataTable;
+      if(${utils.portValueSafely(
+        this.state.dataJson
+      )} && ${utils.portValueSafely(this.state.schemaJson)}) {
+        var dataTable = new FusionCharts.DataStore().createDataTable(
+          ${utils.portValueSafely(this.state.dataJson)},
+          ${utils.portValueSafely(this.state.schemaJson)}
+        );
+        chartConfigs.dataSource.data = dataTable;
+        if(chartConfigs && chartConfigs.dataSource && chartConfigs.dataSource.data) {
+          window.dataTable = chartConfigs.dataSource.data;
+        }
+      }
       window.chartObj = new FusionCharts(chartConfigs);
       window.chartObj.render();
     `;

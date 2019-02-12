@@ -152,7 +152,6 @@ export default class App extends Component {
       // console.log(dataTable);
       // const timeseriesDs = Object.assign({}, this.state.timeseriesDs);
       // timeseriesDs.dataSource.data = dataTable;
-      // console.log(timeseriesDs);
       // this.setState({ timeseriesDs });
       this.setState({ dataJson: data, schemaJson: schema });
     });
