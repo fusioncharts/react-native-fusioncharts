@@ -20,13 +20,17 @@ export default class ReactNativeFusionCharts extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.dataJson && nextProps.dataJson !== this.props.dataJson) {
-      this.setState({ dataJson: nextProps.dataJson });
+      this.setState({ dataJson: nextProps.dataJson }, () => {
+        this.updateTimeSeriesChart(nextProps, true);
+      });
     }
     if (
       nextProps.schemaJson &&
       nextProps.schemaJson !== this.props.schemaJson
     ) {
-      this.setState({ schemaJson: nextProps.schemaJson });
+      this.setState({ schemaJson: nextProps.schemaJson }, () => {
+        this.updateTimeSeriesChart(nextProps, true);
+      });
     }
     if (!this.oldOptions) {
       return;
@@ -65,7 +69,6 @@ export default class ReactNativeFusionCharts extends Component {
       'events'
     ];
 
-    // this.checkAndUpdateTimeSeries(currentOptions, oldOptions);
     this.checkAndUpdateChartType(currentOptions, oldOptions);
     this.checkAndUpdateChartData(currentOptions, oldOptions);
     this.checkAndUpdateEvents(currentOptions, oldOptions);
@@ -78,11 +81,6 @@ export default class ReactNativeFusionCharts extends Component {
     );
 
     this.oldOptions = currentOptions;
-  }
-
-  checkAndUpdateTimeSeries(currentOptions, oldOptions) {
-    console.log(currentOptions);
-    console.log(oldOptions);
   }
 
   checkAndUpdateChartType(currentOptions, oldOptions) {
@@ -103,6 +101,15 @@ export default class ReactNativeFusionCharts extends Component {
     const currData = currentOptions.dataSource;
     const oldDataFormat = oldOptions.dataFormat;
     const oldData = oldOptions.dataSource;
+
+    if (
+      currentOptions.type === 'timeseries' &&
+      !utils.isUndefined(currData) &&
+      !this.isSameChartData(currData, oldData)
+    ) {
+      this.updateTimeSeriesChart(currentOptions, false);
+      return;
+    }
 
     if (
       String(currDataFormat).toLowerCase() !==
@@ -128,44 +135,31 @@ export default class ReactNativeFusionCharts extends Component {
     }
   }
 
+  updateTimeSeriesChart(chartConfigs, isJsonChanged) {
+    const script = `
+      var chartConfigs = ${utils.portValueSafely(chartConfigs)};
+      if(window.dataTable && ${!isJsonChanged}) {
+        chartConfigs.dataSource.data = window.dataTable;
+      } else if(${isJsonChanged}) {
+        if(${utils.portValueSafely(
+          this.state.dataJson
+        )} && ${utils.portValueSafely(this.state.schemaJson)}) {
+          var dataTable = new FusionCharts.DataStore().createDataTable(
+            ${utils.portValueSafely(this.state.dataJson)},
+            ${utils.portValueSafely(this.state.schemaJson)}
+          );
+          chartConfigs.dataSource.data = dataTable;
+          if(chartConfigs && chartConfigs.dataSource && chartConfigs.dataSource.data) {
+            window.dataTable = chartConfigs.dataSource.data;
+          }
+        }
+      }
+      window.chartObj.setChartData(chartConfigs.dataSource, 'json');
+    `;
+    this.runInWebView(script);
+  }
+
   isSameChartData(currData, oldData) {
-    if (
-      utils.checkIfDataTableExists(currData) &&
-      !utils.checkIfDataTableExists(oldData)
-    ) {
-      return false;
-    }
-    // 2. Old has and Current doesn't
-    if (
-      !utils.checkIfDataTableExists(currData) &&
-      utils.checkIfDataTableExists(oldData)
-    ) {
-      return false;
-    }
-    // 3. Both has, check ref is equal, return false only if not equal
-    if (
-      utils.checkIfDataTableExists(currData) &&
-      utils.checkIfDataTableExists(oldData) &&
-      currData.data !== oldData.data
-    ) {
-      return false;
-    }
-    if (
-      utils.checkIfDataTableExists(currData) &&
-      utils.checkIfDataTableExists(oldData) &&
-      currData.data === oldData.data
-    ) {
-      // 4. Clone oldData for diff
-      const oldDataStringified = JSON.stringify(
-        utils.cloneDataSource(oldData, 'diff')
-      );
-      // 5. Clone currentData for diff
-      const currentDataStringified = JSON.stringify(
-        utils.cloneDataSource(currData, 'diff')
-      );
-      // 6. return string check.
-      return oldDataStringified === currentDataStringified;
-    }
     if (utils.isObject(currData) && utils.isObject(oldData)) {
       return utils.isSameObjectContent(currData, oldData);
     }
@@ -185,12 +179,12 @@ export default class ReactNativeFusionCharts extends Component {
             window.webViewBridge.send('handleChartEvents', {
                eventName: '${eventName}',
                eventObj: {
-                 eventType: eventObj.eventType,
-                 eventId: eventObj.eventId,
-                 cancelled: eventObj.cancelled,
-                 prevented: eventObj.prevented,
-                 detach: eventObj.detach,
-                 data: eventObj.data
+                eventType: eventObj.eventType,
+                eventId: eventObj.eventId,
+                cancelled: eventObj.cancelled,
+                prevented: eventObj.prevented,
+                detach: eventObj.detach,
+                data: eventObj.data
                },
                dataObj: dataObj
             });
