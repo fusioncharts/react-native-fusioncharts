@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import DataStore from 'fusioncharts/datastore';
+// import DataStore from 'fusioncharts/datastore';
 import {
   StyleSheet,
   Text,
@@ -26,7 +26,7 @@ export default class App extends Component {
 
     this.state = {
       type: 'column2d',
-      width: '100%',
+      width: '90%',
       height: '100%',
       dataFormat: 'json',
       dataSource: {
@@ -101,6 +101,8 @@ export default class App extends Component {
     this.fc = Platform;
 
     this.onPress = this.onPress.bind(this);
+    this.onChangeJson = this.onChangeJson.bind(this);
+    this.onChangeSize = this.onChangeSize.bind(this);
     this.events = {
       dataPlotClick: (eventObj, dataObj) => {
         this.setState({
@@ -117,30 +119,14 @@ export default class App extends Component {
 
   onPress() {
     console.log('clicked');
+    const newDs = Object.assign({}, this.state.dataSource);
+    newDs.chart.caption = 'Changed';
     this.setState({
-      dataFormat: 'xml',
-      dataSource: `<chart caption="Top 100 Most Popular Sports in the World"
-        subcaption="Based on number of viewers" yaxisname="Number of Viewers" plotgradientcolor=""
-        bgcolor="FFFFFF" showplotborder="0" divlinecolor="CCCCCC" showvalues="1" showcanvasborder="0"
-        canvasbordercolor="CCCCCC" canvasborderthickness="1" showyaxisvalues="0" showlegend="1"
-        showshadow="0" labelsepchar=": " basefontcolor="000000" labeldisplay="AUTO"
-        numberscalevalue="1000,1000,1000" numberscaleunit="K,M,B"
-        palettecolors="#008ee4,#9b59b6,#6baa01,#e44a00,#f8bd19,#d35400,#bdc3c7,#95a5a6,#34495e,#1abc9c"
-        showborder="0"  rotateValues="0" placevaluesInside="0" valueFontColor="#909090" theme="fint">
-        <set label="Football" value="3500000000" tooltext="Popular in: {br}Europe{br}Africa{br}Asia{br}Americas" />
-        <set label="Cricket" value="4400000000" tooltext="Popular in: {br}India{br}UK{br}Pakistan{br}Australia" />
-        <set label="Field Hockey" value="2200000000" tooltext="Popular in: {br}Asia{br}Europe{br}Africa{br}Australia" />
-        <set label="Tennis" value="1000000000" color="e44a00" tooltext="Popular in: {br}Europe{br}Americas{br}Asia" />
-        <set label="Volleyball" value="900000000" tooltext="Popular in: {br}Asia{br}Europe{br}Americas{br}Australia" />
-        <set label="Table Tennis" value="900000000" tooltext="Popular in: {br}Asia{br}Europe{br}Africa{br}Americas" />
-        <set label="Baseball" value="500000000" tooltext="Popular in: {br}US{br}Japan{br}Cuba{br}Dominican Republic" />
-        <set label="Golf" value="400000000" tooltext="Popular in: {br}US{br}Canada{br}Europe" />
-        <set label="Basketball" value="400000000" tooltext="Popular in: {br}US{br}Canada" />
-        <set label="American football" value="390000000" tooltext="Popular in:{br}US" />
-    </chart>`
+      dataSource: newDs
     });
     const newTsDs = this.state.timeseriesDs;
     newTsDs.dataSource.caption.text = 'Changed!';
+    newTsDs.dataSource.subcaption.text = 'This is changed as well!';
     this.setState({ timeseriesDs: newTsDs });
   }
 
@@ -148,12 +134,34 @@ export default class App extends Component {
     Promise.all([dataFetch, schemaFetch]).then(res => {
       const data = res[0];
       const schema = res[1];
-      const dataTable = new DataStore().createDataTable(data, schema);
+      // const dataTable = new DataStore().createDataTable(data, schema);
       // console.log(dataTable);
       // const timeseriesDs = Object.assign({}, this.state.timeseriesDs);
       // timeseriesDs.dataSource.data = dataTable;
       // this.setState({ timeseriesDs });
       this.setState({ dataJson: data, schemaJson: schema });
+    });
+  }
+
+  onChangeJson() {
+    const data = this.state.dataJson.slice(0, 200);
+    const schema = [
+      {
+        name: 'Time',
+        type: 'date',
+        format: '%d-%b-%y'
+      },
+      {
+        name: 'Grocery Sales Value',
+        type: 'number'
+      }
+    ];
+    this.setState({ dataJson: data, schemaJson: schema });
+  }
+
+  onChangeSize() {
+    this.setState({
+      timeseriesDs: { ...this.state.timeseriesDs, height: '50%', width: '80%' }
     });
   }
 
@@ -194,6 +202,16 @@ export default class App extends Component {
             title="Update Chart Data"
             color="#841577"
             accessibilityLabel="Update the chart data"
+          />
+          <Button
+            onPress={this.onChangeJson}
+            title="Update JSON"
+            color="#841577"
+          />
+          <Button
+            onPress={this.onChangeSize}
+            title="Update Size"
+            color="#841577"
           />
         </View>
       </ScrollView>
