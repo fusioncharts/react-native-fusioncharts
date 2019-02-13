@@ -20,6 +20,13 @@ const schemaFetch = fetch(
   'https://s3.eu-central-1.amazonaws.com/fusion.store/ft/schema/line-chart-with-time-axis-schema.json'
 ).then(jsonify);
 
+const dataFetch2 = fetch(
+  'https://s3.eu-central-1.amazonaws.com/fusion.store/ft/data/column-chart-with-time-axis-data.json'
+).then(jsonify);
+const schemaFetch2 = fetch(
+  'https://s3.eu-central-1.amazonaws.com/fusion.store/ft/schema/column-chart-with-time-axis-schema.json'
+).then(jsonify);
+
 export default class App extends Component {
   constructor(props) {
     super(props);
@@ -103,6 +110,7 @@ export default class App extends Component {
     this.onPress = this.onPress.bind(this);
     this.onChangeJson = this.onChangeJson.bind(this);
     this.onChangeSize = this.onChangeSize.bind(this);
+    this.fetchDataAndSchema2 = this.fetchDataAndSchema2.bind(this);
     this.events = {
       dataPlotClick: (eventObj, dataObj) => {
         this.setState({
@@ -139,6 +147,14 @@ export default class App extends Component {
       // const timeseriesDs = Object.assign({}, this.state.timeseriesDs);
       // timeseriesDs.dataSource.data = dataTable;
       // this.setState({ timeseriesDs });
+      this.setState({ dataJson: data, schemaJson: schema });
+    });
+  }
+
+  fetchDataAndSchema2() {
+    Promise.all([dataFetch2, schemaFetch2]).then(res => {
+      const data = res[0];
+      const schema = res[1];
       this.setState({ dataJson: data, schemaJson: schema });
     });
   }
@@ -204,7 +220,7 @@ export default class App extends Component {
             accessibilityLabel="Update the chart data"
           />
           <Button
-            onPress={this.onChangeJson}
+            onPress={this.fetchDataAndSchema2}
             title="Update JSON"
             color="#841577"
           />

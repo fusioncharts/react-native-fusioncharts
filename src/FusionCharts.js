@@ -108,6 +108,7 @@ export default class ReactNativeFusionCharts extends Component {
       !this.isSameChartData(currData, oldData)
     ) {
       this.updateTimeSeriesChart(currentOptions, false);
+      this.dataTableOperations('getData');
       return;
     }
 
@@ -228,16 +229,35 @@ export default class ReactNativeFusionCharts extends Component {
     return String(currValue) === String(oldValue);
   }
 
+  dataTableOperations(funcName, args) {
+    const script = `
+      if(window.dataTable) {
+        var dataTable = window.dataTable;
+        var res;
+        if(${args}) {
+          res = dataTable.${funcName}(${args})
+        } else {
+          res = dataTable.${funcName}()
+        }
+        window.postMessage(JSON.stringify(res));
+      }
+    `;
+    this.runInWebView(script);
+  }
+
+  webViewToRn(event) {
+    let msgData;
+    try {
+      msgData = JSON.parse(event.nativeEvent.data);
+    } catch (err) {
+      console.log(err);
+    }
+    console.log(msgData);
+  }
+
   renderChart() {
-    // var dataTable = new FusionCharts.DataStore().createDataTable(
-    //   ${utils.portValueSafely(this.state.dataJson)},
-    //   ${utils.portValueSafely(this.state.schemaJson)}
-    // );
-    // chartConfigs.dataSource.data = dataTable;
-    // let clonedDataSource = {};
     const chartOptions = this.resolveChartOptions(this.props);
     if (this.props.type === 'timeseries') {
-      // clonedDataSource = utils.cloneDataSource(chartOptions.dataSource);
       chartOptions.dataSource.data = null;
       const script = `
       var chartConfigs = ${utils.portValueSafely(chartOptions)};
@@ -289,7 +309,6 @@ export default class ReactNativeFusionCharts extends Component {
       utils.isObject(inlineOptions.dataSource) &&
       utils.checkIfDataTableExists(inlineOptions.dataSource)
     ) {
-      console.log('DataTable exists');
       inlineOptions.dataSource = utils.cloneDataSource(
         inlineOptions.dataSource,
         'clone'
@@ -383,7 +402,7 @@ export default class ReactNativeFusionCharts extends Component {
           }}
           source={this.props.libraryPath}
           onLoad={this.onWebViewLoad}
-          onMessage={this.onWebViewMessage}
+          onMessage={this.webViewToRn}
           javaScriptEnabled
           domStorageEnabled
           scalesPageToFit
