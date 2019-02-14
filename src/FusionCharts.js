@@ -53,10 +53,14 @@ export default class ReactNativeFusionCharts extends Component {
       return;
     }
 
-    const response = this[msgData.targetFunc].apply(this, [msgData.data]);
-    msgData.isSuccessfull = true;
-    msgData.args = [response];
-    this.webView.postMessage(JSON.stringify(msgData));
+    console.log(e.nativeEvent.data);
+
+    if (msgData.targetFunc) {
+      const response = this[msgData.targetFunc].apply(this, [msgData.data]);
+      msgData.isSuccessfull = true;
+      msgData.args = [response];
+      this.webView.postMessage(JSON.stringify(msgData));
+    }
   }
 
   detectChanges(nextProps) {
@@ -108,7 +112,6 @@ export default class ReactNativeFusionCharts extends Component {
       !this.isSameChartData(currData, oldData)
     ) {
       this.updateTimeSeriesChart(currentOptions, false);
-      this.dataTableOperations('getData');
       return;
     }
 
@@ -229,32 +232,6 @@ export default class ReactNativeFusionCharts extends Component {
     return String(currValue) === String(oldValue);
   }
 
-  dataTableOperations(funcName, args) {
-    const script = `
-      if(window.dataTable) {
-        var dataTable = window.dataTable;
-        var res;
-        if(${args}) {
-          res = dataTable.${funcName}(${args})
-        } else {
-          res = dataTable.${funcName}()
-        }
-        window.postMessage(JSON.stringify(res));
-      }
-    `;
-    this.runInWebView(script);
-  }
-
-  webViewToRn(event) {
-    let msgData;
-    try {
-      msgData = JSON.parse(event.nativeEvent.data);
-    } catch (err) {
-      console.log(err);
-    }
-    console.log(msgData);
-  }
-
   renderChart() {
     const chartOptions = this.resolveChartOptions(this.props);
     if (this.props.type === 'timeseries') {
@@ -268,12 +245,14 @@ export default class ReactNativeFusionCharts extends Component {
       if(${utils.portValueSafely(
         this.state.dataJson
       )} && ${utils.portValueSafely(this.state.schemaJson)}) {
-        var dataTable = new FusionCharts.DataStore().createDataTable(
+        var dataSource = new FusionCharts.DataStore(); 
+        var dataTable = dataSource.createDataTable(
           ${utils.portValueSafely(this.state.dataJson)},
           ${utils.portValueSafely(this.state.schemaJson)}
         );
         chartConfigs.dataSource.data = dataTable;
         if(chartConfigs && chartConfigs.dataSource && chartConfigs.dataSource.data) {
+          window.dataSource = dataSource;
           window.dataTable = chartConfigs.dataSource.data;
         }
       }
@@ -384,9 +363,29 @@ export default class ReactNativeFusionCharts extends Component {
     return `{ ${eventsMap} }`;
   }
 
+  dataTableOperation(funcName, ...args) {
+    console.log(args);
+    const script = `
+      if(window.dataTable) {
+        var dataTable = window.dataTable;
+        var res;
+        if(${args.length}) {
+          res = dataTable.${funcName}.apply(dataTable, ${args});
+        } else {
+          res = dataTable.${funcName}('Time');
+        }
+        window.postMessage(JSON.stringify(res));
+      }
+    `;
+    this.runInWebView(script);
+  }
+
   chartRendered() {
     if (this.props.onInitialized) {
       this.props.onInitialized(this.runInWebView.bind(this));
+    }
+    if (this.props.onDataTableInitialized) {
+      this.props.onDataTableInitialized(this.dataTableOperation.bind(this));
     }
   }
 
@@ -402,7 +401,7 @@ export default class ReactNativeFusionCharts extends Component {
           }}
           source={this.props.libraryPath}
           onLoad={this.onWebViewLoad}
-          onMessage={this.webViewToRn}
+          onMessage={this.onWebViewMessage}
           javaScriptEnabled
           domStorageEnabled
           scalesPageToFit

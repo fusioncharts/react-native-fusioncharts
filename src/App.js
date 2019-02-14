@@ -31,6 +31,7 @@ export default class App extends Component {
   constructor(props) {
     super(props);
 
+    this.apiCaller = null;
     this.state = {
       type: 'column2d',
       width: '90%',
@@ -107,6 +108,7 @@ export default class App extends Component {
 
     this.fc = Platform;
 
+    this.bindApiCaller = this.bindApiCaller.bind(this);
     this.onPress = this.onPress.bind(this);
     this.onChangeJson = this.onChangeJson.bind(this);
     this.onChangeSize = this.onChangeSize.bind(this);
@@ -127,15 +129,16 @@ export default class App extends Component {
 
   onPress() {
     console.log('clicked');
-    const newDs = Object.assign({}, this.state.dataSource);
-    newDs.chart.caption = 'Changed';
-    this.setState({
-      dataSource: newDs
-    });
-    const newTsDs = this.state.timeseriesDs;
-    newTsDs.dataSource.caption.text = 'Changed!';
-    newTsDs.dataSource.subcaption.text = 'This is changed as well!';
-    this.setState({ timeseriesDs: newTsDs });
+    // const newDs = Object.assign({}, this.state.dataSource);
+    // newDs.chart.caption = 'Changed';
+    // this.setState({
+    //   dataSource: newDs
+    // });
+    // const newTsDs = this.state.timeseriesDs;
+    // newTsDs.dataSource.caption.text = 'Changed!';
+    // newTsDs.dataSource.subcaption.text = 'This is changed as well!';
+    // this.setState({ timeseriesDs: newTsDs });
+    this.apiCaller('min', 'Time');
   }
 
   fetchDataAndSchema() {
@@ -181,6 +184,12 @@ export default class App extends Component {
     });
   }
 
+  bindApiCaller(caller) {
+    // Now this.apiCaller will be a function where you can pass js code for the WebView
+    // to access the chart Object. See the method changeType.
+    this.apiCaller = caller;
+  }
+
   render() {
     return (
       <ScrollView style={styles.container}>
@@ -209,6 +218,9 @@ export default class App extends Component {
             dataFormat={this.state.timeseriesDs.dataFormat}
             dataSource={this.state.timeseriesDs.dataSource}
             libraryPath={this.libraryPath}
+            onDataTableInitialized={caller => {
+              this.bindApiCaller(caller);
+            }}
           />
         </View>
         <Text style={styles.text}>DisplayValue: {this.state.displayValue}</Text>
