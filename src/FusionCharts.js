@@ -235,7 +235,8 @@ export default class ReactNativeFusionCharts extends Component {
   renderChart() {
     const chartOptions = this.resolveChartOptions(this.props);
     if (this.props.type === 'timeseries') {
-      chartOptions.dataSource.data = null;
+      // chartOptions.dataSource.data = null;
+      console.log(utils.portValueSafely(chartOptions));
       const script = `
       var chartConfigs = ${utils.portValueSafely(chartOptions)};
       chartConfigs.width = '100%';
@@ -364,17 +365,35 @@ export default class ReactNativeFusionCharts extends Component {
   }
 
   dataTableOperation(funcName, ...args) {
-    console.log(args);
+    const argsStr = args.length && JSON.stringify(args);
     const script = `
       if(window.dataTable) {
         var dataTable = window.dataTable;
         var res;
         if(${args.length}) {
-          res = dataTable.${funcName}.apply(dataTable, ${args});
+          res = dataTable.${funcName}.apply(dataTable, ${argsStr});
         } else {
-          res = dataTable.${funcName}('Time');
+          res = dataTable.${funcName}();
         }
         window.postMessage(JSON.stringify(res));
+        window.dataTable = dataTable;
+      }
+    `;
+    this.runInWebView(script);
+  }
+
+  dataStoreOperation(funcName, ...args) {
+    const script = `
+      if(window.dataSource) {
+        var dataSource = window.dataSource;
+        var res;
+        if(${args.length}) {
+          res = dataSource.${funcName}.apply(dataSource, ${args});
+        } else {
+          res = dataSource.${funcName}();
+        }
+        window.postMessage(JSON.stringify(res));
+        window.dataSource = dataSource;
       }
     `;
     this.runInWebView(script);
@@ -386,6 +405,9 @@ export default class ReactNativeFusionCharts extends Component {
     }
     if (this.props.onDataTableInitialized) {
       this.props.onDataTableInitialized(this.dataTableOperation.bind(this));
+    }
+    if (this.props.onDataStoreInitialized) {
+      this.props.onDataStoreInitialized(this.dataStoreOperation.bind(this));
     }
   }
 
