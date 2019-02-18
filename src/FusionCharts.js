@@ -53,8 +53,6 @@ export default class ReactNativeFusionCharts extends Component {
       return;
     }
 
-    console.log(e.nativeEvent.data);
-
     if (msgData.targetFunc) {
       const response = this[msgData.targetFunc].apply(this, [msgData.data]);
       msgData.isSuccessfull = true;
@@ -235,8 +233,6 @@ export default class ReactNativeFusionCharts extends Component {
   renderChart() {
     const chartOptions = this.resolveChartOptions(this.props);
     if (this.props.type === 'timeseries') {
-      // chartOptions.dataSource.data = null;
-      console.log(utils.portValueSafely(chartOptions));
       const script = `
       var chartConfigs = ${utils.portValueSafely(chartOptions)};
       chartConfigs.width = '100%';
