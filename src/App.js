@@ -20,77 +20,42 @@ const schemaFetch = fetch(
   'https://s3.eu-central-1.amazonaws.com/fusion.store/ft/schema/line-chart-with-time-axis-schema.json'
 ).then(jsonify);
 
+const dataFetch2 = fetch(
+  'https://s3.eu-central-1.amazonaws.com/fusion.store/ft/data/area-chart-with-time-axis-data.json'
+).then(jsonify);
+const schemaFetch2 = fetch(
+  'https://s3.eu-central-1.amazonaws.com/fusion.store/ft/schema/area-chart-with-time-axis-schema.json'
+).then(jsonify);
+
 export default class App extends Component {
   constructor(props) {
     super(props);
 
+    this.apiCaller = null;
     this.state = {
-      type: 'column2d',
+      type: 'timeseries',
       width: '90%',
       height: '100%',
-      dataFormat: 'json',
       dataSource: {
+        // Initially data is set as null
+        data: null,
         chart: {
-          caption: "Harry's ss",
-          subCaption: 'Top 5 stores in last month by revenue',
-          numberPrefix: '$',
-          theme: 'ocean'
+          showlegend: 1
         },
-        data: [
+        caption: {
+          text: 'Daily Visitors Count of a Website'
+        },
+        yAxis: [
           {
-            label: 'Bakersfield Central',
-            value: '880000'
-          },
-          {
-            label: 'Garden Groove harbour',
-            value: '730000'
-          },
-          {
-            label: 'Los Angeles Topanga',
-            value: '590000'
-          },
-          {
-            label: 'Compton-Rancho Dom',
-            value: '520000'
-          },
-          {
-            label: 'Daly City Serramonte',
-            value: '330000'
+            plot: 'Daily Visitors',
+            plottype: 'smooth-line',
+            title: 'Daily Visitors (in thousand)'
           }
         ]
       },
-      containerBackgroundColor: 'transparent',
       displayValue: '',
       schemaJson: null,
-      dataJson: null,
-      timeseriesDs: {
-        type: 'timeseries',
-        width: '100%',
-        height: '100%',
-        dataFormat: 'json',
-        dataSource: {
-          // Initially data is set as null
-          data: null,
-          caption: {
-            text: 'Sales Analysis'
-          },
-          subcaption: {
-            text: 'Grocery'
-          },
-          yAxis: [
-            {
-              plot: {
-                value: 'Grocery Sales Value',
-                type: 'line'
-              },
-              format: {
-                prefix: '$'
-              },
-              title: 'Sale Value'
-            }
-          ]
-        }
-      }
+      dataJson: null
     };
 
     this.libraryPath = Platform.select({
@@ -100,9 +65,11 @@ export default class App extends Component {
 
     this.fc = Platform;
 
+    this.bindApiCaller = this.bindApiCaller.bind(this);
     this.onPress = this.onPress.bind(this);
     this.onChangeJson = this.onChangeJson.bind(this);
     this.onChangeSize = this.onChangeSize.bind(this);
+    // this.fetchDataAndSchema2 = this.fetchDataAndSchema2.bind(this);
     this.events = {
       dataPlotClick: (eventObj, dataObj) => {
         this.setState({
@@ -118,27 +85,37 @@ export default class App extends Component {
   }
 
   onPress() {
-    console.log('clicked');
-    const newDs = Object.assign({}, this.state.dataSource);
-    newDs.chart.caption = 'Changed';
-    this.setState({
-      dataSource: newDs
-    });
-    const newTsDs = this.state.timeseriesDs;
-    newTsDs.dataSource.caption.text = 'Changed!';
-    newTsDs.dataSource.subcaption.text = 'This is changed as well!';
-    this.setState({ timeseriesDs: newTsDs });
+    // const newDs = Object.assign({}, this.state.dataSource);
+    // newDs.chart.caption = 'Changed';
+    // this.setState({
+    //   dataSource: newDs
+    // });
+    // const newTsDs = this.state.timeseriesDs;
+    // newTsDs.dataSource.caption.text = 'Changed!';
+    // newTsDs.dataSource.subcaption.text = 'This is changed as well!';
+    // this.setState({ timeseriesDs: newTsDs });
+    this.apiCaller('extents', 'Time');
   }
 
   fetchDataAndSchema() {
-    Promise.all([dataFetch, schemaFetch]).then(res => {
+    const dFetch = fetch(
+      'https://s3.eu-central-1.amazonaws.com/fusion.store/ft/data/column-chart-with-time-axis-data.json'
+    ).then(jsonify);
+    // This is the remote url to fetch the schema.
+    const sFetch = fetch(
+      'https://s3.eu-central-1.amazonaws.com/fusion.store/ft/schema/column-chart-with-time-axis-schema.json'
+    ).then(jsonify);
+    Promise.all([dFetch, sFetch]).then(res => {
       const data = res[0];
       const schema = res[1];
-      // const dataTable = new DataStore().createDataTable(data, schema);
-      // console.log(dataTable);
-      // const timeseriesDs = Object.assign({}, this.state.timeseriesDs);
-      // timeseriesDs.dataSource.data = dataTable;
-      // this.setState({ timeseriesDs });
+      this.setState({ dataJson: data, schemaJson: schema });
+    });
+  }
+
+  fetchDataAndSchema2() {
+    Promise.all([dataFetch2, schemaFetch2]).then(res => {
+      const data = res[0];
+      const schema = res[1];
       this.setState({ dataJson: data, schemaJson: schema });
     });
   }
@@ -161,8 +138,15 @@ export default class App extends Component {
 
   onChangeSize() {
     this.setState({
-      timeseriesDs: { ...this.state.timeseriesDs, height: '50%', width: '80%' }
+      height: '50%',
+      width: '80%'
     });
+  }
+
+  bindApiCaller(caller) {
+    // Now this.apiCaller will be a function where you can pass js code for the WebView
+    // to access the chart Object. See the method changeType.
+    this.apiCaller = caller;
   }
 
   render() {
@@ -173,26 +157,16 @@ export default class App extends Component {
         </Text>
         <View style={styles.chartContainer}>
           <ReactNativeFusionCharts
+            dataJson={this.state.dataJson}
+            schemaJson={this.state.schemaJson}
             type={this.state.type}
             width={this.state.width}
             height={this.state.height}
-            dataFormat={this.state.dataFormat}
             dataSource={this.state.dataSource}
-            containerBackgroundColor={this.state.containerBackgroundColor}
-            events={this.events}
             libraryPath={this.libraryPath}
-          />
-        </View>
-        <View style={styles.chartContainer}>
-          <ReactNativeFusionCharts
-            dataJson={this.state.dataJson}
-            schemaJson={this.state.schemaJson}
-            type={this.state.timeseriesDs.type}
-            width={this.state.timeseriesDs.width}
-            height={this.state.timeseriesDs.height}
-            dataFormat={this.state.timeseriesDs.dataFormat}
-            dataSource={this.state.timeseriesDs.dataSource}
-            libraryPath={this.libraryPath}
+            onDataTableInitialized={caller => {
+              this.bindApiCaller(caller);
+            }}
           />
         </View>
         <Text style={styles.text}>DisplayValue: {this.state.displayValue}</Text>
@@ -234,6 +208,6 @@ const styles = StyleSheet.create({
     margin: 13
   },
   chartContainer: {
-    height: 350
+    height: 450
   }
 });
