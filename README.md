@@ -1,10 +1,40 @@
-#### [Demos and Documentation](https://fusioncharts.github.io/react-native-fusioncharts/)
-
-# react-native-fusioncharts
-
 A `React Native` component which provides bindings for `FusionCharts` JavaScript Charting Library. It easily adds rich and interactive charts to any `React Native` Projects.
 
-## Installation
+## [Demo](https://fusioncharts.github.io/react-native-fusioncharts)
+
+- Github Repo: [https://github.com/fusioncharts/react-native-fusioncharts](https://github.com/fusioncharts/react-native-fusioncharts)
+- Documentation: [https://www.fusioncharts.com/dev/getting-started/react-native/your-first-chart-using-react-native](https://www.fusioncharts.com/dev/getting-started/react-native/your-first-chart-using-react-native)
+- Support: [https://www.fusioncharts.com/contact-support](https://www.fusioncharts.com/contact-support)
+- FusionCharts
+  - Official Website: [https://www.fusioncharts.com/](https://www.fusioncharts.com/)
+  - Official NPM Package: [https://www.npmjs.com/package/fusioncharts](https://www.npmjs.com/package/fusioncharts)
+- Issues: [https://github.com/fusioncharts/react-native-fusioncharts/issues](https://github.com/fusioncharts/react-native-fusioncharts/issues)
+
+---
+
+## Table of Contents
+
+- [Getting Started](#getting-started)
+  - [Requirements](#requirements)
+  - [Installation](#installation)
+  - [Setup for Android](#setup-for-android)
+  - [Setup for iOS](#setup-for-ios)
+  - [Working with chart API](#working-with-apis)
+  - [Working with events](#working-with-events)
+- [Quick Start](#quick-start)
+- [Going Beyond Charts](#going-beyond-charts)
+- [Usage and Integration of FusionTime](#usage-and-integration-of-fusionTime)
+- [For Contributors](#for-contributors)
+- [Licensing](#licensing)
+
+## Getting Started
+
+### Requirements
+
+- **Node.js**, **NPM/Yarn** installed globally in your OS.
+- A **react-native** application with **FusionCharts** installed in it
+
+### Installation
 
 To install `react-native-fusioncharts`, run:
 
@@ -14,7 +44,7 @@ $ npm install --save react-native-fusioncharts
 
 After installing `react-native-fusioncharts`, follow the steps below:
 
-### For Android
+### Setup for Android
 
 - Create `assets` folder in `android/app/src/main` directory if it doesn't exist.
 - Copy `FusionCharts` library in the `assets` folder (in most cases copy `node_modules/fusioncharts` folder).
@@ -22,10 +52,8 @@ After installing `react-native-fusioncharts`, follow the steps below:
 - Set `libraryPath` property to the `FusionCharts` component as follows:
 
 ```html
-<FusionCharts
-  ......
-  libraryPath={{ uri: 'file:///android_asset/fusioncharts.html' }}
-/>
+<FusionCharts ...... libraryPath={{ uri:
+'file:///android_asset/fusioncharts.html' }} />
 ```
 
 - Add the following script in Application's `package.json` file as follows to bundle your assets when you want to genarate a signed APK:
@@ -51,7 +79,7 @@ $ npm run prod:android
 
 Click [here](https://facebook.github.io/react-native/docs/signed-apk-android) to find more information
 
-### For iOS
+### Setup for iOS
 
 - Create `assets` folder in your project root if it doesn't exist.
 - Copy `FusionCharts` library in this `assets` folder (requires only when the licensed version of `FusionCharts` is used).
@@ -92,7 +120,7 @@ The `--fc-library ./assets/fusioncharts` option is only required when you copied
 $ npm run build:assets
 ```
 
-## Getting Started
+## Quick Start
 
 Include the `react-native-fusioncharts` library as follows:
 
@@ -176,7 +204,7 @@ const styles = StyleSheet.create({
 AppRegistry.registerComponent('ReactNativeFusionCharts', () => App);
 ```
 
-## Listening to Events
+## Working with Events
 
 In this sample we are attaching dataplotclick event in the chart.
 
@@ -268,7 +296,7 @@ const styles = StyleSheet.create({
 });
 ```
 
-## Calling chart APIs
+## Working with APIs
 
 In this sample we can change the chart type dynamically using chart APIs.
 
@@ -428,13 +456,128 @@ const styles = StyleSheet.create({
 });
 ```
 
-## Unit Test
+## Usage and integration of FusionTime
 
-```sh
-$ npm test
+From `fusioncharts@3.13.3-sr.1` and `react-native-fusioncharts@3.0.0`, You can visualize timeseries data easily on react.
+
+Learn more about FusionTime [here](https://www.fusioncharts.com/fusiontime).
+
+### Consider the example below for integration of FusionTime
+
+```js
+// In App.js
+import React, { Component } from 'react';
+import { AppRegistry, StyleSheet, Text, View, Platform } from 'react-native';
+import FusionCharts from 'react-native-fusioncharts';
+
+export default class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      type: 'timeseries',
+      width: '100%',
+      height: '100%',
+      dataFormat: 'json',
+      dataSource: {
+        data: null,
+        caption: {
+          text: 'Sales Analysis'
+        },
+        subcaption: {
+          text: 'Grocery'
+        },
+        yAxis: [
+          {
+            plot: {
+              value: 'Grocery Sales Value',
+              type: 'line'
+            },
+            format: {
+              prefix: '$'
+            },
+            title: 'Sale Value'
+          }
+        ]
+      },
+      schemaJson: null,
+      dataJson: null
+    };
+
+    this.libraryPath = Platform.select({
+      // Specify fusioncharts.html file location
+      ios: require('./assets/fusioncharts.html'),
+      android: { uri: 'file:///android_asset/fusioncharts.html' }
+    });
+  }
+
+  componentDidMount() {
+    this.fetchDataAndSchema();
+  }
+
+  fetchDataAndSchema() {
+    const jsonify = res => res.json();
+    const dFetch = fetch(
+      'https://s3.eu-central-1.amazonaws.com/fusion.store/ft/data/line-chart-with-time-axis-data.json'
+    ).then(jsonify);
+    // This is the remote url to fetch the schema.
+    const sFetch = fetch(
+      'https://s3.eu-central-1.amazonaws.com/fusion.store/ft/schema/line-chart-with-time-axis-schema.json'
+    ).then(jsonify);
+    Promise.all([dFetch, sFetch]).then(res => {
+      const data = res[0];
+      const schema = res[1];
+      console.log(data);
+      console.log(schema);
+      this.setState({ dataJson: data, schemaJson: schema });
+    });
+  }
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.heading}>
+          FusionCharts Integration with React Native
+        </Text>
+        <View style={styles.chartContainer}>
+          <FusionCharts
+            dataJson={this.state.dataJson}
+            schemaJson={this.state.schemaJson}
+            type={this.state.type}
+            width={this.state.width}
+            height={this.state.height}
+            dataFormat={this.state.dataFormat}
+            dataSource={this.state.dataSource}
+            libraryPath={this.libraryPath} // set the libraryPath property
+          />
+        </View>
+      </View>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 10
+  },
+  heading: {
+    fontSize: 20,
+    textAlign: 'center',
+    marginBottom: 10
+  },
+  chartContainer: {
+    height: 500
+  }
+});
 ```
 
-## Contributing
+## Going Beyond Charts
+
+- Explore 20+ pre-built business specific dashboards for different industries like energy and manufacturing to business functions like sales, marketing and operations [here](https://www.fusioncharts.com/explore/dashboards).
+- See [Data Stories](https://www.fusioncharts.com/explore/data-stories) built using FusionCharts’ interactive JavaScript visualizations and learn how to communicate real-world narratives through underlying data to tell compelling stories.
+
+## For Contributors
 
 - Clone the repository.
 - Install dependencies
@@ -475,4 +618,6 @@ To generate release iOS app, run:
 $ npm run build:ios
 ```
 
-### [Demos and Documentation](https://fusioncharts.github.io/react-native-fusioncharts/)
+## Licensing
+
+The FusionCharts React Native component is open-source and distributed under the terms of the MIT/X11 License. However, you will need to download and include FusionCharts library in your page separately, which has a [separate license](https://www.fusioncharts.com/buy).
