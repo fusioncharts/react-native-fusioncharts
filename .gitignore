@@ -4,6 +4,7 @@
 
 # Xcode
 #
+ios/
 build/
 *.pbxuser
 !default.pbxuser
@@ -24,6 +25,7 @@ project.xcworkspace
 
 # Android/IntelliJ
 #
+android/
 build/
 .idea
 .gradle
@@ -40,7 +42,6 @@ yarn-error.log
 buck-out/
 \.buckd/
 *.keystore
-!ReactNativeFusionCharts.keystore
 
 # fastlane
 #
@@ -53,4 +54,5 @@ buck-out/
 */fastlane/Preview.html
 */fastlane/screenshots
 
-coverage/
+# Bundle artifact
+*.jsbundle
