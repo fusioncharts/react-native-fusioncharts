@@ -8,14 +8,14 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "fusioncharts": "^3.13.1-sr.2",
+    "fusioncharts": "^3.13.3-sr.1",
     "vue": "^2.5.17",
     "vue-codemirror": "^4.0.5",
-    "vue-fusioncharts": "^2.0.1",
+    "vue-fusioncharts": "^3.0.2",
     "vue-router": "^3.0.1"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.0.5",
+    "@vue/cli-plugin-babel": "^3.4.1",
     "@vue/cli-plugin-eslint": "^3.0.5",
     "@vue/cli-service": "^3.0.5",
     "prettier": "^1.14.3",
