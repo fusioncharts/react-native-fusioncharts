@@ -147,7 +147,7 @@ export default {
       panels: [
         {
           type: "Javascript",
-          code: sampleCode["ex8"].code,
+          code: sampleCode["ex9"].code,
           mode: "javascript"
         },
         {

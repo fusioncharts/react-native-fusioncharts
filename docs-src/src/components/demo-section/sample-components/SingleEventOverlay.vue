@@ -225,7 +225,7 @@ export default {
       panels: [
         {
           type: "Javascript",
-          code: sampleCode["ex8"].code,
+          code: sampleCode["ex19"].code,
           mode: "javascript"
         },
         {
