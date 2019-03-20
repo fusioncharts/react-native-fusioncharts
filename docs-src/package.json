@@ -11,7 +11,7 @@
     "fusioncharts": "^3.13.3-sr.1",
     "vue": "^2.5.17",
     "vue-codemirror": "^4.0.5",
-    "vue-fusioncharts": "^3.0.2",
+    "vue-fusioncharts": "^3.0.0",
     "vue-router": "^3.0.1"
   },
   "devDependencies": {
