@@ -154,7 +154,12 @@ export default {
         },
         {
           type: "Data",
-          code: jsonData,
+          code: sampleCode["ex18"].data,
+          mode: "javascript"
+        },
+        {
+          type: "Schema",
+          code: sampleCode["ex18"].schema,
           mode: "javascript"
         }
       ]
@@ -170,6 +175,16 @@ export default {
       );
       this.dataSource.data = fusionTable;
     });
+  },
+  methods: {
+    onChartTypeChange: function(e) {
+      const chart = this.$refs.fc.chartObj,
+        type = e.target.value.toLowerCase();
+      chart.chartType(type);
+    },
+    selectTab: function(num) {
+      this.selectedPanel = num;
+    }
   }
 };
 </script>

@@ -149,6 +149,11 @@ export default {
           type: "Data",
           code: jsonData,
           mode: "javascript"
+        },
+        {
+          type: "Schema",
+          code: sampleCode["ex16"].schema,
+          mode: "javascript"
         }
       ]
     };

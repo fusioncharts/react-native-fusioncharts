@@ -104,6 +104,11 @@ export default {
           type: "Data",
           code: sampleCode["ex10"].data,
           mode: "javascript"
+        },
+        {
+          type: "Schema",
+          code: sampleCode["ex10"].schema,
+          mode: "javascript"
         }
       ]
     };

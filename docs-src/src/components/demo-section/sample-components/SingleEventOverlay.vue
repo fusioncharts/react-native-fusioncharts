@@ -177,6 +177,11 @@ export default {
           type: "Data",
           code: sampleCode["ex19"].data,
           mode: "javascript"
+        },
+        {
+          type: "Schema",
+          code: sampleCode["ex19"].schema,
+          mode: "javascript"
         }
       ]
     };
