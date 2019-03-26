@@ -9,10 +9,13 @@
             :height="height"
             :dataFormat="dataFormat"
             :dataSource="dataSource"
-            @dataplotClick="dataplotClick"
+            @beforeDataUpdate="beforeDataUpdate"
+            @dataUpdated="dataUpdated"
+            @drawComplete="drawComplete"
+            @renderComplete="renderComplete"
           ></fusioncharts>
-          <div :style="{textAlign: 'center', fontWeight: 'bold'}">Click on any Data Plot</div>
         </div>
+        <div v-html="displayValue" class="text-style"></div>
       </div>
     </div>
     <div class="code-view mt-2">
@@ -42,6 +45,7 @@
 
 <script>
 import sampleCode from "../../../assets/samples.js";
+
 const jsonData = `{
     "chart": {
         "caption": "Countries With Most Oil Reserves [2017-18]",
@@ -75,7 +79,7 @@ const jsonData = `{
     }, {
         "label": "China",
         "value": "30"
-    }],
+    }]
 }`;
 
 const myDataSource = {
@@ -123,7 +127,7 @@ const myDataSource = {
   ]
 };
 export default {
-  name: "ListenEventsComponent",
+  name: "LifeCycleEvents",
   data() {
     return {
       codeOptions: {
@@ -140,10 +144,11 @@ export default {
       dataFormat: "json",
       dataSource: myDataSource,
       selectedPanel: 0,
+      displayValue: "<b>Status: </b>",
       panels: [
         {
           type: "Javascript",
-          code: sampleCode["ex4"].code,
+          code: sampleCode["ex24"].code,
           mode: "javascript"
         },
         {
@@ -155,9 +160,21 @@ export default {
     };
   },
   methods: {
-    // uses the data of of the event and represents it
-    dataplotClick: function(e) {
-      alert(`You clicked on ${e.data.categoryLabel}`);
+    beforeDataUpdate: function() {
+      let prevValue = this.displayValue;
+      this.displayValue = prevValue + " beforeDataUpdate";
+    },
+    dataUpdated: function() {
+      let prevValue = this.displayValue;
+      this.displayValue = prevValue + ", dataUpdated";
+    },
+    drawComplete: function() {
+      let prevValue = this.displayValue;
+      this.displayValue = prevValue + ", drawComplete";
+    },
+    renderComplete: function() {
+      let prevValue = this.displayValue;
+      this.displayValue = prevValue + ", renderComplete";
     },
     selectTab: function(num) {
       this.selectedPanel = num;

@@ -2,16 +2,40 @@
   <div>
     <div class="card shadow">
       <div class="card-body chart-wrapper">
-        <div class="chart-wrapper-inner">
-          <fusioncharts
-            :type="type"
-            :width="width"
-            :height="height"
-            :dataFormat="dataFormat"
-            :dataSource="dataSource"
-            @dataplotClick="dataplotClick"
-          ></fusioncharts>
-          <div :style="{textAlign: 'center', fontWeight: 'bold'}">Click on any Data Plot</div>
+        <div class="min-size">
+          <div id="container" ref="container" class="chart-wrapper-inner dynamic-container">
+            <fusioncharts
+              :type="type"
+              :width="width"
+              :height="height"
+              :dataFormat="dataFormat"
+              :dataSource="dataSource"
+              ref="fc"
+              :style="{ 'width': '100%', 'height': '100%' }"
+            ></fusioncharts>
+          </div>
+        </div>
+        <br>
+        <span id="select-text">Select size:</span>
+        <div class="change-type">
+          <div>
+            <input name="chartSize" type="radio" @change="onChartSizeChange" value="400x250">
+            <label>400 &#10005; 250</label>
+          </div>
+          <div>
+            <input
+              name="chartSize"
+              type="radio"
+              @change="onChartSizeChange"
+              value="600x350"
+              checked
+            >
+            <label>600 &#10005; 350</label>
+          </div>
+          <div>
+            <input name="chartSize" type="radio" @change="onChartSizeChange" value="700x400">
+            <label>700 &#10005; 400</label>
+          </div>
         </div>
       </div>
     </div>
@@ -42,6 +66,7 @@
 
 <script>
 import sampleCode from "../../../assets/samples.js";
+
 const jsonData = `{
     "chart": {
         "caption": "Countries With Most Oil Reserves [2017-18]",
@@ -75,7 +100,7 @@ const jsonData = `{
     }, {
         "label": "China",
         "value": "30"
-    }],
+    }]
 }`;
 
 const myDataSource = {
@@ -123,7 +148,7 @@ const myDataSource = {
   ]
 };
 export default {
-  name: "ListenEventsComponent",
+  name: "ResponsiveCharts",
   data() {
     return {
       codeOptions: {
@@ -143,7 +168,7 @@ export default {
       panels: [
         {
           type: "Javascript",
-          code: sampleCode["ex4"].code,
+          code: sampleCode["ex27"].code,
           mode: "javascript"
         },
         {
@@ -155,9 +180,12 @@ export default {
     };
   },
   methods: {
-    // uses the data of of the event and represents it
-    dataplotClick: function(e) {
-      alert(`You clicked on ${e.data.categoryLabel}`);
+    // changes the height and width of the parent container of FusionCharts
+    onChartSizeChange: function(e) {
+      const container = this.$refs.container,
+        size = e.target.value.split("x");
+      container.style.width = size[0] + "px";
+      container.style.height = size[1] + "px";
     },
     selectTab: function(num) {
       this.selectedPanel = num;

@@ -19,6 +19,15 @@ import InteractiveCandleStick from '../components/demo-section/sample-components
 import MultiTimeAxis from '../components/demo-section/sample-components/MultiTimeAxis';
 import PlottingTwoVar from '../components/demo-section/sample-components/PlottingTwoVar';
 import SingleEventOverlay from '../components/demo-section/sample-components/SingleEventOverlay';
+import ColumnAreaLineCombi from '../components/demo-section/sample-components/ColumnAreaLineCombi';
+import PercentageCalculation from '../components/demo-section/sample-components/PercentageCalculation';
+import RenderAMap from '../components/demo-section/sample-components/RenderAMap';
+import SpecialEvents from '../components/demo-section/sample-components/SpecialEvents';
+import LifeCycleEvents from '../components/demo-section/sample-components/LifeCycleEvents';
+import SpecialChartApi from '../components/demo-section/sample-components/SpecialChartApi';
+import ResponsiveCharts from '../components/demo-section/sample-components/ResponsiveCharts';
+import Annotation from '../components/demo-section/sample-components/Annotation';
+import UpdateChartAttributeApi from '../components/demo-section/sample-components/UpdateChartAttributeApi';
 
 Vue.use(Router);
 
@@ -58,6 +67,15 @@ export default new Router({
       component: MultiTimeAxis
     },
     { path: '/plotting_two_variables', component: PlottingTwoVar },
-    { path: '/single_event_overlay', component: SingleEventOverlay }
+    { path: '/single_event_overlay', component: SingleEventOverlay },
+    { path: '/column_area_line_combi', component: ColumnAreaLineCombi },
+    { path: '/percentage_calculation', component: PercentageCalculation },
+    { path: '/render_a_map', component: RenderAMap },
+    { path: '/special_events', component: SpecialEvents },
+    { path: '/life_cycle_events', component: LifeCycleEvents },
+    { path: '/special_chart_api', component: SpecialChartApi },
+    { path: '/responsive_charts', component: ResponsiveCharts },
+    { path: '/annotation', component: Annotation },
+    { path: '/update_chart_attribute_api', component: UpdateChartAttributeApi }
   ]
 });

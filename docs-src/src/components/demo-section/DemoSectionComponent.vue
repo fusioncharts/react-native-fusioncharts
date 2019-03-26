@@ -200,6 +200,14 @@
                   </div>
                 </a>
               </router-link>
+              <router-link to="/column_area_line_combi">
+                <a>
+                  <div v-bind:class="getNavClass('/column_area_line_combi')">
+                    <div class="h5">{{sampleCode['ex20'].title}}</div>
+                    <div class="p item-desc">{{sampleCode['ex20'].description}}</div>
+                  </div>
+                </a>
+              </router-link>
               <router-link to="/column_and_line_combination_on_time_axis">
                 <a>
                   <div v-bind:class="getNavClass('/column_and_line_combination_on_time_axis')">
@@ -229,7 +237,7 @@
                       <div class="h5">{{sampleCode['ex18'].title}}</div>
                       <div class="h5 badge badge-normal">FusionTime</div>
                     </div>
-                    <div class="p item-desc">{{sampleCode['ex8'].description}}</div>
+                    <div class="p item-desc">{{sampleCode['ex18'].description}}</div>
                   </div>
                 </a>
               </router-link>
@@ -246,6 +254,14 @@
                   <div v-bind:class="getNavClass('/listen_to_events_from_chart')">
                     <div class="h5">{{sampleCode['ex4'].title}}</div>
                     <div class="p item-desc">{{sampleCode['ex4'].description}}</div>
+                  </div>
+                </a>
+              </router-link>
+              <router-link to="/percentage_calculation">
+                <a>
+                  <div v-bind:class="getNavClass('/percentage_calculation')">
+                    <div class="h5">{{sampleCode['ex21'].title}}</div>
+                    <div class="p item-desc">{{sampleCode['ex21'].description}}</div>
                   </div>
                 </a>
               </router-link>
@@ -301,11 +317,53 @@
                   </div>
                 </a>
               </router-link>
-              <router-link to="/applying_a_different_theme">
+              <router-link to="/render_a_map">
                 <a>
-                  <div v-bind:class="getNavClass('/applying_a_different_theme')">
-                    <div class="h5">{{sampleCode['ex7'].title}}</div>
-                    <div class="p item-desc">{{sampleCode['ex7'].description}}</div>
+                  <div v-bind:class="getNavClass('/render_a_map')">
+                    <div class="nav-group">
+                      <div class="h5">{{sampleCode['ex22'].title}}</div>
+                    </div>
+                    <div class="p item-desc">{{sampleCode['ex22'].description}}</div>
+                  </div>
+                </a>
+              </router-link>
+              <router-link to="/special_events">
+                <a>
+                  <div v-bind:class="getNavClass('/special_events')">
+                    <div class="nav-group">
+                      <div class="h5">{{sampleCode['ex24'].title}}</div>
+                    </div>
+                    <div class="p item-desc">{{sampleCode['ex24'].description}}</div>
+                  </div>
+                </a>
+              </router-link>
+              <router-link to="/life_cycle_events">
+                <a>
+                  <div v-bind:class="getNavClass('/life_cycle_events')">
+                    <div class="nav-group">
+                      <div class="h5">{{sampleCode['ex25'].title}}</div>
+                    </div>
+                    <div class="p item-desc">{{sampleCode['ex25'].description}}</div>
+                  </div>
+                </a>
+              </router-link>
+              <router-link to="/special_chart_api">
+                <a>
+                  <div v-bind:class="getNavClass('/special_chart_api')">
+                    <div class="nav-group">
+                      <div class="h5">{{sampleCode['ex26'].title}}</div>
+                    </div>
+                    <div class="p item-desc">{{sampleCode['ex26'].description}}</div>
+                  </div>
+                </a>
+              </router-link>
+              <router-link to="/responsive_charts">
+                <a>
+                  <div v-bind:class="getNavClass('/responsive_charts')">
+                    <div class="nav-group">
+                      <div class="h5">{{sampleCode['ex27'].title}}</div>
+                    </div>
+                    <div class="p item-desc">{{sampleCode['ex27'].description}}</div>
                   </div>
                 </a>
               </router-link>
@@ -314,6 +372,41 @@
                   <div v-bind:class="getNavClass('/change_chart_type_at_runtime')">
                     <div class="h5">{{sampleCode['ex8'].title}}</div>
                     <div class="p item-desc">{{sampleCode['ex8'].description}}</div>
+                  </div>
+                </a>
+              </router-link>
+              <router-link to="/annotation">
+                <a>
+                  <div v-bind:class="getNavClass('/annotation')">
+                    <div class="h5">{{sampleCode['ex28'].title}}</div>
+                    <div class="p item-desc">{{sampleCode['ex28'].description}}</div>
+                  </div>
+                </a>
+              </router-link>
+              <router-link to="/update_chart_attribute_api">
+                <a>
+                  <div v-bind:class="getNavClass('/update_chart_attribute_api')">
+                    <div class="h5">{{sampleCode['ex29'].title}}</div>
+                    <div class="p item-desc">{{sampleCode['ex29'].description}}</div>
+                  </div>
+                </a>
+              </router-link>
+              <router-link to="/applying_a_different_theme">
+                <a>
+                  <div v-bind:class="getNavClass('/applying_a_different_theme')">
+                    <div class="h5">{{sampleCode['ex7'].title}}</div>
+                    <div class="p item-desc">{{sampleCode['ex7'].description}}</div>
+                  </div>
+                </a>
+              </router-link>
+              <router-link to="/interactive_candlestick_chart">
+                <a>
+                  <div v-bind:class="getNavClass('/interactive_candlestick_chart')">
+                    <div class="nav-group">
+                      <div class="h5">{{sampleCode['ex16'].title}}</div>
+                      <div class="h5 badge badge-normal">FusionTime</div>
+                    </div>
+                    <div class="p item-desc">{{sampleCode['ex16'].description}}</div>
                   </div>
                 </a>
               </router-link>
