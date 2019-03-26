@@ -7,11 +7,24 @@
             :type="type"
             :width="width"
             :height="height"
+            ref="fc"
             :dataFormat="dataFormat"
             :dataSource="dataSource"
-            @dataplotClick="dataplotClick"
           ></fusioncharts>
-          <div :style="{textAlign: 'center', fontWeight: 'bold'}">Click on any Data Plot</div>
+        </div>
+        <div :style="{textAlign: 'center'}">
+          <button
+            class="btn btn-outline-secondary btn-sm"
+            @click="changeCaption"
+          >CHANGE CAPTION TO: CAPTION</button>
+          <button
+            class="btn btn-outline-secondary btn-sm"
+            @click="changeXAxisName"
+          >CHANGE X_AXIS NAME TO: X-AXIS NAME</button>
+          <button
+            class="btn btn-outline-secondary btn-sm"
+            @click="changeYAxisName"
+          >CHANGE Y_AXIS NAME TO: Y-AXIS NAME</button>
         </div>
       </div>
     </div>
@@ -42,6 +55,7 @@
 
 <script>
 import sampleCode from "../../../assets/samples.js";
+
 const jsonData = `{
     "chart": {
         "caption": "Countries With Most Oil Reserves [2017-18]",
@@ -75,7 +89,7 @@ const jsonData = `{
     }, {
         "label": "China",
         "value": "30"
-    }],
+    }]
 }`;
 
 const myDataSource = {
@@ -123,7 +137,7 @@ const myDataSource = {
   ]
 };
 export default {
-  name: "ListenEventsComponent",
+  name: "UpdateChartAttributeApi",
   data() {
     return {
       codeOptions: {
@@ -143,7 +157,7 @@ export default {
       panels: [
         {
           type: "Javascript",
-          code: sampleCode["ex4"].code,
+          code: sampleCode["ex29"].code,
           mode: "javascript"
         },
         {
@@ -155,9 +169,17 @@ export default {
     };
   },
   methods: {
-    // uses the data of of the event and represents it
-    dataplotClick: function(e) {
-      alert(`You clicked on ${e.data.categoryLabel}`);
+    changeCaption: function() {
+      const chart = this.$refs.fc.chartObj;
+      chart.setChartAttribute("caption", "Caption");
+    },
+    changeXAxisName: function() {
+      const chart = this.$refs.fc.chartObj;
+      chart.setChartAttribute("xAxisName", "X-Axis Name");
+    },
+    changeYAxisName: function() {
+      const chart = this.$refs.fc.chartObj;
+      chart.setChartAttribute("yAxisName", "Y-Axis Name");
     },
     selectTab: function(num) {
       this.selectedPanel = num;

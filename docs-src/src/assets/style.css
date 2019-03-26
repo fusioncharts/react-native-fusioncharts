@@ -135,6 +135,7 @@
 
 .chart-wrapper {
   overflow: auto;
+  text-align: center;
 }
 
 .chart-wrapper-inner .chart-hover {
@@ -469,4 +470,26 @@ body {
 .code {
   color: #dd5ec7;
   word-break: break-word;
+}
+
+.text-style {
+  padding: 10px;
+  background: #f5f2f0;
+  text-align: center;
+}
+
+.change-type {
+  display: inline-block;
+  margin: 0 10px;
+  text-align: center;
+}
+
+.dynamic-container {
+  height: 350px;
+  width: 600px;
+}
+
+.min-size {
+  height: 400px;
+  width: 700px;
 }

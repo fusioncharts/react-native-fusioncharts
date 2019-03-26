@@ -76,6 +76,11 @@ const jsonData = `{
         "label": "China",
         "value": "30"
     }],
+    "events": {
+      dataplotclick: (e, a) => {
+        Alert.alert(\`You clicked on \${e.data.categoryLabel}\`)
+      }     
+    }
 }`;
 
 const myDataSource = {
@@ -123,7 +128,7 @@ const myDataSource = {
   ]
 };
 export default {
-  name: "ListenEventsComponent",
+  name: "PercentageCalculation",
   data() {
     return {
       codeOptions: {
@@ -143,7 +148,7 @@ export default {
       panels: [
         {
           type: "Javascript",
-          code: sampleCode["ex4"].code,
+          code: sampleCode["ex21"].code,
           mode: "javascript"
         },
         {
@@ -154,10 +159,16 @@ export default {
       ]
     };
   },
+  created: function() {
+    let myData = this.dataSource.data;
+    this.total = myData.reduce((p, c) => p + Number(c.value), 0);
+  },
   methods: {
     // uses the data of of the event and represents it
     dataplotClick: function(e) {
-      alert(`You clicked on ${e.data.categoryLabel}`);
+      let value = ((e.data.value / this.total) * 100).toFixed(2);
+      let category = e.data.categoryLabel;
+      alert(`${category} is ${value}% of top 8 oil reserve countries`);
     },
     selectTab: function(num) {
       this.selectedPanel = num;

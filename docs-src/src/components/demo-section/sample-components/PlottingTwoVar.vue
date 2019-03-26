@@ -19,7 +19,7 @@
         <div class="code-nav-btns btn-group" role="group" aria-label="Basic example">
           <button
             v-for="(panel,i) in panels"
-            :class="`btn btn-code ${selectedPanel===i?'selected':''}`"
+            :class="`btn btn-code ${selectedPanel === i ? 'selected' : ''}`"
             :key="`btnpanel-${i}`"
             @click="()=>selectTab(i)"
           >{{ panel.type }}</button>
@@ -28,7 +28,7 @@
           v-for="(panel,i) in panels"
           :class="`card-body p-0`"
           :key="`btnpanel-${i}`"
-          :style="`display: ${selectedPanel===i?'block':'none'}`"
+          :style="`display: ${selectedPanel === i ? 'block' : 'none'}`"
         >
           <div v-if="selectedPanel===i" class="code-panel">
             <codemirror :code="panel.code" :options="codeOptions"/>
