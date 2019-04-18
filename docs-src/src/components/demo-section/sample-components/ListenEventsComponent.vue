@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import sampleCode from '../../../assets/samples.js';
+import sampleCode from "../../../assets/samples.js";
 const jsonData = `{
     "chart": {
         "caption": "Countries With Most Oil Reserves [2017-18]",
@@ -76,85 +76,80 @@ const jsonData = `{
         "label": "China",
         "value": "30"
     }],
-    "events": {
-      dataplotclick: (e, a) => {
-        Alert.alert(\`You clicked on \${e.data.categoryLabel}\`)
-      }     
-    }
 }`;
 
 const myDataSource = {
   chart: {
-    caption: 'Countries With Most Oil Reserves [2017-18]',
-    subCaption: 'In MMbbl = One Million barrels',
-    xAxisName: 'Country',
-    yAxisName: 'Reserves (MMbbl)',
-    numberSuffix: 'K',
-    theme: 'fusion'
+    caption: "Countries With Most Oil Reserves [2017-18]",
+    subCaption: "In MMbbl = One Million barrels",
+    xAxisName: "Country",
+    yAxisName: "Reserves (MMbbl)",
+    numberSuffix: "K",
+    theme: "fusion"
   },
   data: [
     {
-      label: 'Venezuela',
-      value: '290'
+      label: "Venezuela",
+      value: "290"
     },
     {
-      label: 'Saudi',
-      value: '260'
+      label: "Saudi",
+      value: "260"
     },
     {
-      label: 'Canada',
-      value: '180'
+      label: "Canada",
+      value: "180"
     },
     {
-      label: 'Iran',
-      value: '140'
+      label: "Iran",
+      value: "140"
     },
     {
-      label: 'Russia',
-      value: '115'
+      label: "Russia",
+      value: "115"
     },
     {
-      label: 'UAE',
-      value: '100'
+      label: "UAE",
+      value: "100"
     },
     {
-      label: 'US',
-      value: '30'
+      label: "US",
+      value: "30"
     },
     {
-      label: 'China',
-      value: '30'
+      label: "China",
+      value: "30"
     }
   ]
 };
 export default {
-  name: 'Pie2DComponent',
+  name: "ListenEventsComponent",
   data() {
     return {
       codeOptions: {
         lineNumbers: true,
-        theme: 'dracula',
-        tabSize: '4',
+        theme: "dracula",
+        tabSize: "4",
         smartIndent: true,
         readOnly: true,
-        mode: 'javascript'
+        mode: "javascript"
       },
-      type: 'column2d',
-      width: '100%',
-      height: '400',
-      dataFormat: 'json',
+      type: "column2d",
+      width: "100%",
+      height: "400",
+      dataFormat: "json",
       dataSource: myDataSource,
       selectedPanel: 0,
       panels: [
         {
-          type: 'Javascript',
-          code: sampleCode['ex4'].code,
-          mode: 'javascript'
+          type: "Javascript",
+          code: sampleCode["ex4"].code,
+          mode: "javascript"
         },
         {
-          type: 'Data',
+          type: "Data",
           code: jsonData,
-          mode: 'javascript'
+          mode: "javascript"
         }
       ]
     };

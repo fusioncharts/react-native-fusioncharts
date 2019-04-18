@@ -7,6 +7,7 @@ import './assets/github-theme/css/style.css';
 import './assets/style.css';
 import FusionCharts from 'fusioncharts';
 import Charts from 'fusioncharts/fusioncharts.charts';
+import TimeSeries from 'fusioncharts/fusioncharts.timeseries';
 import PowerCharts from 'fusioncharts/fusioncharts.powercharts';
 import Widgets from 'fusioncharts/fusioncharts.widgets';
 import Maps from 'fusioncharts/fusioncharts.maps';
@@ -27,6 +28,7 @@ Vue.use(
   VueFusionCharts,
   FusionCharts,
   Charts,
+  TimeSeries,
   PowerCharts,
   Widgets,
   Maps,
