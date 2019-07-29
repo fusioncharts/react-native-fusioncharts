@@ -9,8 +9,8 @@ export default class ReactNativeFusionCharts extends Component {
     super(props);
 
     this.state = {
-      dataJson: null,
-      schemaJson: null
+      dataJson: this.props.dataJson,
+      schemaJson: this.props.schemaJson
     };
 
     this.webViewLoaded = false;
@@ -19,24 +19,27 @@ export default class ReactNativeFusionCharts extends Component {
     this.oldOptions = null;
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.dataJson && nextProps.dataJson !== this.props.dataJson) {
-      this.setState({ dataJson: nextProps.dataJson }, () => {
-        this.updateTimeSeriesChart(nextProps, true);
-      });
-    }
+  static getDerivedStateFromProps(nextProps, prevState) {
     if (
-      nextProps.schemaJson &&
-      nextProps.schemaJson !== this.props.schemaJson
+      (nextProps.dataJson && nextProps.dataJson !== prevState.dataJson) ||
+      (nextProps.schemaJson && nextProps.schemaJson !== prevState.schemaJson)
     ) {
-      this.setState({ schemaJson: nextProps.schemaJson }, () => {
-        this.updateTimeSeriesChart(nextProps, true);
-      });
+      return { dataJson: nextProps.dataJson, schemaJson: nextProps.schemaJson };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.dataJson !== this.state.dataJson) {
+      this.updateTimeSeriesChart(this.props, true);
+    }
+    if (prevState.schemaJson !== this.state.schemaJson) {
+      this.updateTimeSeriesChart(this.props, true);
     }
     if (!this.oldOptions) {
       return;
     }
-    this.detectChanges(nextProps);
+    this.detectChanges(this.props);
   }
 
   onWebViewLoad() {
@@ -139,7 +142,8 @@ export default class ReactNativeFusionCharts extends Component {
   }
 
   updateTimeSeriesChart(chartConfigs, isJsonChanged) {
-    const script = `
+    if (this.state.schemaJson && this.state.dataJson) {
+      const script = `
       var chartConfigs = ${utils.portValueSafely(chartConfigs)};
       if(window.dataTable && ${!isJsonChanged}) {
         chartConfigs.dataSource.data = window.dataTable;
@@ -159,7 +163,8 @@ export default class ReactNativeFusionCharts extends Component {
       }
       window.chartObj.setChartData(chartConfigs.dataSource, 'json');
     `;
-    this.runInWebView(script);
+      this.runInWebView(script);
+    }
   }
 
   isSameChartData(currData, oldData) {
