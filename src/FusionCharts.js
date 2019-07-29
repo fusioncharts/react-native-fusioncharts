@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, WebView, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import { WebView } from 'react-native-webview';
 import * as utils from './utils/utils';
 import fusonChartsOptions from './utils/options';
 
@@ -422,7 +423,6 @@ export default class ReactNativeFusionCharts extends Component {
           onMessage={this.onWebViewMessage}
           javaScriptEnabled
           domStorageEnabled
-          scalesPageToFit
           mixedContentMode="compatibility"
           scrollEnabled={false}
           automaticallyAdjustContentInsets
