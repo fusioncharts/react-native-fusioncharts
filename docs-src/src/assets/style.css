@@ -135,6 +135,7 @@
 
 .chart-wrapper {
   overflow: auto;
+  text-align: center;
 }
 
 .chart-wrapper-inner .chart-hover {
@@ -444,4 +445,51 @@ body {
 .tables {
   width: 100%;
   text-align: left;
+}
+
+.badge {
+  font-size: 12px !important;
+  border-radius: 5px;
+  align-self: center;
+}
+
+.badge-selected {
+  background-color: white;
+}
+
+.badge-normal {
+  background-color: rgb(75, 63, 160);
+  color: white;
+}
+
+.nav-group {
+  display: flex;
+  justify-content: space-between;
+}
+
+.code {
+  color: #dd5ec7;
+  word-break: break-word;
+}
+
+.text-style {
+  padding: 10px;
+  background: #f5f2f0;
+  text-align: center;
+}
+
+.change-type {
+  display: inline-block;
+  margin: 0 10px;
+  text-align: center;
+}
+
+.dynamic-container {
+  height: 350px;
+  width: 600px;
+}
+
+.min-size {
+  height: 400px;
+  width: 700px;
 }

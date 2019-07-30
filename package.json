@@ -1,6 +1,6 @@
 {
   "name": "react-native-fusioncharts",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "description": "React Native component for FusionCharts Javascript Charting Library",
   "license": "MIT",
   "repository": {
@@ -55,7 +55,8 @@
     "cheerio": "^1.0.0-rc.2",
     "commander": "^2.13.0",
     "ejs": "^2.5.7",
-    "mkdirp": "^0.5.1"
+    "mkdirp": "^0.5.1",
+    "react-native-webview": "^5.12.1"
   },
   "devDependencies": {
     "babel-jest": "23.6.0",
@@ -66,11 +67,11 @@
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.5.1",
-    "fusioncharts": "^3.13.3-sr.1",
+    "fusioncharts": "^3.13.4",
     "jest": "23.6.0",
+    "metro-react-native-babel-preset": "0.51.1",
     "react": "16.6.3",
     "react-native": "0.57.8",
-    "metro-react-native-babel-preset": "0.51.1",
     "react-test-renderer": "16.6.3"
   },
   "jest": {
