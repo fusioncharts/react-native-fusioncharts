@@ -14,6 +14,7 @@ A `React Native` component which provides bindings for `FusionCharts` JavaScript
 
 ## Table of Contents
 
+- [Important Note](#imporatant-note)
 - [Getting Started](#getting-started)
   - [Requirements](#requirements)
   - [Installation](#installation)
@@ -26,6 +27,28 @@ A `React Native` component which provides bindings for `FusionCharts` JavaScript
 - [Usage and Integration of FusionTime](#usage-and-integration-of-fusionTime)
 - [For Contributors](#for-contributors)
 - [Licensing](#licensing)
+
+# Important Note
+
+Since `react-native-fusioncharts` v4.0.0, `webview` from `react-native` has been replaced with`react-native-webview` module, as the original `webview` module will be deprecated from `react-native`. So, if you're using `react-native` v0.60.0 and later version. Please update `react-native-fusioncharts`. And after that follow the given steps in your project:
+
+- Run the following command in your project
+
+```bash
+$ npm install react-native-webview
+```
+
+- After that link this module to your app
+
+```bash
+$ react-native link react-native-webview
+```
+
+- For iOS, go to your `ios` directory and run the following
+
+```bash
+$ pod install
+```
 
 ## Getting Started
 
