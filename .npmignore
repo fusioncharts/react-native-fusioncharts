@@ -3,3 +3,6 @@ android/
 ios/
 assets/
 templates/
+docs-src/
+docs
+ExampleApp
