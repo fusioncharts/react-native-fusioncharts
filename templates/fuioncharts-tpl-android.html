@@ -49,67 +49,66 @@
       </div>
     </div>
 
-    <script type="text/javascript">
-      'use strict';
-      (function() {
-        var a = Promise.resolve(),
-          b = {},
-          c = {};
-        (function d() {
-          var f = function() {
-            function g() {
-              return Math.floor(65536 * (1 + Math.random()))
-                .toString(16)
-                .substring(1);
-            }
-            return (
-              g() +
-              g() +
-              '-' +
-              g() +
-              '-' +
-              g() +
-              '-' +
-              g() +
-              '-' +
-              g() +
-              g() +
-              g()
-            );
+    <script>
+      var promiseChain = Promise.resolve();
+      var callbacks = {};
+      const guid = function() {
+        function s4() {
+          return Math.floor((1 + Math.random()) * 0x10000)
+            .toString(16)
+            .substring(1);
+        }
+        return (
+          s4() +
+          s4() +
+          '-' +
+          s4() +
+          '-' +
+          s4() +
+          '-' +
+          s4() +
+          '-' +
+          s4() +
+          s4() +
+          s4()
+        );
+      };
+      window.webViewBridge = {
+        /**
+         * send message to the React-Native WebView onMessage handler
+         * @param targetFunc - name of the function to invoke on the React-Native side
+         * @param data - data to pass
+         * @param success - success callback
+         * @param error - error callback
+         */
+        send: function(targetFunc, data, success, error) {
+          var msgObj = {
+            targetFunc: targetFunc,
+            data: data || {}
           };
-          (window.webViewBridge = {
-            send: function send(g, h, i, j) {
-              (i = i || function() {}), (j = j || function() {});
-              var k = { targetFunc: g, data: h || {}, msgId: f() },
-                l = JSON.stringify(k);
-              a = a
-                .then(function() {
-                  return new Promise(function(m, n) {
-                    (b[k.msgId] = { resolve: m, reject: n }),
-                      (c[k.msgId] = { onsuccess: i, onerror: j }),
-                      window.postMessage(l);
-                  });
-                })
-                .catch(function() {});
-            }
-          }),
-            window.document.addEventListener('message', function(g) {
-              var h;
-              try {
-                h = JSON.parse(g.data);
-              } catch (i) {
-                return;
-              }
-              b[h.msgId] && (b[h.msgId].resolve(), delete b[h.msgId]),
-                h.args &&
-                  c[h.msgId] &&
-                  (h.isSuccessfull
-                    ? c[h.msgId].onsuccess.apply(null, h.args)
-                    : c[h.msgId].onerror.apply(null, h.args),
-                  delete c[h.msgId]);
+          if (success || error) {
+            msgObj.msgId = guid();
+          }
+          var msg = JSON.stringify(msgObj);
+          promiseChain = promiseChain
+            .then(function() {
+              return new Promise(function(resolve, reject) {
+                console.log('sending message ' + msgObj.targetFunc);
+                if (msgObj.msgId) {
+                  callbacks[msgObj.msgId] = {
+                    onsuccess: success,
+                    onerror: error
+                  };
+                }
+                window.ReactNativeWebView.postMessage(msg);
+                resolve();
+              });
+            })
+            .catch(function(e) {
+              console.error('rnBridge send failed ' + e.message);
             });
-        })();
-      })();
+        }
+      };
     </script>
 
     <!-- Include the required FusionCharts modules -->
