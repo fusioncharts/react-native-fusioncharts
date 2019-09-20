@@ -48,8 +48,6 @@ export default class ReactNativeFusionCharts extends Component {
   }
 
   onWebViewMessage(e) {
-    this.webView.postMessage(e.nativeEvent.data);
-
     let msgData;
     try {
       msgData = JSON.parse(e.nativeEvent.data);
@@ -58,10 +56,7 @@ export default class ReactNativeFusionCharts extends Component {
     }
 
     if (msgData.targetFunc) {
-      const response = this[msgData.targetFunc].apply(this, [msgData.data]);
-      msgData.isSuccessfull = true;
-      msgData.args = [response];
-      this.webView.postMessage(JSON.stringify(msgData));
+      this[msgData.targetFunc].apply(this, [msgData.data]);
     }
   }
 
@@ -272,9 +267,9 @@ export default class ReactNativeFusionCharts extends Component {
       chartConfigs.renderAt = 'chart-container';
       chartConfigs.events = ${this.wrapEvents(chartOptions.events)};
       window.chartObj = new FusionCharts(chartConfigs);
-      window.chartObj.render();
     `;
       this.runInWebView(script);
+      this.runInWebView('window.chartObj.render()');
       this.oldOptions = chartOptions;
     }
   }
@@ -359,7 +354,7 @@ export default class ReactNativeFusionCharts extends Component {
 
     eventsMap.push(`'rendercomplete': function(eventObj, dataObj){
       window.webViewBridge.send('chartRendered', {
-        eventName: 'chartrendered' 
+        eventName: 'chartrendered'
       });
     }`);
     eventsMap = eventsMap.join(',');
