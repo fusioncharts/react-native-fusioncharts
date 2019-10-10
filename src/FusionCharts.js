@@ -352,7 +352,7 @@ export default class ReactNativeFusionCharts extends Component {
       }`
     );
 
-    eventsMap.push(`'rendercomplete': function(eventObj, dataObj){
+    eventsMap.push(`'initialized': function(eventObj, dataObj){
       window.webViewBridge.send('chartRendered', {
         eventName: 'chartrendered'
       });
