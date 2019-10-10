@@ -70,9 +70,9 @@
     "jest": "23.6.0",
     "metro-react-native-babel-preset": "0.51.1",
     "react": "16.6.3",
-    "react-native": "0.57.8",
-    "react-test-renderer": "16.6.3",
-    "react-native-webview": "^5.12.1"
+    "react-native": "^0.61.2",
+    "react-native-webview": "^5.12.1",
+    "react-test-renderer": "16.6.3"
   },
   "jest": {
     "preset": "react-native"
