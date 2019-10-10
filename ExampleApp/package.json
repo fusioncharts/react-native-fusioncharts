@@ -12,7 +12,7 @@
     "fusioncharts": "^3.14.0",
     "react": "16.8.6",
     "react-native": "0.60.4",
-    "react-native-fusioncharts": "^4.0.0",
+    "react-native-fusioncharts": "file:../",
     "react-native-webview": "^5.12.1"
   },
   "devDependencies": {
