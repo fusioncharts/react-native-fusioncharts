@@ -69,9 +69,9 @@
     "fusioncharts": "^3.13.4",
     "jest": "23.6.0",
     "metro-react-native-babel-preset": "0.51.1",
-    "react": "16.6.3",
+    "react": "16.9.0",
     "react-native": "^0.61.2",
-    "react-native-webview": "^5.12.1",
+    "react-native-webview": "^7.4.1",
     "react-test-renderer": "16.6.3"
   },
   "jest": {
