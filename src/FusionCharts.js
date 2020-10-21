@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { WebView } from 'react-native-webview';
 import * as utils from './utils/utils';
-import fusonChartsOptions from './utils/options';
+import fusionChartsOptions from './utils/options';
 
 export default class ReactNativeFusionCharts extends Component {
   constructor(props) {
@@ -74,7 +74,7 @@ export default class ReactNativeFusionCharts extends Component {
     this.checkAndUpdateChartData(currentOptions, oldOptions);
     this.checkAndUpdateEvents(currentOptions, oldOptions);
     this.checkAndUpdateRestOptions(
-      fusonChartsOptions.filter(
+      fusionChartsOptions.filter(
         option => optionsUpdatedNatively.indexOf(option) === -1
       ),
       currentOptions,
@@ -276,7 +276,7 @@ export default class ReactNativeFusionCharts extends Component {
 
   resolveChartOptions(props) {
     const chartConfig = props.chartConfig ? props.chartConfig : {};
-    const inlineOptions = fusonChartsOptions.reduce((options, optionName) => {
+    const inlineOptions = fusionChartsOptions.reduce((options, optionName) => {
       options[optionName] = props[optionName];
       return options;
     }, {});
