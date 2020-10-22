@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, PanResponder } from 'react-native';
 import { WebView } from 'react-native-webview';
 import * as utils from './utils/utils';
 import fusonChartsOptions from './utils/options';
@@ -7,16 +7,35 @@ import fusonChartsOptions from './utils/options';
 export default class ReactNativeFusionCharts extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       dataJson: this.props.dataJson,
-      schemaJson: this.props.schemaJson
+      schemaJson: this.props.schemaJson,
+      usePanresponder: this.props.usePanresponder
     };
 
     this.webViewLoaded = false;
     this.onWebViewLoad = this.onWebViewLoad.bind(this);
     this.onWebViewMessage = this.onWebViewMessage.bind(this);
     this.oldOptions = null;
+    this.gestureHandlers = PanResponder.create({
+      onPanResponderTerminationRequest: () => false,
+      onStartShouldSetPanResponder: (evt, gestureState) => true,
+      onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
+      onMoveShouldSetPanResponder: (evt, gestureState) => true,
+      onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
+      onPanResponderGrant: (evt, gestureState) => {
+        // Panresponder Granted
+      },
+      onPanResponderMove: (evt, gestureState) => {
+        // Panresponder Moving
+      },
+     onPanResponderTerminate: (evt, gestureState) => {
+        // Panresponder Terminate
+      },
+      onPanResponderRelease: (evt, gestureState) => {
+        // Panresponder Release
+      },
+    });
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -409,26 +428,50 @@ export default class ReactNativeFusionCharts extends Component {
   }
 
   render() {
-    return (
-      <View style={this.resolveChartStyles()}>
-        <WebView
-          originWhitelist={['*']}
-          useWebkit
-          style={styles.webview}
-          ref={webView => {
-            this.webView = webView;
-          }}
-          source={this.props.libraryPath}
-          onLoad={this.onWebViewLoad}
-          onMessage={this.onWebViewMessage}
-          javaScriptEnabled
-          domStorageEnabled
-          mixedContentMode="compatibility"
-          scrollEnabled={false}
-          automaticallyAdjustContentInsets
-        />
-      </View>
-    );
+    if (this.state.usePanresponder) {
+      return (
+        <View style={this.resolveChartStyles()}>
+          <WebView
+            originWhitelist={['*']}
+            useWebkit
+            style={styles.webview}
+            ref={webView => {
+              this.webView = webView;
+            }}
+            source={this.props.libraryPath}
+            onLoad={this.onWebViewLoad}
+            onMessage={this.onWebViewMessage}
+            javaScriptEnabled
+            domStorageEnabled
+            mixedContentMode="compatibility"
+            scrollEnabled={false}
+            automaticallyAdjustContentInsets
+            {...this.gestureHandlers}
+          />
+        </View>
+      );
+    } else {
+      return (
+        <View style={this.resolveChartStyles()}>
+          <WebView
+            originWhitelist={['*']}
+            useWebkit
+            style={styles.webview}
+            ref={webView => {
+              this.webView = webView;
+            }}
+            source={this.props.libraryPath}
+            onLoad={this.onWebViewLoad}
+            onMessage={this.onWebViewMessage}
+            javaScriptEnabled
+            domStorageEnabled
+            mixedContentMode="compatibility"
+            scrollEnabled={false}
+            automaticallyAdjustContentInsets
+          />
+        </View>
+      );
+    }
   }
 }
 
