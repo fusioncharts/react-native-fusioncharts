@@ -3,3 +3,4 @@
 .expo-shared/
 assets/
 bin/
+node_modules/
