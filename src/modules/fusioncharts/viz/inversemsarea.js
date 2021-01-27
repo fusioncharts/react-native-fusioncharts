@@ -1,0 +1,1 @@
+import Inversemsarea from"@fusioncharts/powercharts/src/chart/inversemsarea";export default Inversemsarea;

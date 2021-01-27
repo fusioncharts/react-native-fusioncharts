@@ -1,0 +1,1 @@
+import Angulargauge from"@fusioncharts/widgets/src/chart/angulargauge";export default Angulargauge;

@@ -1,0 +1,1 @@
+import Line from"@fusioncharts/charts/src/chart/line";export default Line;

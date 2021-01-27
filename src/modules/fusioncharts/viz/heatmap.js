@@ -1,0 +1,1 @@
+import Heatmap from"@fusioncharts/powercharts/src/chart/heatmap";export default Heatmap;

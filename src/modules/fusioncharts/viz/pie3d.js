@@ -1,0 +1,1 @@
+import Pie3d from"@fusioncharts/charts/src/chart/pie3d";export default Pie3d;

@@ -1,0 +1,1 @@
+import Msstackedcolumn2dlinedy from"@fusioncharts/charts/src/chart/msstackedcolumn2dlinedy";export default Msstackedcolumn2dlinedy;

@@ -1,0 +1,1 @@
+import Bulb from"@fusioncharts/widgets/src/chart/bulb";export default Bulb;

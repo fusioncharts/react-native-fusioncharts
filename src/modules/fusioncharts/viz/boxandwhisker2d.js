@@ -1,0 +1,1 @@
+import Boxandwhisker2d from"@fusioncharts/powercharts/src/chart/boxandwhisker2d";export default Boxandwhisker2d;

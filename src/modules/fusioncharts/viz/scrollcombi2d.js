@@ -1,0 +1,1 @@
+import Scrollcombi2d from"@fusioncharts/charts/src/chart/scrollcombi2d";export default Scrollcombi2d;

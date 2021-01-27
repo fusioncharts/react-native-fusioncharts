@@ -1,0 +1,1 @@
+import Pyramid from"@fusioncharts/widgets/src/chart/pyramid";export default Pyramid;

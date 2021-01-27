@@ -1,0 +1,1 @@
+import Column3d from"@fusioncharts/charts/src/chart/column3d";export default Column3d;

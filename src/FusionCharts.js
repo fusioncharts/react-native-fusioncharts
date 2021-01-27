@@ -1,22 +1,45 @@
-import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
-import { WebView } from 'react-native-webview';
-import * as utils from './utils/utils';
-import fusionChartsOptions from './utils/options';
+import React, { Component } from "react";
+import { View, StyleSheet, Platform } from "react-native";
+import { WebView } from "react-native-webview";
+import { Asset, FileSystem } from "react-native-unimodules";
+import * as MediaLibrary from "expo-media-library";
+import {
+  askAsync,
+  MEDIA_LIBRARY_WRITE_ONLY,
+  NOTIFICATIONS,
+} from "expo-permissions";
+import * as Notifications from "expo-notifications";
+import * as Sharing from "expo-sharing";
+import * as utils from "./utils/utils";
+import fusonChartsOptions from "./utils/options";
+import FusionChartsModule from "./FusionChartsModule";
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: false,
+  }),
+});
+const stringifiedScripts = {};
 
 export default class ReactNativeFusionCharts extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      dataJson: this.props.dataJson,
-      schemaJson: this.props.schemaJson
+      type: props.type || "",
+      dataJson: props.dataJson,
+      schemaJson: props.schemaJson,
+      modules: props.modules || [],
+      fcModulesReady: false,
+      licenseConfig: global.licenseConfig || {},
     };
 
     this.webViewLoaded = false;
-    this.onWebViewLoad = this.onWebViewLoad.bind(this);
-    this.onWebViewMessage = this.onWebViewMessage.bind(this);
     this.oldOptions = null;
+
+    this.setFcAssets();
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -42,40 +65,122 @@ export default class ReactNativeFusionCharts extends Component {
     this.detectChanges(this.props);
   }
 
-  onWebViewLoad() {
+  onWebViewLoad = () => {
     this.webViewLoaded = true;
     this.renderChart();
-  }
+  };
 
-  onWebViewMessage(e) {
-    let msgData;
+  onWebViewMessage = async (e) => {
+    let msgData, data;
     try {
       msgData = JSON.parse(e.nativeEvent.data);
+      data = msgData.data;
     } catch (err) {
       return;
     }
-
     if (msgData.targetFunc) {
-      this[msgData.targetFunc].apply(this, [msgData.data]);
+      this[msgData.targetFunc].apply(this, [data]);
     }
-  }
+    if (data.eventName === "download") {
+      this.exportData(data);
+    }
+  };
+
+  exportData = async (data) => {
+    let extension, base64Code;
+    const { status } = await askAsync(MEDIA_LIBRARY_WRITE_ONLY);
+    const fileUri = FileSystem.documentDirectory + data.name;
+
+    if (status === "granted") {
+      extension = data.name.substr(data.name.indexOf(".") + 1);
+
+      switch (extension) {
+        case "jpg": {
+          console.log(data);
+          base64Code = data.edata.split("data:image/jpeg;base64,")[1];
+          break;
+        }
+        case "png": {
+          base64Code = data.edata.split("data:image/png;base64,")[1];
+          break;
+        }
+        case "svg": {
+          base64Code = data.edata.split("data:image/svg+xml;base64,")[1];
+          break;
+        }
+        case "pdf": {
+          base64Code = data.edata.split("data:application/pdf;base64,")[1];
+          break;
+        }
+        case "csv": {
+          if (Platform.OS === "ios") {
+            base64Code = data.edata.split("data:text/csv;base64,")[1];
+          } else {
+            base64Code = data.edata.split("data:text/csv;base64;;base64,")[1];
+          }
+          break;
+        }
+        case "xlsx": {
+          base64Code = data.edata.split(
+            "data:application/vnd.ms-excel;base64,"
+          )[1];
+          break;
+        }
+      }
+
+      FileSystem.writeAsStringAsync(fileUri, base64Code, {
+        encoding: FileSystem.EncodingType.Base64,
+      }).then(() => {
+        if (Platform.OS === "ios") {
+          Sharing.shareAsync(fileUri);
+        }
+
+        if (Platform.OS === "android") {
+          Sharing.shareAsync(fileUri);
+          MediaLibrary.saveToLibraryAsync(fileUri).then(async () => {
+            await askAsync(NOTIFICATIONS);
+
+            Notifications.setNotificationChannelAsync("download", {
+              name: "download notifications",
+              sound: "email-sound.wav",
+            });
+
+            Notifications.scheduleNotificationAsync({
+              content: {
+                title: `${data.name}`,
+                body: `Download complete`,
+                sound: "email-sound.wav",
+                data: { data: fileUri },
+              },
+              trigger: {
+                seconds: 1,
+                channelId: "download",
+              },
+            });
+          });
+        }
+      });
+    } else {
+      await askAsync(MEDIA_LIBRARY_WRITE_ONLY);
+    }
+  };
 
   detectChanges(nextProps) {
     const currentOptions = this.resolveChartOptions(nextProps);
     const { oldOptions } = this;
     const optionsUpdatedNatively = [
-      'type',
-      'dataFormat',
-      'dataSource',
-      'events'
+      "type",
+      "dataFormat",
+      "dataSource",
+      "events",
     ];
 
     this.checkAndUpdateChartType(currentOptions, oldOptions);
     this.checkAndUpdateChartData(currentOptions, oldOptions);
     this.checkAndUpdateEvents(currentOptions, oldOptions);
     this.checkAndUpdateRestOptions(
-      fusionChartsOptions.filter(
-        option => optionsUpdatedNatively.indexOf(option) === -1
+      fusonChartsOptions.filter(
+        (option) => optionsUpdatedNatively.indexOf(option) === -1
       ),
       currentOptions,
       oldOptions
@@ -104,7 +209,7 @@ export default class ReactNativeFusionCharts extends Component {
     const oldData = oldOptions.dataSource;
 
     if (
-      currentOptions.type === 'timeseries' &&
+      currentOptions.type === "timeseries" &&
       !utils.isUndefined(currData) &&
       !this.isSameChartData(currData, oldData)
     ) {
@@ -129,7 +234,7 @@ export default class ReactNativeFusionCharts extends Component {
         this.runInWebView(`
           window.chartObj.setChartData(
             ${utils.portValueSafely(currData)},
-            '${currDataFormat ? String(currDataFormat).toLowerCase() : 'json'}'
+            '${currDataFormat ? String(currDataFormat).toLowerCase() : "json"}'
           );
         `);
       }
@@ -175,7 +280,7 @@ export default class ReactNativeFusionCharts extends Component {
 
     const currEventNames = currEvents ? Object.keys(currEvents) : [];
     const oldEventNames = oldEvents ? Object.keys(oldEvents) : [];
-    currEventNames.forEach(eventName => {
+    currEventNames.forEach((eventName) => {
       if (oldEventNames.indexOf(eventName) === -1) {
         this.runInWebView(`
           window.chartObj.addEventListener('${eventName}', function(eventObj, dataObj) {
@@ -199,7 +304,7 @@ export default class ReactNativeFusionCharts extends Component {
 
   checkAndUpdateRestOptions(restOptions, currentOptions, oldOptions) {
     let optionsUpdated = false;
-    restOptions.forEach(optionName => {
+    restOptions.forEach((optionName) => {
       const currValue = currentOptions[optionName];
       const oldValue = oldOptions[optionName];
 
@@ -231,10 +336,59 @@ export default class ReactNativeFusionCharts extends Component {
     return String(currValue) === String(oldValue);
   }
 
+  setFcAssets = async () => {
+    try {
+      await this.setLayout();
+      await this.addScript("fusioncharts", null);
+      await this.addScript("fusioncharts.charts", null);
+      await this.addScript("fusioncharts.theme.fusion", null);
+      await this.addScript("fusioncharts.excelexport", null);
+      for (const module of this.state.modules) {
+        await this.addScript(module, true);
+      }
+      this.setState({
+        fcModulesReady: true,
+      });
+    } catch (error) {
+      console.error("Failed to fetch scripts or layout. " + error.message);
+    }
+  };
+
+  setLayout = async () => {
+    const indexHtml = Asset.fromModule(require("./modules/index.html"));
+
+    this.setState({
+      layoutHTML: await this.getAssetAsString(indexHtml),
+    });
+  };
+
+  getAssetAsString = async (asset) => {
+    const downloadedModules = await FileSystem.readDirectoryAsync(
+      FileSystem.cacheDirectory
+    );
+    let fileName = "ExponentAsset-" + asset.hash + "." + asset.type;
+
+    if (!downloadedModules.includes(fileName)) {
+      await asset.downloadAsync();
+    }
+
+    return await FileSystem.readAsStringAsync(
+      FileSystem.cacheDirectory + fileName
+    );
+  };
+
+  addScript = async (name, isModule) => {
+    const script = Asset.fromModule(
+      isModule ? FusionChartsModule.modules[name] : FusionChartsModule[name]
+    );
+    stringifiedScripts[name] = await this.getAssetAsString(script);
+  };
+
   renderChart() {
     const chartOptions = this.resolveChartOptions(this.props);
-    if (this.props.type === 'timeseries') {
-      const script = `
+    let script;
+    if (this.state.type === "timeseries") {
+      script = `
       var chartConfigs = ${utils.portValueSafely(chartOptions)};
       chartConfigs.width = '100%';
       chartConfigs.height = '100%';
@@ -256,27 +410,27 @@ export default class ReactNativeFusionCharts extends Component {
       }
       window.chartObj = new FusionCharts(chartConfigs);
       window.chartObj.render();
+      FusionCharts.options.license(${JSON.stringify(this.state.licenseConfig)});
     `;
-      this.runInWebView(script);
-      this.oldOptions = chartOptions;
     } else {
-      const script = `
+      script = `
       var chartConfigs = ${utils.portValueSafely(chartOptions)};
       chartConfigs.width = '100%';
       chartConfigs.height = '100%';
       chartConfigs.renderAt = 'chart-container';
       chartConfigs.events = ${this.wrapEvents(chartOptions.events)};
       window.chartObj = new FusionCharts(chartConfigs);
+      window.chartObj.render();
+      FusionCharts.options.license(${JSON.stringify(this.state.licenseConfig)});
     `;
-      this.runInWebView(script);
-      this.runInWebView('window.chartObj.render()');
-      this.oldOptions = chartOptions;
     }
+    this.runInWebView(script);
+    this.oldOptions = chartOptions;
   }
 
   resolveChartOptions(props) {
     const chartConfig = props.chartConfig ? props.chartConfig : {};
-    const inlineOptions = fusionChartsOptions.reduce((options, optionName) => {
+    const inlineOptions = fusonChartsOptions.reduce((options, optionName) => {
       options[optionName] = props[optionName];
       return options;
     }, {});
@@ -288,7 +442,7 @@ export default class ReactNativeFusionCharts extends Component {
     ) {
       inlineOptions.dataSource = utils.cloneDataSource(
         inlineOptions.dataSource,
-        'clone'
+        "clone"
       );
     } else if (
       utils.isObject(inlineOptions.dataSource) &&
@@ -305,13 +459,13 @@ export default class ReactNativeFusionCharts extends Component {
     return inlineOptions;
   }
 
-  runInWebView(script) {
+  runInWebView = (script) => {
     if (this.webViewLoaded) {
       this.webView.injectJavaScript(`
         (function() { ${script} })();
       `);
     }
-  }
+  };
 
   resolveChartStyles() {
     const dimenStyles = {};
@@ -336,7 +490,7 @@ export default class ReactNativeFusionCharts extends Component {
 
   wrapEvents(events = {}) {
     let eventsMap = Object.keys(events).map(
-      eventName => `'${eventName}': function(eventObj, dataObj) {
+      (eventName) => `'${eventName}': function(eventObj, dataObj) {
         window.webViewBridge.send('handleChartEvents', {
           eventName: '${eventName}',
           eventObj: {
@@ -357,11 +511,11 @@ export default class ReactNativeFusionCharts extends Component {
         eventName: 'chartrendered'
       });
     }`);
-    eventsMap = eventsMap.join(',');
+    eventsMap = eventsMap.join(",");
     return `{ ${eventsMap} }`;
   }
 
-  dataTableOperation(funcName, ...args) {
+  dataTableOperation = (funcName, ...args) => {
     const argsStr = args.length && JSON.stringify(args);
     const script = `
       if(window.dataTable) {
@@ -377,9 +531,9 @@ export default class ReactNativeFusionCharts extends Component {
       }
     `;
     this.runInWebView(script);
-  }
+  };
 
-  dataStoreOperation(funcName, ...args) {
+  dataStoreOperation = (funcName, ...args) => {
     const script = `
       if(window.dataSource) {
         var dataSource = window.dataSource;
@@ -394,47 +548,92 @@ export default class ReactNativeFusionCharts extends Component {
       }
     `;
     this.runInWebView(script);
-  }
+  };
+
+  runFcApiInWebView = (script) => {
+    if (this.webViewLoaded) {
+      this.webView.injectJavaScript(`
+      (function() { window.chartObj.${script} })();
+      `);
+    }
+  };
 
   chartRendered() {
     if (this.props.onInitialized) {
-      this.props.onInitialized(this.runInWebView.bind(this));
+      this.props.onInitialized(this.runFcApiInWebView);
     }
     if (this.props.onDataTableInitialized) {
-      this.props.onDataTableInitialized(this.dataTableOperation.bind(this));
+      this.props.onDataTableInitialized(this.dataTableOperation);
     }
     if (this.props.onDataStoreInitialized) {
-      this.props.onDataStoreInitialized(this.dataStoreOperation.bind(this));
+      this.props.onDataStoreInitialized(this.dataStoreOperation);
     }
   }
 
   render() {
-    return (
-      <View style={this.resolveChartStyles()}>
-        <WebView
-          originWhitelist={['*']}
-          useWebkit
-          style={styles.webview}
-          ref={webView => {
-            this.webView = webView;
-          }}
-          source={this.props.libraryPath}
-          onLoad={this.onWebViewLoad}
-          onMessage={this.onWebViewMessage}
-          javaScriptEnabled
-          domStorageEnabled
-          mixedContentMode="compatibility"
-          scrollEnabled={false}
-          automaticallyAdjustContentInsets
-        />
-      </View>
-    );
+    if (this.state.fcModulesReady) {
+      const runFirst = `
+      var modulesList = ${JSON.stringify(this.state.modules)};
+      var readable = ${JSON.stringify(stringifiedScripts)};
+        function loadScripts(file, callback) {
+            var fcScript = document.createElement('script');
+            fcScript.innerHTML = readable[file]
+            document.body.appendChild(fcScript);
+
+            if (callback) {
+                callback.call();
+            }
+        }
+        
+        loadScripts('fusioncharts', function () {
+          loadScripts('fusioncharts.charts', function () {
+            loadScripts('fusioncharts.theme.fusion', function () {
+              loadScripts('fusioncharts.excelexport', function () {
+                if (modulesList.length > 0) {
+                  for (var i = 0; i < modulesList.length; i++) {
+                    loadScripts(modulesList[i], undefined);
+                  }
+                }
+              });
+            });
+          });
+      }, false);
+    `;
+
+      return (
+        <View style={this.resolveChartStyles()}>
+          <WebView
+            originWhitelist={["*"]}
+            useWebkit
+            style={styles.webview}
+            ref={(webView) => {
+              this.webView = webView;
+            }}
+            source={{
+              html: this.state.layoutHTML,
+            }}
+            injectedJavaScript={runFirst}
+            onLoad={this.onWebViewLoad}
+            onMessage={this.onWebViewMessage}
+            javaScriptEnabled
+            domStorageEnabled
+            mixedContentMode="compatibility"
+            allowFileAccess
+            allowFileAccessFromFileURLs
+            scrollEnabled={false}
+            automaticallyAdjustContentInsets
+          />
+        </View>
+      );
+    } else {
+      return <View></View>;
+    }
   }
 }
 
 const styles = StyleSheet.create({
   webview: {
     flex: 1,
-    backgroundColor: 'transparent'
-  }
+    backgroundColor: "transparent",
+  },
 });

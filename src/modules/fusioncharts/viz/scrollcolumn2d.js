@@ -1,0 +1,1 @@
+import Scrollcolumn2d from"@fusioncharts/charts/src/chart/scrollcolumn2d";export default Scrollcolumn2d;
