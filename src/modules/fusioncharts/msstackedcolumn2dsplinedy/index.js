@@ -1,0 +1,1 @@
+import MSStackedColumn2DSplineDY from"../viz/msstackedcolumn2dsplinedy";export{MSStackedColumn2DSplineDY};export default{name:"msstackedcolumn2dsplinedy",type:"package",requiresFusionCharts:true,extension:FusionCharts=>FusionCharts.addDep(MSStackedColumn2DSplineDY)};

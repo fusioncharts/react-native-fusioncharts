@@ -1,0 +1,1 @@
+import Errorbar2d from"@fusioncharts/powercharts/src/chart/errorbar2d";export default Errorbar2d;

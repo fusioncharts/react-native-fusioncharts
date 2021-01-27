@@ -1,0 +1,1 @@
+import Msbar2d from"@fusioncharts/charts/src/chart/msbar2d";export default Msbar2d;

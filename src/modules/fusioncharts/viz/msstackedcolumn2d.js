@@ -1,0 +1,1 @@
+import Msstackedcolumn2d from"@fusioncharts/charts/src/chart/msstackedcolumn2d";export default Msstackedcolumn2d;

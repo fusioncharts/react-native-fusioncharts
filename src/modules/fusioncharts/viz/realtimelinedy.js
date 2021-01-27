@@ -1,0 +1,1 @@
+import Realtimelinedy from"@fusioncharts/widgets/src/chart/realtimelinedy";export default Realtimelinedy;

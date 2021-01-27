@@ -1,0 +1,1 @@
+import Spline from"@fusioncharts/powercharts/src/chart/spline";export default Spline;

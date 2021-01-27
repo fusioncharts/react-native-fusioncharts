@@ -1,0 +1,1 @@
+import Vled from"@fusioncharts/widgets/src/chart/vled";export default Vled;
