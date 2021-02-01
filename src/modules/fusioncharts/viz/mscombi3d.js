@@ -1,0 +1,1 @@
+import Mscombi3d from"@fusioncharts/charts/src/chart/mscombi3d";export default Mscombi3d;

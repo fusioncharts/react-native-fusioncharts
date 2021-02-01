@@ -1,83 +1,43 @@
 {
   "name": "react-native-fusioncharts",
-  "version": "4.1.2",
+  "version": "1.2.11",
   "description": "React Native component for FusionCharts Javascript Charting Library",
   "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/fusioncharts/react-native-fusioncharts"
-  },
-  "bin": {
-    "fc-build-assets": "./bin/fc-assets-builder.js"
-  },
   "scripts": {
-    "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest --coverage --verbose",
-    "build:assets": "node ./bin/fc-assets-builder.js",
-    "android": "npm run build:assets && react-native run-android",
-    "ios": "npm run build:assets && react-native run-ios",
-    "android:release": "npm run build:assets && react-native run-android --variant=release",
-    "ios:release": "npm run build:assets && react-native run-ios --configuration Release",
-    "build:android": "npm run build:assets && cd android && ./gradlew assembleRelease && cd ..",
-    "build:ios": "npm run build:assets && react-native run-ios --configuration Release",
-    "build-samples": "mkdir -p docs && cd docs-src/ && VUE_MODE=prod npm run build && rm -rf ../docs/* && cp -r dist/* ../docs && cd .."
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "eject": "expo eject",
+    "clean:FC": "rimraf ./src/modules/fusioncharts",
+    "copy:FC": "cp -r ./node_modules/fusioncharts ./src/modules/fusioncharts",
+    "clean:package": "rimraf ./src/modules/fusioncharts/package.json",
+    "addDep:RN": "node ./bin/fc-builder.js",
+    "build:FC": "npm run clean:FC && npm run copy:FC && npm run clean:package && npm run addDep:RN && gulp"
   },
-  "author": {
-    "name": "FusionCharts",
-    "email": "support@fusioncharts.com"
-  },
-  "contributors": [
-    {
-      "name": "Ashok Mandal",
-      "email": "askipop@gmail.com",
-      "url": "https://github.com/ashok1994"
-    },
-    {
-      "name": "Rohan Dey",
-      "email": "rohanoid5@gmail.com",
-      "url": "https://github.com/rohanoid5"
-    }
-  ],
-  "main": "src/FusionCharts.js",
-  "bugs": {
-    "url": "https://github.com/fusioncharts/react-native-fusioncharts/issues"
-  },
-  "keywords": [
-    "android",
-    "ios",
-    "fusioncharts",
-    "wrapper",
-    "react",
-    "react-native",
-    "chart"
-  ],
   "dependencies": {
-    "acorn": "^5.7.4",
-    "cheerio": "^1.0.0-rc.2",
-    "commander": "^2.13.0",
-    "ejs": "^2.5.7",
-    "handlebars": "^4.7.3",
-    "mkdirp": "^0.5.1",
-    "websocket-extensions": "^0.1.4"
+    "expo": "~40.0.0",
+    "expo-status-bar": "~1.0.3",
+    "react-dom": "16.13.1",
+    "react-native-unimodules": "^0.12.0",
+    "react-native-web": "~0.13.12",
+    "expo-media-library": "~10.0.0",
+    "expo-notifications": "^0.8.2",
+    "expo-sharing": "^8.5.0",
+    "react-native-webview": "^11.0.0"
   },
   "devDependencies": {
-    "babel-jest": "23.6.0",
-    "babel-preset-react-native": "4.0.0",
-    "eslint": "^4.13.1",
-    "eslint-config-airbnb": "^16.1.0",
-    "eslint-config-prettier": "^3.1.0",
-    "eslint-plugin-import": "^2.8.0",
-    "eslint-plugin-jsx-a11y": "^6.0.3",
-    "eslint-plugin-react": "^7.5.1",
-    "fusioncharts": "^3.13.4",
-    "jest": "23.6.0",
-    "metro-react-native-babel-preset": "0.51.1",
-    "react": "16.6.3",
-    "react-native": "0.57.8",
-    "react-test-renderer": "16.6.3",
-    "react-native-webview": "^5.12.1"
+    "@babel/core": "~7.9.0",
+    "css-loader": "^5.0.1",
+    "fusioncharts": "^3.16.5",
+    "gulp": "^4.0.2",
+    "gulp-clean": "^0.4.0",
+    "gulp-remove-files": "0.0.3",
+    "gulp-rename": "^2.0.0"
   },
-  "jest": {
-    "preset": "react-native"
+  "peerDependencies": {
+    "react": "16.13.1",
+    "react-native": "^0.63.4",
+    "react-native-webview": "^11.0.0"
   }
 }

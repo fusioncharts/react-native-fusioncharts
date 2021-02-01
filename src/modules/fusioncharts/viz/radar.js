@@ -1,0 +1,1 @@
+import Radar from"@fusioncharts/powercharts/src/chart/radar";export default Radar;

@@ -1,0 +1,1 @@
+import Sparkwinloss from"@fusioncharts/widgets/src/chart/sparkwinloss";export default Sparkwinloss;

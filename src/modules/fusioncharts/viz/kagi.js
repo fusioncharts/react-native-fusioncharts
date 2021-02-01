@@ -1,0 +1,1 @@
+import Kagi from"@fusioncharts/powercharts/src/chart/kagi";export default Kagi;

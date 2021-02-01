@@ -1,0 +1,1 @@
+import Msline from"@fusioncharts/charts/src/chart/msline";export default Msline;

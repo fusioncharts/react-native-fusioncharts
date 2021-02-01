@@ -1,0 +1,1 @@
+import Marimekko from"@fusioncharts/charts/src/chart/marimekko";export default Marimekko;

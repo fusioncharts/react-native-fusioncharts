@@ -1,0 +1,1 @@
+import Stackedcolumn3d from"@fusioncharts/charts/src/chart/stackedcolumn3d";export default Stackedcolumn3d;

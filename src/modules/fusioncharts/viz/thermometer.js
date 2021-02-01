@@ -1,0 +1,1 @@
+import Thermometer from"@fusioncharts/widgets/src/chart/thermometer";export default Thermometer;

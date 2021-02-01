@@ -1,0 +1,1 @@
+import Selectscatter from"@fusioncharts/powercharts/src/chart/selectscatter";export default Selectscatter;

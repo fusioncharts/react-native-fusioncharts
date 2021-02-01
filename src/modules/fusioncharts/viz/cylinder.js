@@ -1,0 +1,1 @@
+import Cylinder from"@fusioncharts/widgets/src/chart/cylinder";export default Cylinder;
