@@ -1,0 +1,1 @@
+import Bar2d from"@fusioncharts/charts/src/chart/bar2d";export default Bar2d;

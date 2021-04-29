@@ -1,8 +1,6 @@
 # Don't push source codes to npm
-android/
-ios/
+.expo/
+.expo-shared/
 assets/
-templates/
-docs-src/
-docs
-ExampleApp
+bin/
+node_modules/

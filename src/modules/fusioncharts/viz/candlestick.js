@@ -1,0 +1,1 @@
+import Candlestick from"@fusioncharts/powercharts/src/chart/candlestick";export default Candlestick;

@@ -1,0 +1,1 @@
+import Sparkcolumn from"@fusioncharts/widgets/src/chart/sparkcolumn";export default Sparkcolumn;

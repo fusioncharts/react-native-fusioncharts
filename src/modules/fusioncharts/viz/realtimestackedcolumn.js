@@ -1,0 +1,1 @@
+import Realtimestackedcolumn from"@fusioncharts/widgets/src/chart/realtimestackedcolumn";export default Realtimestackedcolumn;

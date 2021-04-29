@@ -1,0 +1,1 @@
+import Logstackedcolumn2d from"@fusioncharts/powercharts/src/chart/logstackedcolumn2d";export default Logstackedcolumn2d;

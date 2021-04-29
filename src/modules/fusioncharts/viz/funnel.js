@@ -1,0 +1,1 @@
+import Funnel from"@fusioncharts/widgets/src/chart/funnel";export default Funnel;

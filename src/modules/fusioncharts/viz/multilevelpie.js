@@ -1,0 +1,1 @@
+import Multilevelpie from"@fusioncharts/powercharts/src/chart/multilevelpie";export default Multilevelpie;
