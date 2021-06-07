@@ -12,6 +12,7 @@ export default {
         'widgets': require('./modules/fusioncharts/fusioncharts.widgets.fcscript'),
         'zoomline': require('./modules/fusioncharts/fusioncharts.zoomline.fcscript'),
         'zoomscatter': require('./modules/fusioncharts/fusioncharts.zoomscatter.fcscript'),
+        'accessibility': require('./modules/fusioncharts/fusioncharts.accessibility.fcscript'),
         'usa': require('./modules/fusioncharts/maps/es/fusioncharts.usa.fcscript'),
         'world': require('./modules/fusioncharts/maps/es/fusioncharts.world.fcscript'),
         'candy': require('./modules/fusioncharts/themes/fusioncharts.theme.candy.fcscript'),
