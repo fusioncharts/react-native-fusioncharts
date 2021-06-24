@@ -1,6 +1,6 @@
 ## Deprecation disclaimer :
 
-This is the oldest version of `React Native wrapper` which was released upto 4.1.2 .The project is no longer actively maintained
+A simple and lightweight official React Native component for FusionCharts JavaScript charting library. react-native-fusioncharts enables you to add JavaScript charts in your React Native application or project without any hassle.
 
 ## FusionCharts React Native :
 A `React Native` component which provides bindings for `FusionCharts` JavaScript Charting Library. It easily adds rich and interactive charts to any `React Native` Projects.
