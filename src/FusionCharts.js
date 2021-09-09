@@ -354,24 +354,27 @@ export default class ReactNativeFusionCharts extends Component {
     }
   };
 
-  setLayout = async () => {
+ setLayout = async () => {
     const indexHtml = Asset.fromModule(require("./modules/index.html"));
-
     this.setState({
-      layoutHTML: await this.getAssetAsString(indexHtml),
+      layoutHTML: await this.getAssetAsString(indexHtml).catch(err => {
+        const indexHtml2 = Asset.fromModule(require("./modules/index.html"));
+        return indexHtml2.getAssetAsString(indexHtml2);
+      }),
     });
   };
 
   getAssetAsString = async (asset) => {
+    if (!__DEV__) {
+      return await FileSystem.readAsStringAsync(asset.uri);
+    }
     const downloadedModules = await FileSystem.readDirectoryAsync(
       FileSystem.cacheDirectory
     );
     let fileName = "ExponentAsset-" + asset.hash + "." + asset.type;
-
     if (!downloadedModules.includes(fileName)) {
       await asset.downloadAsync();
     }
-
     return await FileSystem.readAsStringAsync(
       FileSystem.cacheDirectory + fileName
     );
