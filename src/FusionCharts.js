@@ -359,6 +359,8 @@ export default class ReactNativeFusionCharts extends Component {
     this.setState({
       layoutHTML: await this.getAssetAsString(indexHtml).catch(err => {
         const indexHtml2 = Asset.fromModule(require("./modules/index.html"));
+        if(!indexHtml2)
+          console.log('failed to found indexHtml : ', indexHtml2);
         return indexHtml2.getAssetAsString(indexHtml2);
       }),
     });

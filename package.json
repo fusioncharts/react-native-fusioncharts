@@ -1,6 +1,6 @@
 {
-  "name": "react-native-fusioncharts",
-  "version": "5.1.0",
+  "name": "react-native-fusioncharts-enhanced",
+  "version": "5.1.4",
   "description": "React Native component for FusionCharts Javascript Charting Library",
   "license": "MIT",
   "scripts": {
