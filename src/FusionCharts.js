@@ -622,6 +622,7 @@ export default class ReactNativeFusionCharts extends Component {
             allowFileAccessFromFileURLs
             scrollEnabled={false}
             automaticallyAdjustContentInsets
+            androidHardwareAccelerationDisabled
           />
         </View>
       );
