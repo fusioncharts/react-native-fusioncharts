@@ -1,26 +1,27 @@
 import React, { Component } from "react";
 import { View, StyleSheet, Platform } from "react-native";
 import { WebView } from "react-native-webview";
-import { Asset, FileSystem } from "react-native-unimodules";
+import { Asset } from 'expo-asset';
+import * as FileSystem from 'expo-file-system';
 import * as MediaLibrary from "expo-media-library";
 import {
   askAsync,
   MEDIA_LIBRARY_WRITE_ONLY,
   NOTIFICATIONS,
 } from "expo-permissions";
-import * as Notifications from "expo-notifications";
+// import * as Notifications from "expo-notifications";
 import * as Sharing from "expo-sharing";
 import * as utils from "./utils/utils";
 import fusonChartsOptions from "./utils/options";
 import FusionChartsModule from "./FusionChartsModule";
 
-Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowAlert: true,
-    shouldPlaySound: true,
-    shouldSetBadge: false,
-  }),
-});
+// Notifications.setNotificationHandler({
+//   handleNotification: async () => ({
+//     shouldShowAlert: true,
+//     shouldPlaySound: true,
+//     shouldSetBadge: false,
+//   }),
+// });
 const stringifiedScripts = {};
 
 export default class ReactNativeFusionCharts extends Component {
@@ -140,23 +141,23 @@ export default class ReactNativeFusionCharts extends Component {
           MediaLibrary.saveToLibraryAsync(fileUri).then(async () => {
             await askAsync(NOTIFICATIONS);
 
-            Notifications.setNotificationChannelAsync("download", {
-              name: "download notifications",
-              sound: "email-sound.wav",
-            });
+            // Notifications.setNotificationChannelAsync("download", {
+            //   name: "download notifications",
+            //   sound: "email-sound.wav",
+            // });
 
-            Notifications.scheduleNotificationAsync({
-              content: {
-                title: `${data.name}`,
-                body: `Download complete`,
-                sound: "email-sound.wav",
-                data: { data: fileUri },
-              },
-              trigger: {
-                seconds: 1,
-                channelId: "download",
-              },
-            });
+            // Notifications.scheduleNotificationAsync({
+            //   content: {
+            //     title: `${data.name}`,
+            //     body: `Download complete`,
+            //     sound: "email-sound.wav",
+            //     data: { data: fileUri },
+            //   },
+            //   trigger: {
+            //     seconds: 1,
+            //     channelId: "download",
+            //   },
+            // });
           });
         }
       });
@@ -224,8 +225,8 @@ export default class ReactNativeFusionCharts extends Component {
       if (!utils.isUndefined(currDataFormat) && !utils.isUndefined(currData)) {
         this.runInWebView(`
           window.chartObj.setChartData(${utils.portValueSafely(
-            currData
-          )}, '${String(currDataFormat).toLowerCase()}');
+          currData
+        )}, '${String(currDataFormat).toLowerCase()}');
           window.chartObj.render();
         `);
       }
@@ -249,8 +250,8 @@ export default class ReactNativeFusionCharts extends Component {
         chartConfigs.dataSource.data = window.dataTable;
       } else if(${isJsonChanged}) {
         if(${utils.portValueSafely(
-          this.state.dataJson
-        )} && ${utils.portValueSafely(this.state.schemaJson)}) {
+        this.state.dataJson
+      )} && ${utils.portValueSafely(this.state.schemaJson)}) {
           var dataTable = new FusionCharts.DataStore().createDataTable(
             ${utils.portValueSafely(this.state.dataJson)},
             ${utils.portValueSafely(this.state.schemaJson)}
