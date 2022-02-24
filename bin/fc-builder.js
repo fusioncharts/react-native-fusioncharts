@@ -8,7 +8,7 @@ delete file.dependencies["react-native"];
 
 file.peerDependencies = {
   "react": "^0.14.0 || ^15.0.0 || ^16.0.0 || ^17.0.0",
-  "react-native": "^0.64.0 || ^0.65.0 || ^0.66.0 || ^0.67.0",
+  "react-native": "^0.64.0",
   "react-native-webview": "^11.0.0"
 };
 

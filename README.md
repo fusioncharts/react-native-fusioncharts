@@ -1,3 +1,7 @@
+## Deprecation disclaimer :
+
+This is the oldest version of `React Native wrapper` which was released upto 4.1.2 .The project is no longer actively maintained
+
 ## FusionCharts React Native :
 A `React Native` component which provides bindings for `FusionCharts` JavaScript Charting Library. It easily adds rich and interactive charts to any `React Native` Projects.
 

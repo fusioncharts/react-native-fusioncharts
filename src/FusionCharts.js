@@ -9,19 +9,19 @@ import {
   MEDIA_LIBRARY_WRITE_ONLY,
   NOTIFICATIONS,
 } from "expo-permissions";
-// import * as Notifications from "expo-notifications";
+import * as Notifications from "expo-notifications";
 import * as Sharing from "expo-sharing";
 import * as utils from "./utils/utils";
 import fusonChartsOptions from "./utils/options";
 import FusionChartsModule from "./FusionChartsModule";
 
-// Notifications.setNotificationHandler({
-//   handleNotification: async () => ({
-//     shouldShowAlert: true,
-//     shouldPlaySound: true,
-//     shouldSetBadge: false,
-//   }),
-// });
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: false,
+  }),
+});
 const stringifiedScripts = {};
 
 export default class ReactNativeFusionCharts extends Component {
@@ -141,23 +141,23 @@ export default class ReactNativeFusionCharts extends Component {
           MediaLibrary.saveToLibraryAsync(fileUri).then(async () => {
             await askAsync(NOTIFICATIONS);
 
-            // Notifications.setNotificationChannelAsync("download", {
-            //   name: "download notifications",
-            //   sound: "email-sound.wav",
-            // });
+            Notifications.setNotificationChannelAsync("download", {
+              name: "download notifications",
+              sound: "email-sound.wav",
+            });
 
-            // Notifications.scheduleNotificationAsync({
-            //   content: {
-            //     title: `${data.name}`,
-            //     body: `Download complete`,
-            //     sound: "email-sound.wav",
-            //     data: { data: fileUri },
-            //   },
-            //   trigger: {
-            //     seconds: 1,
-            //     channelId: "download",
-            //   },
-            // });
+            Notifications.scheduleNotificationAsync({
+              content: {
+                title: `${data.name}`,
+                body: `Download complete`,
+                sound: "email-sound.wav",
+                data: { data: fileUri },
+              },
+              trigger: {
+                seconds: 1,
+                channelId: "download",
+              },
+            });
           });
         }
       });
