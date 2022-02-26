@@ -1,7 +1,3 @@
-## Deprecation disclaimer :
-
-This is the oldest version of `React Native wrapper` which was released upto 4.1.2 .The project is no longer actively maintained
-
 ## FusionCharts React Native :
 A `React Native` component which provides bindings for `FusionCharts` JavaScript Charting Library. It easily adds rich and interactive charts to any `React Native` Projects.
 
@@ -37,7 +33,9 @@ A `React Native` component which provides bindings for `FusionCharts` JavaScript
 
 If you're using this package with Expo Tools, please make sure your Expo SDK version is higher than or equal to `v38.0.0`.
 
-In bare React Native application you need to also install the react-native-unimodules package, and configure the content of ios and android build directiories like it's described [here](https://docs.expo.io/bare/installing-unimodules/#installation).
+In bare React Native application you need to also install the expo-modules package, and configure the content of ios and android build directories like it's described [here](https://docs.expo.dev/bare/installing-expo-modules/).
+
+To use the export file in iOS you need to get the file’s storage permission and to get notifications in iOS you need to get notifications permission.
 
 As the original `webview` module will be deprecated from `react-native`, please update `react-native-fusioncharts` and follow the given steps in your project:
 

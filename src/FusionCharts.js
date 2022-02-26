@@ -8,6 +8,7 @@ import {
   askAsync,
   MEDIA_LIBRARY_WRITE_ONLY,
   NOTIFICATIONS,
+  getAsync
 } from "expo-permissions";
 import * as Notifications from "expo-notifications";
 import * as Sharing from "expo-sharing";
@@ -88,55 +89,51 @@ export default class ReactNativeFusionCharts extends Component {
   };
 
   exportData = async (data) => {
-    let extension, base64Code;
-    const { status } = await askAsync(MEDIA_LIBRARY_WRITE_ONLY);
-    const fileUri = FileSystem.documentDirectory + data.name;
+    if (Platform.OS === "ios") {
+      let extension, base64Code;
+      const { status } = await MediaLibrary.getPermissionsAsync();
+      const fileUri = FileSystem.documentDirectory + data.name;
 
-    if (status === "granted") {
-      extension = data.name.substr(data.name.indexOf(".") + 1);
+      if (status === "granted") {
+        extension = data.name.substr(data.name.indexOf(".") + 1);
 
-      switch (extension) {
-        case "jpg": {
-          console.log(data);
-          base64Code = data.edata.split("data:image/jpeg;base64,")[1];
-          break;
-        }
-        case "png": {
-          base64Code = data.edata.split("data:image/png;base64,")[1];
-          break;
-        }
-        case "svg": {
-          base64Code = data.edata.split("data:image/svg+xml;base64,")[1];
-          break;
-        }
-        case "pdf": {
-          base64Code = data.edata.split("data:application/pdf;base64,")[1];
-          break;
-        }
-        case "csv": {
-          if (Platform.OS === "ios") {
-            base64Code = data.edata.split("data:text/csv;base64,")[1];
-          } else {
-            base64Code = data.edata.split("data:text/csv;base64;;base64,")[1];
+        switch (extension) {
+          case "jpg": {
+            base64Code = data.edata.split("data:image/jpeg;base64,")[1];
+            break;
           }
-          break;
+          case "png": {
+            base64Code = data.edata.split("data:image/png;base64,")[1];
+            break;
+          }
+          case "svg": {
+            base64Code = data.edata.split("data:image/svg+xml;base64,")[1];
+            break;
+          }
+          case "pdf": {
+            base64Code = data.edata.split("data:application/pdf;base64,")[1];
+            break;
+          }
+          case "csv": {
+            if (Platform.OS === "ios") {
+              base64Code = data.edata.split("data:text/csv;base64,")[1];
+            } else {
+              base64Code = data.edata.split("data:text/csv;base64;;base64,")[1];
+            }
+            break;
+          }
+          case "xlsx": {
+            base64Code = data.edata.split(
+              "data:application/vnd.ms-excel;base64,"
+            )[1];
+            break;
+          }
         }
-        case "xlsx": {
-          base64Code = data.edata.split(
-            "data:application/vnd.ms-excel;base64,"
-          )[1];
-          break;
-        }
-      }
 
-      FileSystem.writeAsStringAsync(fileUri, base64Code, {
-        encoding: FileSystem.EncodingType.Base64,
-      }).then(() => {
-        if (Platform.OS === "ios") {
-          Sharing.shareAsync(fileUri);
-        }
+        FileSystem.writeAsStringAsync(fileUri, base64Code, {
+          encoding: FileSystem.EncodingType.Base64,
+        }).then(() => {
 
-        if (Platform.OS === "android") {
           Sharing.shareAsync(fileUri);
           MediaLibrary.saveToLibraryAsync(fileUri).then(async () => {
             await askAsync(NOTIFICATIONS);
@@ -159,10 +156,81 @@ export default class ReactNativeFusionCharts extends Component {
               },
             });
           });
-        }
-      });
+        });
+      } else {
+        await MediaLibrary.requestPermissionsAsync();
+      }
     } else {
-      await askAsync(MEDIA_LIBRARY_WRITE_ONLY);
+      let extension, base64Code;
+      const { status } = await askAsync(MEDIA_LIBRARY_WRITE_ONLY);
+      const fileUri = FileSystem.documentDirectory + data.name;
+
+      if (status === "granted") {
+        extension = data.name.substr(data.name.indexOf(".") + 1);
+
+        switch (extension) {
+          case "jpg": {
+            console.log(data);
+            base64Code = data.edata.split("data:image/jpeg;base64,")[1];
+            break;
+          }
+          case "png": {
+            base64Code = data.edata.split("data:image/png;base64,")[1];
+            break;
+          }
+          case "svg": {
+            base64Code = data.edata.split("data:image/svg+xml;base64,")[1];
+            break;
+          }
+          case "pdf": {
+            base64Code = data.edata.split("data:application/pdf;base64,")[1];
+            break;
+          }
+          case "csv": {
+            if (Platform.OS === "ios") {
+              base64Code = data.edata.split("data:text/csv;base64,")[1];
+            } else {
+              base64Code = data.edata.split("data:text/csv;base64;;base64,")[1];
+            }
+            break;
+          }
+          case "xlsx": {
+            base64Code = data.edata.split(
+              "data:application/vnd.ms-excel;base64,"
+            )[1];
+            break;
+          }
+        }
+
+        FileSystem.writeAsStringAsync(fileUri, base64Code, {
+          encoding: FileSystem.EncodingType.Base64,
+        }).then(() => {
+          Sharing.shareAsync(fileUri);
+          MediaLibrary.saveToLibraryAsync(fileUri).then(async () => {
+            await askAsync(NOTIFICATIONS);
+
+            Notifications.setNotificationChannelAsync("download", {
+              name: "download notifications",
+              sound: "email-sound.wav",
+            });
+
+            Notifications.scheduleNotificationAsync({
+              content: {
+                title: `${data.name}`,
+                body: `Download complete`,
+                sound: "email-sound.wav",
+                data: { data: fileUri },
+              },
+              trigger: {
+                seconds: 1,
+                channelId: "download",
+              },
+            });
+          });
+        });
+      } else {
+        await askAsync(MEDIA_LIBRARY_WRITE_ONLY);
+      }
     }
   };
 
