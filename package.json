@@ -1,6 +1,6 @@
 {
   "name": "react-native-fusioncharts",
-  "version": "5.1.0",
+  "version": "5.2.0",
   "description": "React Native component for FusionCharts Javascript Charting Library",
   "license": "MIT",
   "scripts": {
@@ -16,28 +16,29 @@
     "build:FC": "npm run clean:FC && npm run copy:FC && npm run clean:package && npm run addDep:RN && gulp"
   },
   "dependencies": {
-    "expo": "~40.0.0",
-    "expo-status-bar": "~1.0.3",
-    "react-dom": "16.13.1",
-    "react-native-unimodules": "^0.12.0",
-    "react-native-web": "~0.13.12",
-    "expo-media-library": "~10.0.0",
-    "expo-notifications": "^0.8.2",
-    "expo-sharing": "^8.5.0",
+    "expo": "^44.0.0",
+    "expo-asset": "~8.4.6",
+    "expo-file-system": "~13.1.4",
+    "expo-media-library": "~14.0.1",
+    "expo-notifications": "~0.14.0",
+    "expo-permissions": "~13.1.1",
+    "expo-sharing": "~10.1.1",
+    "expo-status-bar": "~1.2.0",
+    "react-native-web": "0.17.1",
     "react-native-webview": "^11.0.0"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",
     "css-loader": "^5.0.1",
-    "fusioncharts": "^3.17.0",
+    "fusioncharts": "^3.18.0",
     "gulp": "^4.0.2",
     "gulp-clean": "^0.4.0",
     "gulp-remove-files": "0.0.3",
     "gulp-rename": "^2.0.0"
   },
   "peerDependencies": {
-    "react": "16.13.1",
-    "react-native": "^0.63.4",
+    "react": "^0.14.0 || ^15.0.0 || ^16.0.0 || ^17.0.0",
+    "react-native": "^0.64.0 || ^0.65.0 || ^0.66.0 || ^0.67.0",
     "react-native-webview": "^11.0.0"
   }
 }
