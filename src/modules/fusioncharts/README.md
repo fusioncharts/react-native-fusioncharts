@@ -1,3 +1,4 @@
+
 [<img src="https://www.fusioncharts.com/dist/fusioncharts-idera-logo.svg" width="234px" alt="FusionCharts - Build beautiful web & mobile dashboards">](https://www.fusioncharts.com/)
 [<img alt="FusionCharts jsDelivr Hits" src="https://img.shields.io/jsdelivr/npm/hm/fusioncharts.svg" align="right" style="padding: 3px;">](https://www.jsdelivr.com/package/npm/fusioncharts)
 [<img alt="FusionCharts Downloads" src="https://img.shields.io/npm/dm/fusioncharts.svg" align="right" style="padding: 3px;">](https://www.fusioncharts.com/download)
@@ -18,19 +19,18 @@ This package also contains FusionTime (timeseries charts), FusionWidgets (gauges
 
 #### FusionCharts
 
-- Radial Bar Chart 🆕🔥
-- Accessibility updates to make FusionCharts WCAG 2.1 complaint 💥
-- Improved Excel/CSV Export ✉️
-- New and improved React Native Integration Component with Expo support 🆕🔥
-- Improvements across axis, legend, and API events and methods 💥
+- Improved Angular and React Integration Components 🔥
+- Improvement of PDF encoding to make it compatible with Adobe acrobat reader
+- React-native plugin improved to support android app 🔥
+- Added Group Stacked Bar Chart Visualization to the list 💥
+- Support for Indian UT Maps 💥
+- New Feature request to implement the overlap avoidance rule for values
 
 #### FusionTime
 
-- Tooltip customization options 🆕🔥
-- Auto time-axis clipping improvements 🔥
-- Improved real-time support 💥
 - Improved Space Management 📐
 - Improvements across API events and methods, zooming/panning, and data store 💥
+- Modification of Sankey charts to accommodate different values
 
 ---
 
@@ -68,7 +68,7 @@ Instead of downloading, you can also use FusionCharts’s CDN to access files di
 ### Install from NPM
 
 ```sh
-npm install --save fusioncharts [node version v12.4.0 (npm v6.9.0)]
+npm install --save fusioncharts [node version v14.12.0 (npm v6.14.8)]
 ```
 
 See [npm documentation](https://docs.npmjs.com/) to know more about npm usage.
