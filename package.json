@@ -29,7 +29,7 @@
   "devDependencies": {
     "@babel/core": "~7.9.0",
     "css-loader": "^5.0.1",
-    "fusioncharts": "^3.18.0",
+    "fusioncharts": "^3.20.0",
     "gulp": "^4.0.2",
     "gulp-clean": "^0.4.0",
     "gulp-remove-files": "0.0.3",
