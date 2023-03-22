@@ -1,1 +1,21 @@
-All use of the FusionCharts, Inc. software product is subject to the license terms contained in the license agreement located at https://www.ideracorp.com/Legal/FusionCharts/MasterISVSoftwareSubscriptionAgreement and by proceeding to download, install or use the software in which this agreement is electronically embedded or by obtaining the license key for this software, you agree to be bound to the terms of such license agreement. IF YOU DO NOT AGREE WITH THESE TERMS AND CONDITIONS, THEN DO NOT INSTALL/DOWNLOAD OR USE THE SOFTWARE AND DELETE THE SOFTWARE FROM YOUR COMPUTER SYSTEM.
+MIT License
+
+Copyright (c) Meta Platforms, Inc. and affiliates.
+
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the
+“Software”), to deal in the Software without restriction, including
+without limitation the rights to use, copy, ,modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to permit
+persons to whom the Software is furnished to do so, subject to the
+following conditions:
+
+The above copyright notice and this permission notice shall be included
+in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
