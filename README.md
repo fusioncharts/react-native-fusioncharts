@@ -15,19 +15,23 @@ A `React Native` component which provides bindings for `FusionCharts` JavaScript
 
 ## Table of Contents
 
-- [Important Note](#imporatant-note)
-- [Getting Started](#getting-started)
-  - [Requirements](#requirements)
-  - [Installation](#installation)
-  - [Working with chart API](#working-with-apis)
-  - [Working with events](#working-with-events)
+- [Important Note](#important-note)
+  - [Getting Started](#getting-started)
+    - [Requirements](#requirements)
+    - [Installation](#installation)
+  - [How to create your own application using FusionCharts – with Expo](#how-to-create-your-own-application-using-fusioncharts--with-expo)
+  - [How to create your own application using FusionCharts – with React-Native CLI](#how-to-create-your-own-application-using-fusioncharts--with-react-native-cli)
+  - [You can also use React-Native CLI to run an application created with Expo. This is how you do it:](#you-can-also-use-react-native-cli-to-run-an-application-created-with-expo-this-is-how-you-do-it)
+  - [Quick Start](#quick-start)
+  - [Working with Events](#working-with-events)
+  - [Working with APIs](#working-with-apis)
   - [Working with modules](#working-with-modules)
-  - [License configuration](#license-configuration)
-- [Quick Start](#quick-start)
-- [Going Beyond Charts](#going-beyond-charts)
-- [Usage and Integration of FusionTime](#usage-and-integration-of-fusionTime)
-- [For Contributors](#for-contributors)
-- [Licensing](#licensing)
+  - [License Configuration](#license-configuration)
+  - [Usage and integration of FusionTime](#usage-and-integration-of-fusiontime)
+    - [Consider the example below for integration of FusionTime](#consider-the-example-below-for-integration-of-fusiontime)
+  - [Going Beyond Charts](#going-beyond-charts)
+  - [For Contributors](#for-contributors)
+  - [Licensing](#licensing)
 
 # Important Note
 
@@ -846,7 +850,7 @@ $ npm run android [to run on Android platform]
 $ npm run ios [to run on iOS platform]
 ```
 
-To create a build, run:
+To create a build & publish on MyGet/NPM, run:
 
 ```sh
 $ npm run build:FC
