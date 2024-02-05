@@ -246,7 +246,7 @@ In this sample we are attaching dataplotclick event in the chart.
 ```javascript
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Alert } from 'react-native';
-import ReactNativeFusionCharts from 'testing-something';
+import ReactNativeFusionCharts from 'react-native-fusioncharts';
 
 export default function App() {
   const chartData = [
