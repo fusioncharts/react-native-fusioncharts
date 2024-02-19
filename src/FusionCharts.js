@@ -4,12 +4,6 @@ import { WebView } from "react-native-webview";
 import { Asset } from 'expo-asset';
 import * as FileSystem from 'expo-file-system';
 import * as MediaLibrary from "expo-media-library";
-import {
-  askAsync,
-  MEDIA_LIBRARY_WRITE_ONLY,
-  NOTIFICATIONS,
-  getAsync
-} from "expo-permissions";
 import * as Notifications from "expo-notifications";
 import * as Sharing from "expo-sharing";
 import * as utils from "./utils/utils";
@@ -136,7 +130,7 @@ export default class ReactNativeFusionCharts extends Component {
 
           Sharing.shareAsync(fileUri);
           MediaLibrary.saveToLibraryAsync(fileUri).then(async () => {
-            await askAsync(NOTIFICATIONS);
+            await Notifications.requestPermissionsAsync()
 
             Notifications.setNotificationChannelAsync("download", {
               name: "download notifications",
@@ -162,7 +156,7 @@ export default class ReactNativeFusionCharts extends Component {
       }
     } else {
       let extension, base64Code;
-      const { status } = await askAsync(MEDIA_LIBRARY_WRITE_ONLY);
+      const { status } = await MediaLibrary.requestPermissionsAsync();
       const fileUri = FileSystem.documentDirectory + data.name;
 
       if (status === "granted") {
@@ -170,7 +164,6 @@ export default class ReactNativeFusionCharts extends Component {
 
         switch (extension) {
           case "jpg": {
-            console.log(data);
             base64Code = data.edata.split("data:image/jpeg;base64,")[1];
             break;
           }
@@ -207,7 +200,7 @@ export default class ReactNativeFusionCharts extends Component {
         }).then(() => {
           Sharing.shareAsync(fileUri);
           MediaLibrary.saveToLibraryAsync(fileUri).then(async () => {
-            await askAsync(NOTIFICATIONS);
+            await Notifications.requestPermissionsAsync();
 
             Notifications.setNotificationChannelAsync("download", {
               name: "download notifications",
@@ -229,7 +222,7 @@ export default class ReactNativeFusionCharts extends Component {
           });
         });
       } else {
-        await askAsync(MEDIA_LIBRARY_WRITE_ONLY);
+        await MediaLibrary.requestPermissionsAsync();
       }
     }
   };

@@ -16,21 +16,16 @@ This package also contains FusionTime (timeseries charts), FusionWidgets (gauges
 
 ### What's New
 
-#### FusionCharts
-
-- Radial Bar Chart 🆕🔥
-- Accessibility updates to make FusionCharts WCAG 2.1 complaint 💥
-- Improved Excel/CSV Export ✉️
-- New and improved React Native Integration Component with Expo support 🆕🔥
-- Improvements across axis, legend, and API events and methods 💥
-
-#### FusionTime
-
-- Tooltip customization options 🆕🔥
-- Auto time-axis clipping improvements 🔥
-- Improved real-time support 💥
-- Improved Space Management 📐
-- Improvements across API events and methods, zooming/panning, and data store 💥
+- FusionCharts version 3.21 introduces new maps for all 24 Argentinian departments, all 26 Peruvian departments, and all 7 provinces from Costa Rica.
+- FusionCharts version 3.21 introduces the new function that removes any cross-site scripting that might be causing errors in your code.
+- FusionCharts version 3.21 updated the `Ramda` dependency package version to the latest version, version 0.29.
+- When using Multiseries Line charts, similar values overlapped in the chart. FusionCharts version 3.21 improved the `drawcrossline` attribute to prevent overlapping values and display a clean chart.
+- Improved the `numberSuffix` attribute to work as expected when using numeric and Arabic characters. Previously, the characters were displayed in an incorrect order. Now, enabling the `hasRtlText` attribute corrects the suffix and prefix positions, showing the characters in the correct order.
+- Improved the `Sunburst` chart by adding the `showLabelValue` property that allows users to control label visibility for each node at all levels in the chart.
+- Improved the `dataLabelstyles` function to handle the properties, attributes, and conditions for the data label styles. Previously, when `plotHighlightEffect` was set, and if value-related cosmetics were applied at the dataset level, the value-related cosmetics did not display as expected upon hovering on the legends.
+- Improved the accessibility feature. Now, when using React or Angular, you can enable the accessibility feature to import directly from the node modules packages.
+- Improved the `Doughnut` and `Pie`charts by allowing users to display legend and data values as percentages or as absolute values.
+- And several bug fixes under the hood, please read the release details on the [FusionCharts Blog](https://www.fusioncharts.com/blog/) for detailed report.
 
 ---
 
@@ -68,7 +63,7 @@ Instead of downloading, you can also use FusionCharts’s CDN to access files di
 ### Install from NPM
 
 ```sh
-npm install --save fusioncharts [node version v12.4.0 (npm v6.9.0)]
+npm install --save fusioncharts [node version v14.12.0 (npm v6.14.8)]
 ```
 
 See [npm documentation](https://docs.npmjs.com/) to know more about npm usage.
@@ -316,7 +311,7 @@ FusionMaps is a companion package meant to be used in conjunction with FusionCha
 
 ## Contact Support
 
-Fill [this form](https://www.fusioncharts.com/contact-support) or drop an email to [support@fusioncharts.com](mailto: support@fusioncharts.com)
+Fill [this form](https://www.fusioncharts.com/contact-support) or drop an email to [support@fusioncharts.com](mailto: <support@fusioncharts.com>)
 
 ## Folder Structure
 

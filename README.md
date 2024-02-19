@@ -15,27 +15,29 @@ A `React Native` component which provides bindings for `FusionCharts` JavaScript
 
 ## Table of Contents
 
-- [Important Note](#imporatant-note)
-- [Getting Started](#getting-started)
-  - [Requirements](#requirements)
-  - [Installation](#installation)
-  - [Working with chart API](#working-with-apis)
-  - [Working with events](#working-with-events)
+- [Important Note](#important-note)
+  - [Getting Started](#getting-started)
+    - [Requirements](#requirements)
+    - [Installation](#installation)
+  - [How to create your own application using FusionCharts – with Expo](#how-to-create-your-own-application-using-fusioncharts--with-expo)
+  - [How to create your own application using FusionCharts – with React-Native CLI](#how-to-create-your-own-application-using-fusioncharts--with-react-native-cli)
+  - [You can also use React-Native CLI to run an application created with Expo. This is how you do it:](#you-can-also-use-react-native-cli-to-run-an-application-created-with-expo-this-is-how-you-do-it)
+  - [Quick Start](#quick-start)
+  - [Working with Events](#working-with-events)
+  - [Working with APIs](#working-with-apis)
   - [Working with modules](#working-with-modules)
-  - [License configuration](#license-configuration)
-- [Quick Start](#quick-start)
-- [Going Beyond Charts](#going-beyond-charts)
-- [Usage and Integration of FusionTime](#usage-and-integration-of-fusionTime)
-- [For Contributors](#for-contributors)
-- [Licensing](#licensing)
+  - [License Configuration](#license-configuration)
+  - [Usage and integration of FusionTime](#usage-and-integration-of-fusiontime)
+    - [Consider the example below for integration of FusionTime](#consider-the-example-below-for-integration-of-fusiontime)
+  - [Going Beyond Charts](#going-beyond-charts)
+  - [For Contributors](#for-contributors)
+  - [Licensing](#licensing)
 
 # Important Note
 
-If you're using this package with Expo Tools, please make sure your Expo SDK version is higher than or equal to `v38.0.0`.
+If you're using this package with Expo Tools, please make sure your Expo SDK version is higher than or equal to `v50.0.0`.
 
-In bare React Native application you need to also install the react-native-unimodules package, and configure the content of ios and android build directiories like it's described [here](https://docs.expo.io/bare/installing-unimodules/#installation).
-
-As the original `webview` module will be deprecated from `react-native`, please update `react-native-fusioncharts` and follow the given steps in your project:
+In bare React Native application you need to also install the expo-modules package, and configure the content of ios and android build directiories like it's described [here](https://docs.expo.dev/bare/installing-expo-modules/). Make sure to use React Native latest version.
 
 - Run the following command in your project
 
@@ -43,16 +45,23 @@ As the original `webview` module will be deprecated from `react-native`, please 
 $ npm install react-native-webview
 ```
 
-- After that link this module to your app
+- After that install react-native-fusioncharts in your app
 
 ```bash
-$ react-native link react-native-webview
+$ npm install react-native-fusioncharts
 ```
 
 - For iOS, go to your `ios` directory and run the following
 
 ```bash
-$ pod install
+$ npx pod-install
+```
+
+- For iOS, if you want to add export functionality for your charts, go to your `info.plist` file and add the following code
+
+```swift
+    <key>NSPhotoLibraryUsageDescription</key>
+	  <string>Photo Library Access for downloading the chart</string>
 ```
 
 ## Getting Started
@@ -72,52 +81,47 @@ This wrapper can be installed within app based on [Expo tools](https://docs.expo
 
 2. Run the following command in Command Prompt to create a new application: 
 ```
-expo init My-test-app.
+npx create-expo-app My-test-app.
 ```
 3. Move to the previously created app folder: cd My-test-app
 
 4. Install needed libraries for the FusionCharts:
 ```
-npm i @unimodules/react-native-adapter
-npm i react-native-fusioncharts --force
+npm i react-native-fusioncharts
 ```
-5. Now create the "metro.config.js" in the root folder of the app and include the following code: 
+
+5.  Now create the "metro.config.js" in the root folder by running this command:
+```
+npx expo customize metro.config.js
+```
+
+6. Add the following code in metro.config.js file:
 ```javascript
-const { getDefaultConfig } = require('@expo/metro-config');
-module.exports = (async () => {
-    const {
-      resolver: { sourceExts, assetExts }
-    } = await getDefaultConfig(__dirname)
-    return {
-      transformer: {
-        defaultConfig: async () => ({
-          transform: {
-            experimentalImportSupport: false,
-            inlineRequires: false
-          }
-        })
-      },
-      resolver: {
-        sourceExts,
-        assetExts: [...assetExts, 'fcscript']
-      }
-    }
-  })()
+const { getDefaultConfig } = require('expo/metro-config');
+
+const config = getDefaultConfig(__dirname);
+
+config.resolver.assetExts.push(
+  // Adds support for `.fcscript` files for Fusionchart
+  'fcscript'
+);
+module.exports = config;
+
 ```
 
-6. Replace the code in the "App.js" file to receive a desired chart. [Example](https://github.com/fusioncharts/react-native-fusioncharts#quick-start)
+7. Replace the code in the "App.js" file to receive a desired chart. [Example](https://github.com/fusioncharts/react-native-fusioncharts#quick-start)
 
-7. Run the following command: 
+8. Run the following command: 
 ```expo start```
 Expo should create a QR-code in your Command Prompt window.
 
-8. Open the Expo Go application on your device – you should have installed it in order to run your FusionCharts app on this device.
+9. Open the Expo Go application on your device – you should have installed it in order to run your FusionCharts app on this device.
 
-9. Make sure your device is on the same Wi-Fi network as the computer where you are executing Expo commands.
+10. Make sure your device is on the same Wi-Fi network as the computer where you are executing Expo commands.
 
-10. Scan the QR-code with the Expo Go scanner. The application will run on this device. It should display the charts properly.
+11. Scan the QR-code with the Expo Go scanner. The application will run on this device. It should display the charts properly.
 
-11. You can make changes to your code while running the application on your device: it should automatically reload after you save the changes.
+12. You can make changes to your code while running the application on your device: it should automatically reload after you save the changes.
 
 
 ## How to create your own application using FusionCharts – with React-Native CLI
@@ -158,27 +162,23 @@ After installing `react-native-fusioncharts`, follow the steps below:
 It is required to add the .fcscript into the asset extensions section of metro.config.js file, or create that file within your project, and configure it like below:
 
 ```javascript
-const {getDefaultConfig} = require('metro-config');
+const { getDefaultConfig } = require('expo/metro-config');
+const { mergeConfig } = require('@react-native/metro-config');
 
-module.exports = (async () => {
-  const {
-      resolver: { sourceExts, assetExts }
-  } = await getDefaultConfig()
-  return {
-      transformer: {
-          getTransformOptions: async () => ({
-              transform: {
-                  experimentalImportSupport: false,
-                  inlineRequires: false
-              }
-          })
-      },
-      resolver: {
-        sourceExts,
-        assetExts: [...assetExts, 'fcscript']
-      }
-    }
-})()
+module.exports = function (baseConfig) {
+    const defaultConfig = mergeConfig(baseConfig, getDefaultConfig(__dirname));
+    const { resolver: { assetExts, sourceExts } } = defaultConfig;
+
+    return mergeConfig(
+        defaultConfig,
+        {
+            resolver: {
+                sourceExts,
+                assetExts: [...assetExts, 'fcscript']
+            },
+        },
+    );
+};
 ```
 
 ## Quick Start
@@ -188,82 +188,55 @@ Include the `react-native-fusioncharts` library as follows:
 The `App.js` file:
 
 ```jsx
-import React, { Component } from 'react';
-import { AppRegistry, StyleSheet, Text, View, Platform } from 'react-native';
+import React from 'react';
+import { Text, View } from 'react-native';
 import ReactNativeFusionCharts from 'react-native-fusioncharts';
 
-export default class App extends Component {
-  constructor(props) {
-    super(props);
-    //STEP 2 - Chart Data
-    const chartData = [
-      { label: "Venezuela", value: "250" },
-      { label: "Saudi", value: "260" },
-      { label: "Canada", value: "180" },
-      { label: "Iran", value: "140" },
-      { label: "Russia", value: "115" },
-      { label: "UAE", value: "100" },
-      { label: "US", value: "30" },
-      { label: "China", value: "30" },
-    ];
-    //STEP 3 - Chart Configurations
-    const chartConfig = {
-      type: "column2D",
-      width: "100%",
-      height: "400",
-      dataFormat: "json",
-      dataSource: {
-        chart: {
-          caption: "Countries With Most Oil Reserves [2017-18]",
-          subCaption: "In MMbbl = One Million barrels",
-          xAxisName: "Country",
-          yAxisName: "Reserves (MMbbl)",
-          numberSuffix: "K",
-          theme: "fusion",
-          exportEnabled: 1 // to enable the export chart functionality
-        },
-        data: chartData
-      }
-    };
-
-    this.state = {
-      chartConfig
-    };
-  }
-
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.heading}>
-          FusionCharts Integration with React Native
-        </Text>
-        <View style={styles.chartContainer}>
-          <ReactNativeFusionCharts
-            chartConfig={this.state.chartConfig}
-          />
-        </View>
-      </View>
-    );
-  }
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 10
-  },
-  heading: {
-    fontSize: 20,
-    textAlign: 'center',
-    marginBottom: 10
-  },
-  chartContainer: {
-    height: 200
-  }
-});
-
-// skip this line if using Create React Native App
-AppRegistry.registerComponent('ReactNativeFusionCharts', () => App);
+const Chart = () => {
+  const chartData = [
+    { label: "Venezuela", value: "250" },
+    { label: "Saudi", value: "260" },
+    { label: "Canada", value: "180" },
+    { label: "Iran", value: "140" },
+    { label: "Russia", value: "115" },
+    { label: "UAE", value: "100" },
+    { label: "US", value: "30" },
+    { label: "China", value: "30" },
+  ];
+  const chartConfig = {
+    type: "column2D",
+    width: "300",
+    height: "400",
+    dataFormat: "json",
+    dataSource: {
+      chart: {
+        caption: "Countries With Most Oil Reserves [2017-18]",
+        subCaption: "In MMbbl = One Million barrels",
+        xAxisName: "Country",
+        yAxisName: "Reserves (MMbbl)",
+        numberSuffix: "K",
+        theme: "fusion",
+        exportEnabled: 1 // to enable the export chart functionality
+      },
+      data: chartData
+    }
+  };
+  return (
+    <View
+      style={{
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 50
+      }}>
+      <Text>Fusioncharts</Text>
+      <ReactNativeFusionCharts
+        chartConfig={chartConfig}
+      />
+    </View>
+  );
+};
+export default Chart;
 ```
 
 ## Working with Events
@@ -271,85 +244,68 @@ AppRegistry.registerComponent('ReactNativeFusionCharts', () => App);
 In this sample we are attaching dataplotclick event in the chart.
 
 ```javascript
-import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View, Alert } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
+import { StyleSheet, Text, View, Alert } from 'react-native';
 import ReactNativeFusionCharts from 'react-native-fusioncharts';
 
-export default class ListenEvents extends Component {
-  constructor(props) {
-    super(props);
-
-    const chartConfig = {
-      type: 'column2d',
-      width: '100%',
-      height: '100%',
-      dataFormat: 'json',
-      dataSource: {
-        chart: {
-          caption: 'Countries With Most Oil Reserves [2017-18]',
-          subCaption: 'In MMbbl = One Million barrels',
-          xAxisName: 'Country',
-          yAxisName: 'Reserves (MMbbl)',
-          numberSuffix: 'K',
-          theme: 'fusion'
-        },
-        data: [
-          { label: 'Venezuela', value: '290' },
-          { label: 'Saudi', value: '260' },
-          { label: 'Canada', value: '180' },
-          { label: 'Iran', value: '140' },
-          { label: 'Russia', value: '115' },
-          { label: 'UAE', value: '100' },
-          { label: 'US', value: '30' },
-          { label: 'China', value: '30' }
-        ]
-      }
-    };
-
-    this.state = {
-      chartConfig,
-      events: {
-        // Add your events method here:
-        // Event name should be in small letters.
-        dataplotclick: (e, a) => {
-          Alert.alert(`You clicked on ${e.data.categoryLabel}`);
-        }
-      }
-    };
+export default function App() {
+  const chartData = [
+    { label: "Venezuela", value: "250" },
+    { label: "Saudi", value: "260" },
+    { label: "Canada", value: "180" },
+    { label: "Iran", value: "140" },
+    { label: "Russia", value: "115" },
+    { label: "UAE", value: "100" },
+    { label: "US", value: "30" },
+    { label: "China", value: "30" },
+  ];
+  const chartConfig = {
+    type: "column2D",
+    width: "300",
+    height: "400",
+    dataFormat: "json",
+    dataSource: {
+      chart: {
+        caption: "Countries With Most Oil Reserves [2017-18]",
+        subCaption: "In MMbbl = One Million barrels",
+        xAxisName: "Country",
+        yAxisName: "Reserves (MMbbl)",
+        numberSuffix: "K",
+        theme: "fusion",
+        exportEnabled: 1 // to enable the export chart functionality
+      },
+      data: chartData
+    }
+  };
+  const events = {
+    // Add your events method here:
+    // Event name should be in small letters.
+    dataplotclick: (e, a) => {
+      Alert.alert(`You clicked on ${e.data.categoryLabel}`);
+    }
   }
-
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.header}>Listen to events from chart</Text>
-        <View style={styles.chartContainer}>
-          <ReactNativeFusionCharts
-            chartConfig={this.state.chartConfig}
-            events={this.state.events}
-          />
-        </View>
-      </View>
-    );
-  }
+  return (
+    <View style={styles.container}>
+      <Text>Fusioncharts</Text>
+      <ReactNativeFusionCharts
+        chartConfig={chartConfig}
+        events={events}
+      />
+      <StatusBar style="auto" />
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 50
   },
-  header: {
-    fontWeight: 'bold',
-    fontSize: 20,
-    textAlign: 'center',
-    paddingBottom: 10
-  },
-  chartContainer: {
-    height: 400,
-    borderColor: '#000',
-    borderWidth: 1
-  }
 });
+
 ```
 
 ## Working with APIs
@@ -846,7 +802,7 @@ $ npm run android [to run on Android platform]
 $ npm run ios [to run on iOS platform]
 ```
 
-To create a build, run:
+To create a build & publish on MyGet/NPM, run:
 
 ```sh
 $ npm run build:FC
