@@ -1,23 +1,15 @@
 import React, { Component } from "react";
-import { View, StyleSheet, Platform } from "react-native";
+import { View, StyleSheet, Platform, PermissionsAndroid } from "react-native";
 import { WebView } from "react-native-webview";
-import { Asset } from 'expo-asset';
-import * as FileSystem from 'expo-file-system';
-import * as MediaLibrary from "expo-media-library";
-import * as Notifications from "expo-notifications";
-import * as Sharing from "expo-sharing";
+import FileSystem from 'react-native-fs';
+import notifee, { AndroidImportance } from '@notifee/react-native';
+import Share from 'react-native-share';
+import { CameraRoll } from '@react-native-camera-roll/camera-roll';
 import * as utils from "./utils/utils";
 import fusonChartsOptions from "./utils/options";
-import FusionChartsModule from "./FusionChartsModule";
-
-Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowAlert: true,
-    shouldPlaySound: true,
-    shouldSetBadge: false,
-  }),
-});
-const stringifiedScripts = {};
+import layout from "./modules/layout";
+import scripts from "./modules/scripts";
+import modules from "./modules/modules";
 
 export default class ReactNativeFusionCharts extends Component {
   constructor(props) {
@@ -28,14 +20,11 @@ export default class ReactNativeFusionCharts extends Component {
       dataJson: props.dataJson,
       schemaJson: props.schemaJson,
       modules: props.modules || [],
-      fcModulesReady: false,
       licenseConfig: global.licenseConfig || {},
     };
 
     this.webViewLoaded = false;
     this.oldOptions = null;
-
-    this.setFcAssets();
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -82,148 +71,140 @@ export default class ReactNativeFusionCharts extends Component {
     }
   };
 
-  exportData = async (data) => {
-    if (Platform.OS === "ios") {
-      let extension, base64Code;
-      const { status } = await MediaLibrary.getPermissionsAsync();
-      const fileUri = FileSystem.documentDirectory + data.name;
-
-      if (status === "granted") {
-        extension = data.name.substr(data.name.indexOf(".") + 1);
-
-        switch (extension) {
-          case "jpg": {
-            base64Code = data.edata.split("data:image/jpeg;base64,")[1];
-            break;
-          }
-          case "png": {
-            base64Code = data.edata.split("data:image/png;base64,")[1];
-            break;
-          }
-          case "svg": {
-            base64Code = data.edata.split("data:image/svg+xml;base64,")[1];
-            break;
-          }
-          case "pdf": {
-            base64Code = data.edata.split("data:application/pdf;base64,")[1];
-            break;
-          }
-          case "csv": {
-            if (Platform.OS === "ios") {
-              base64Code = data.edata.split("data:text/csv;base64,")[1];
-            } else {
-              base64Code = data.edata.split("data:text/csv;base64;;base64,")[1];
-            }
-            break;
-          }
-          case "xlsx": {
-            base64Code = data.edata.split(
-              "data:application/vnd.ms-excel;base64,"
-            )[1];
-            break;
-          }
-        }
-
-        FileSystem.writeAsStringAsync(fileUri, base64Code, {
-          encoding: FileSystem.EncodingType.Base64,
-        }).then(() => {
-
-          Sharing.shareAsync(fileUri);
-          MediaLibrary.saveToLibraryAsync(fileUri).then(async () => {
-            await Notifications.requestPermissionsAsync()
-
-            Notifications.setNotificationChannelAsync("download", {
-              name: "download notifications",
-              sound: "email-sound.wav",
-            });
-
-            Notifications.scheduleNotificationAsync({
-              content: {
-                title: `${data.name}`,
-                body: `Download complete`,
-                sound: "email-sound.wav",
-                data: { data: fileUri },
-              },
-              trigger: {
-                seconds: 1,
-                channelId: "download",
-              },
-            });
-          });
-        });
-      } else {
-        await MediaLibrary.requestPermissionsAsync();
-      }
+  getCheckPermissionPromise = () => {
+    if (Platform.Version >= 33) {
+      return Promise.all([
+        PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.READ_MEDIA_IMAGES),
+        PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.READ_MEDIA_VIDEO),
+      ]).then(
+        ([hasReadMediaImagesPermission, hasReadMediaVideoPermission]) =>
+          hasReadMediaImagesPermission && hasReadMediaVideoPermission,
+      );
     } else {
-      let extension, base64Code;
-      const { status } = await MediaLibrary.requestPermissionsAsync();
-      const fileUri = FileSystem.documentDirectory + data.name;
+      return PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE);
+    }
+  };
 
-      if (status === "granted") {
-        extension = data.name.substr(data.name.indexOf(".") + 1);
+  getRequestPermissionPromise = () => {
+    if (Platform.Version >= 33) {
+      return PermissionsAndroid.requestMultiple([
+        PermissionsAndroid.PERMISSIONS.READ_MEDIA_IMAGES,
+        PermissionsAndroid.PERMISSIONS.READ_MEDIA_VIDEO,
+      ]).then(
+        (statuses) =>
+          statuses[PermissionsAndroid.PERMISSIONS.READ_MEDIA_IMAGES] ===
+          PermissionsAndroid.RESULTS.GRANTED &&
+          statuses[PermissionsAndroid.PERMISSIONS.READ_MEDIA_VIDEO] ===
+          PermissionsAndroid.RESULTS.GRANTED,
+      );
+    } else {
+      return PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE).then((status) => status === PermissionsAndroid.RESULTS.GRANTED);
+    }
+  };
 
-        switch (extension) {
-          case "jpg": {
-            base64Code = data.edata.split("data:image/jpeg;base64,")[1];
-            break;
-          }
-          case "png": {
-            base64Code = data.edata.split("data:image/png;base64,")[1];
-            break;
-          }
-          case "svg": {
-            base64Code = data.edata.split("data:image/svg+xml;base64,")[1];
-            break;
-          }
-          case "pdf": {
-            base64Code = data.edata.split("data:application/pdf;base64,")[1];
-            break;
-          }
-          case "csv": {
-            if (Platform.OS === "ios") {
-              base64Code = data.edata.split("data:text/csv;base64,")[1];
-            } else {
-              base64Code = data.edata.split("data:text/csv;base64;;base64,")[1];
-            }
-            break;
-          }
-          case "xlsx": {
-            base64Code = data.edata.split(
-              "data:application/vnd.ms-excel;base64,"
-            )[1];
-            break;
-          }
-        }
+  hasAndroidPermission = async () => {
+    const hasPermission = await this.getCheckPermissionPromise();
+    if (hasPermission) {
+      return true;
+    }
+    return await this.getRequestPermissionPromise();
+  }
 
-        FileSystem.writeAsStringAsync(fileUri, base64Code, {
-          encoding: FileSystem.EncodingType.Base64,
-        }).then(() => {
-          Sharing.shareAsync(fileUri);
-          MediaLibrary.saveToLibraryAsync(fileUri).then(async () => {
-            await Notifications.requestPermissionsAsync();
-
-            Notifications.setNotificationChannelAsync("download", {
-              name: "download notifications",
-              sound: "email-sound.wav",
-            });
-
-            Notifications.scheduleNotificationAsync({
-              content: {
-                title: `${data.name}`,
-                body: `Download complete`,
-                sound: "email-sound.wav",
-                data: { data: fileUri },
-              },
-              trigger: {
-                seconds: 1,
-                channelId: "download",
-              },
-            });
-          });
-        });
-      } else {
-        await MediaLibrary.requestPermissionsAsync();
+  savePicture = async (uri) => {
+    try {
+      if (Platform.OS === "android" && !(await this.hasAndroidPermission())) {
+        console.log("No permission");
+        return;
       }
+      CameraRoll.saveAsset(uri)
+      console.log("Photo saved successfully.");
+    } catch (error) {
+      console.log("error while saving" + error);
+    }
+
+  };
+
+  // Method to request permission (iOS only)
+  async requestUserPermission() {
+    const settings = await notifee.requestPermission();
+    if (settings.authorizationStatus !== 1) {
+      console.warn('Notification permissions not granted.');
+    }
+  }
+
+  // Method to create a notification channel (Android only)
+  async createNotificationChannel() {
+    // For Android, create a notification channel with custom sound
+    await notifee.createChannel({
+      id: 'download',
+      name: 'Download Notifications',
+      sound: 'email-sound.wav', // Custom sound (needs to be placed in the correct Android directory)
+      importance: AndroidImportance.HIGH, // High importance for pop-up notifications
+    });
+  }
+
+  // Method to schedule a notification
+  async scheduleNotification(data, fileUri) {
+    await this.createNotificationChannel(); // Ensure the channel is created
+
+    // Schedule a local notification
+    await notifee.displayNotification({
+      title: data.name,
+      body: 'Download complete',
+      android: {
+        channelId: 'download', // Reference the created channel
+        sound: 'email-sound.wav', // Custom sound
+      },
+      data: {
+        fileUri: fileUri, // Attach any additional data you want
+      },
+    });
+  }
+
+  exportData = async (data) => {
+    let extension, base64Code;
+    try {
+      const fileUri = `file://${FileSystem.DocumentDirectoryPath}/${data.name}`;
+      extension = data.name.substr(data.name.indexOf(".") + 1);
+      switch (extension) {
+        case "jpg": {
+          base64Code = data.edata.split("data:image/jpeg;base64,")[1];
+          break;
+        }
+        case "png": {
+          base64Code = data.edata.split("data:image/png;base64,")[1];
+          break;
+        }
+        case "svg": {
+          base64Code = data.edata.split("data:image/svg+xml;base64,")[1];
+          break;
+        }
+        case "pdf": {
+          base64Code = data.edata.split("data:application/pdf;base64,")[1];
+          break;
+        }
+        case "csv": {
+          if (Platform.OS === "ios") {
+            base64Code = data.edata.split("data:text/csv;base64,")[1];
+          } else {
+            base64Code = data.edata.split("data:text/csv;base64;;base64,")[1];
+          }
+          break;
+        }
+        case "xlsx": {
+          base64Code = data.edata.split(
+            "data:application/vnd.ms-excel;base64,"
+          )[1];
+          break;
+        }
+      }
+      await FileSystem.writeFile(fileUri, base64Code, 'base64')
+      await Share.open({ url: fileUri, name: data.name });
+      await this.savePicture(fileUri);
+      await this.requestNotificationPermission();
+      await this.scheduleNotification(data, fileUri);
+    } catch (error) {
+      console.log("Error while exporting data :" + error);
     }
   };
 
@@ -397,54 +378,6 @@ export default class ReactNativeFusionCharts extends Component {
     }
     return String(currValue) === String(oldValue);
   }
-
-  setFcAssets = async () => {
-    try {
-      await this.setLayout();
-      await this.addScript("fusioncharts", null);
-      await this.addScript("fusioncharts.charts", null);
-      await this.addScript("fusioncharts.theme.fusion", null);
-      await this.addScript("fusioncharts.excelexport", null);
-      for (const module of this.state.modules) {
-        await this.addScript(module, true);
-      }
-      this.setState({
-        fcModulesReady: true,
-      });
-    } catch (error) {
-      console.error("Failed to fetch scripts or layout. " + error.message);
-    }
-  };
-
-  setLayout = async () => {
-    const indexHtml = Asset.fromModule(require("./modules/index.html"));
-
-    this.setState({
-      layoutHTML: await this.getAssetAsString(indexHtml),
-    });
-  };
-
-  getAssetAsString = async (asset) => {
-    const downloadedModules = await FileSystem.readDirectoryAsync(
-      FileSystem.cacheDirectory
-    );
-    let fileName = "ExponentAsset-" + asset.hash + "." + asset.type;
-
-    if (!downloadedModules.includes(fileName)) {
-      await asset.downloadAsync();
-    }
-
-    return await FileSystem.readAsStringAsync(
-      FileSystem.cacheDirectory + fileName
-    );
-  };
-
-  addScript = async (name, isModule) => {
-    const script = Asset.fromModule(
-      isModule ? FusionChartsModule.modules[name] : FusionChartsModule[name]
-    );
-    stringifiedScripts[name] = await this.getAssetAsString(script);
-  };
 
   renderChart() {
     const chartOptions = this.resolveChartOptions(this.props);
@@ -632,64 +565,72 @@ export default class ReactNativeFusionCharts extends Component {
     }
   }
 
-  render() {
-    if (this.state.fcModulesReady) {
-      const runFirst = `
-      var modulesList = ${JSON.stringify(this.state.modules)};
-      var readable = ${JSON.stringify(stringifiedScripts)};
-        function loadScripts(file, callback) {
-            var fcScript = document.createElement('script');
-            fcScript.innerHTML = readable[file]
-            document.body.appendChild(fcScript);
+  getInjectJs() {
 
-            if (callback) {
-                callback.call();
-            }
-        }
-        
-        loadScripts('fusioncharts', function () {
-          loadScripts('fusioncharts.charts', function () {
-            loadScripts('fusioncharts.theme.fusion', function () {
-              loadScripts('fusioncharts.excelexport', function () {
-                if (modulesList.length > 0) {
-                  for (var i = 0; i < modulesList.length; i++) {
-                    loadScripts(modulesList[i], undefined);
-                  }
+    // Add modules into Scripts object, specified with props.modules
+    const scriptWithModules = Object.keys(modules)
+      .filter(key => this.state.modules.includes(key))
+      .reduce((filterdModules, key) => {
+        filterdModules[key] = modules[key];
+        return filterdModules;
+      }, scripts);
+
+    const runFirst = `
+    var modulesList = ${JSON.stringify(this.state.modules)};
+    var readable = ${JSON.stringify(scriptWithModules)};
+      function loadScripts(file, callback) {
+          var fcScript = document.createElement('script');
+          fcScript.innerHTML = readable[file]
+          document.body.appendChild(fcScript);
+
+          if (callback) {
+              callback.call();
+          }
+      }
+      
+      loadScripts('fusioncharts', function () {
+        loadScripts('fusioncharts.charts', function () {
+          loadScripts('fusioncharts.theme.fusion', function () {
+            loadScripts('fusioncharts.excelexport', function () {
+              if (modulesList.length > 0) {
+                for (var i = 0; i < modulesList.length; i++) {
+                  loadScripts(modulesList[i], undefined);
                 }
-              });
+              }
             });
           });
-      }, false);
-    `;
+        });
+    }, false);
+  `;
+    return runFirst;
+  }
 
-      return (
-        <View style={this.resolveChartStyles()}>
-          <WebView
-            originWhitelist={["*"]}
-            useWebkit
-            style={styles.webview}
-            ref={(webView) => {
-              this.webView = webView;
-            }}
-            source={{
-              html: this.state.layoutHTML,
-            }}
-            injectedJavaScript={runFirst}
-            onLoad={this.onWebViewLoad}
-            onMessage={this.onWebViewMessage}
-            javaScriptEnabled
-            domStorageEnabled
-            mixedContentMode="compatibility"
-            allowFileAccess
-            allowFileAccessFromFileURLs
-            scrollEnabled={false}
-            automaticallyAdjustContentInsets
-          />
-        </View>
-      );
-    } else {
-      return <View></View>;
-    }
+  render() {
+    return (
+      <View style={this.resolveChartStyles()}>
+        <WebView
+          originWhitelist={["*"]}
+          useWebkit
+          style={styles.webview}
+          ref={(webView) => {
+            this.webView = webView;
+          }}
+          source={{
+            html: layout,
+          }}
+          injectedJavaScript={this.getInjectJs()}
+          onLoad={this.onWebViewLoad}
+          onMessage={this.onWebViewMessage}
+          javaScriptEnabled
+          domStorageEnabled
+          mixedContentMode="compatibility"
+          allowFileAccess
+          allowFileAccessFromFileURLs
+          scrollEnabled={false}
+          automaticallyAdjustContentInsets
+        />
+      </View>
+    );
   }
 }
 
