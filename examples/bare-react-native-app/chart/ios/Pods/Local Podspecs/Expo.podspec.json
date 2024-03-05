@@ -1,0 +1,25 @@
+{
+  "name": "Expo",
+  "version": "50.0.8",
+  "summary": "The Expo SDK",
+  "description": "The Expo SDK",
+  "license": "MIT",
+  "authors": "Expo",
+  "homepage": "https://github.com/expo/expo/tree/main/packages/expo",
+  "platforms": {
+    "ios": "13.4",
+    "osx": "10.15",
+    "tvos": "13.4"
+  },
+  "source": {
+    "git": "https://github.com/expo/expo.git"
+  },
+  "static_framework": true,
+  "header_dir": "Expo",
+  "dependencies": {
+    "ExpoModulesCore": [
+
+    ]
+  },
+  "source_files": "ios/**/*.{h,m,swift}"
+}

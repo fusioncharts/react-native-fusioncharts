@@ -1,0 +1,6 @@
+module Pods_chart {
+  umbrella header "Pods-chart-umbrella.h"
+
+  export *
+  module * { export * }
+}
