@@ -45,6 +45,6 @@ with_node \
   --no-warnings \
   --eval "require(require.resolve('expo-modules-autolinking', { paths: [require.resolve('expo/package.json')] }))(process.argv.slice(1))" \
   generate-modules-provider  \
-  --target "/Users/meherhowji/Downloads/chart/ios/Pods/Target Support Files/Pods-chart-chartTests/ExpoModulesProvider.swift" \
+  --target "/Users/meherhowji/Workspace/idera/codebase/react-native-fusioncharts/examples/bare-react-native-app/chart/ios/Pods/Target Support Files/Pods-chart-chartTests/ExpoModulesProvider.swift" \
   --platform "apple" \
   --packages "expo-application" "expo-constants" "expo-file-system" "expo-keep-awake" "expo-sharing"
