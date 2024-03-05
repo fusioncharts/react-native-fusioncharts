@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.chart.app-mergeDebugResources-32:/values-ku/values-ku.xml",
+            "map": [
+                {
+                    "source": "/Users/anmoljha/.gradle/caches/transforms-3/ff34738e7fb960ce73fd0d6cf687f2a8/transformed/jetified-react-android-0.73.3-debug/res/values-ku/values-ku.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7",
+                        "startColumns": "4,4,4,4,4,4",
+                        "startOffsets": "55,136,205,288,355,422",
+                        "endColumns": "80,68,82,66,66,72",
+                        "endOffsets": "131,200,283,350,417,490"
+                    }
+                }
+            ]
+        }
+    ]
+}
