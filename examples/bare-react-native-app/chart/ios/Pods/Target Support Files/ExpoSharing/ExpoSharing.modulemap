@@ -1,0 +1,6 @@
+module ExpoSharing {
+  umbrella header "ExpoSharing-umbrella.h"
+
+  export *
+  module * { export * }
+}

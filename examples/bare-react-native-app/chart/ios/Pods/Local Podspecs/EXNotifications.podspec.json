@@ -1,0 +1,22 @@
+{
+  "name": "EXNotifications",
+  "version": "0.27.6",
+  "summary": "Notifications module",
+  "description": "Notifications module",
+  "license": "MIT",
+  "authors": "650 Industries, Inc.",
+  "homepage": "https://docs.expo.dev/versions/latest/sdk/notifications/",
+  "platforms": {
+    "ios": "13.4"
+  },
+  "source": {
+    "git": "https://github.com/expo/expo.git"
+  },
+  "static_framework": true,
+  "dependencies": {
+    "ExpoModulesCore": [
+
+    ]
+  },
+  "source_files": "EXNotifications/**/*.{h,m}"
+}

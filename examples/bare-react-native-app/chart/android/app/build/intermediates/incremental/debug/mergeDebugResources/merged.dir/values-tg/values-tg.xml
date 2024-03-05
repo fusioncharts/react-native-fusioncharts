@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string gender="unknown" name="combobox_description">Рӯйхати муштарак</string>
+    <string gender="unknown" name="image_description">Тасвир</string>
+    <string gender="unknown" name="imagebutton_description">Тугма, тасвир</string>
+    <string gender="unknown" name="link_description">Пайванд</string>
+    <string gender="unknown" name="state_off_description">хомӯш</string>
+    <string gender="unknown" name="state_on_description">фаъол</string>
+</resources>
