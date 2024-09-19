@@ -1,7 +1,11 @@
-[<img src="https://www.fusioncharts.com/dist/fusioncharts-idera-logo.svg" width="234px" alt="FusionCharts - Build beautiful web & mobile dashboards">](https://www.fusioncharts.com/)
-[<img alt="FusionCharts jsDelivr Hits" src="https://img.shields.io/jsdelivr/npm/hm/fusioncharts.svg" align="right" style="padding: 3px;">](https://www.jsdelivr.com/package/npm/fusioncharts)
-[<img alt="FusionCharts Downloads" src="https://img.shields.io/npm/dm/fusioncharts.svg" align="right" style="padding: 3px;">](https://www.fusioncharts.com/download)
-[<img alt="FusionCharts NPM Version" src="https://img.shields.io/npm/v/fusioncharts.svg" align="right" style="padding: 3px;">](https://www.npmjs.com/package/fusioncharts)
+<p align="center">
+<img src="https://cdn.fusioncharts.com/fusioncharts/assets/fusioncharts-logo.svg" width="234px" alt="FusionCharts - Build beautiful web & mobile dashboards">
+</p>
+<p align="center">
+<img alt="FusionCharts jsDelivr Hits" src="https://img.shields.io/jsdelivr/npm/hm/fusioncharts.svg">
+<img alt="FusionCharts Downloads" src="https://img.shields.io/npm/dm/fusioncharts.svg">
+<img alt="FusionCharts NPM Version" src="https://img.shields.io/npm/v/fusioncharts.svg">
+</p>
 
 FusionCharts is a JavaScript charting library providing 100+ charts and 2,000+ maps for your web and mobile applications. All the visualizations are interactive and animated, which are rendered in SVG and VML (for IE 6/7/8).
 
@@ -16,16 +20,43 @@ This package also contains FusionTime (timeseries charts), FusionWidgets (gauges
 
 ### What's New
 
-- FusionCharts version 3.21 introduces new maps for all 24 Argentinian departments, all 26 Peruvian departments, and all 7 provinces from Costa Rica.
-- FusionCharts version 3.21 introduces the new function that removes any cross-site scripting that might be causing errors in your code.
-- FusionCharts version 3.21 updated the `Ramda` dependency package version to the latest version, version 0.29.
-- When using Multiseries Line charts, similar values overlapped in the chart. FusionCharts version 3.21 improved the `drawcrossline` attribute to prevent overlapping values and display a clean chart.
-- Improved the `numberSuffix` attribute to work as expected when using numeric and Arabic characters. Previously, the characters were displayed in an incorrect order. Now, enabling the `hasRtlText` attribute corrects the suffix and prefix positions, showing the characters in the correct order.
-- Improved the `Sunburst` chart by adding the `showLabelValue` property that allows users to control label visibility for each node at all levels in the chart.
-- Improved the `dataLabelstyles` function to handle the properties, attributes, and conditions for the data label styles. Previously, when `plotHighlightEffect` was set, and if value-related cosmetics were applied at the dataset level, the value-related cosmetics did not display as expected upon hovering on the legends.
-- Improved the accessibility feature. Now, when using React or Angular, you can enable the accessibility feature to import directly from the node modules packages.
-- Improved the `Doughnut` and `Pie`charts by allowing users to display legend and data values as percentages or as absolute values.
-- And several bug fixes under the hood, please read the release details on the [FusionCharts Blog](https://www.fusioncharts.com/blog/) for detailed report.
+#### New Features
+
+- FusionCharts version 4.0.0 introduces `Ask FusionDev AI` knowledge base and documentation assistant which:
+  - Improves discoverability and unblocks developers by finding instant answers to questions about using FusionCharts.
+  - Increases developer productivity by providing instant access to clear, concise, and up-to-date documentation.
+  - Improves development efficiency with automated code generation.
+- An attribute called `autoUpdateStartEndDateColumn` was introduced. This attribute updates the actual start date / actual end date columns in the Gantt Chart when taskbars are getting dragged.
+- An attribute called `allowTaskbarOverlap` was introduced. When this attribute is set to 1, it allows the dragging of the taskbar over adjacent taskbars in the Gantt Chart.
+- The attributes `marginLeft`, `marginRight`, `marginTop`, and `marginBottom` were introduced in the milestone option of Gantt Chart. These attributes are used to position the milestone per the numeric value provided.
+
+#### Improvements
+
+- FusionCharts version 4.0.0 improved the behavior of **taskbar dragging** in Gantt charts. Now you will also drag the connectors along with the taskbar, and they will stay connected until the drag ends.
+- FusionCharts version 4.0.0 introduced the **increase/decrease width functionality** for taskbars. Whenever the taskbar hovers, the stretch icon at both ends of the taskbar can be used to increase/decrease the same width. An arrow icon was added at the end of taskbars for increasing/decreasing width.
+- FusionCharts version 4.0.0 improved the behavior of **taskbar dragging** in the case of parent and child taskbars. The parent taskbars will auto-extend in case the child taskbars are dragged.
+- Upgraded framework integrations for React, Angular, Vue & Svelte.
+  - React FusionCharts upgraded to v18. React upgraded to version 18 in package.json file.
+  - Angular FusionCharts upgraded to v17. Angular packages version upgraded to 17 in package.json folder. Typescript packages are also upgraded to support Angular 17.
+  - Vue FusionCharts upgraded to v3. Vue package already had v3, only a minor version upgrade was done in package.json file.
+  - Svelte FusionCharts upgraded to v4. Svelte was upgraded to the latest version 4 in package.json file. The bundler used in the Avelte package was rollup which had some old APIs, they were replaced with the new APIs.
+- FusionCharts ASP.Net has been updated to support **.NET versions** (6.0, 7.0, and 8.0).
+- FusionCharts 4.0.0 enhanced **product stability** and **security** through Automation Repository Upgrade & Optimization.
+
+#### Fixes
+
+- Resolved the issue of `plotHighlightEffect` attribute resetting all the dataset-level attributes when series were shown/hidden using legends.
+- Fixed the issue of `resizeTo` method not working when the chart was rendered using XML data format.
+- Fixed the issue where charts were not exported on **iPad** with Safari browser.
+- Fixed the issue where taskbar drags position update event `dataplotdragmove` was logging duplicate values in Gantt charts.
+- Resolved the issue when the tooltip was not visible on the delayed part of taskbars in Gantt charts.
+- Resolved the visual bug with data labels and their background when `transposeAxis` was enabled for multi-series bar charts. Improved the visual clarity of Multi-series Bar charts by addressing `transposeAxis` attribute bug.
+- Resolved an issue where inline styles used for Pie chart watermarks and tooltips triggered CSP errors, potentially hindering chart display.
+- Fixed the bug where the scroll bar position was getting reset to the initial position, when `setChartData` is used to update the chart’s data.
+- Handled the case of negative values for radial bar in Radial Bar charts. For **negative values**, the radial bar will stick to the 0 position.
+- Fixed the issue where React FusionCharts wrapper was not working in strict mode. In react wrapper, if the chart is already rendered then the `dispose` method is used to delete the instance to avoid render callback in loop.
+- Resolved the issue where data values were not visible for plots in the Bar2D chart when the bar width value was very low.
+- Optimized user experience with Gauge charts through seamless resizing.
 
 ---
 
@@ -311,7 +342,7 @@ FusionMaps is a companion package meant to be used in conjunction with FusionCha
 
 ## Contact Support
 
-Fill [this form](https://www.fusioncharts.com/contact-support) or drop an email to [support@fusioncharts.com](mailto: <support@fusioncharts.com>)
+Fill [this form](https://www.fusioncharts.com/contact-support) or drop an email to [support@fusioncharts.com](mailto:support@fusioncharts.com)
 
 ## Folder Structure
 

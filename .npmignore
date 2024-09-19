@@ -1,6 +1,14 @@
-# Don't push source codes to npm
-.expo/
-.expo-shared/
+# This file lists items that should be excluded from the published npm package
 assets/
 bin/
 node_modules/
+examples/
+testData/
+__tests__/
+src/modules/fusioncharts/
+src/modules/index.html
+gulpUtil.js
+gulpfile.js
+jest-setup.js
+jest.config.js
+babel.config.js
