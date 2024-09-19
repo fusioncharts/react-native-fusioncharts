@@ -4,42 +4,47 @@
   "description": "React Native component for FusionCharts Javascript Charting Library",
   "license": "MIT",
   "scripts": {
-    "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "web": "expo start --web",
-    "eject": "expo eject",
     "clean:FC": "rimraf ./src/modules/fusioncharts",
     "copy:FC": "cp -r ./node_modules/fusioncharts ./src/modules/fusioncharts",
     "clean:package": "rimraf ./src/modules/fusioncharts/package.json",
     "addDep:RN": "node ./bin/fc-builder.js",
-    "build:FC": "npm run clean:FC && npm run copy:FC && npm run clean:package && npm run addDep:RN && gulp"
+    "build:FC": "npm run clean:FC && npm run copy:FC && npm run clean:package && npm run addDep:RN && gulp",
+    "test": "jest ./__tests__/index.test.js"
   },
   "dependencies": {
-    "expo": "^50.0.2",
-    "expo-asset": "^9.0.2",
-    "expo-file-system": "^16.0.4",
-    "expo-media-library": "^15.9.1",
-    "expo-notifications": "^0.27.4",
-    "expo-sharing": "^11.10.0",
-    "expo-status-bar": "^1.11.1",
-    "react-native-webview": "^13.7.0"
+    "@notifee/react-native": "^7.8.2",
+    "@react-native-camera-roll/camera-roll": "^7.8.3",
+    "react-native-fs": "^2.20.0",
+    "react-native-share": "^11.0.2",
+    "react-native-webview": "^13.12.2"
   },
   "devDependencies": {
-    "@babel/core": "~7.23.7",
+    "@babel/core": "^7.25.2",
+    "@babel/plugin-transform-typescript": "^7.25.2",
+    "@babel/preset-typescript": "^7.24.7",
+    "@jest/globals": "^29.7.0",
+    "@testing-library/jest-native": "^5.4.3",
+    "@testing-library/react-native": "^12.7.2",
+    "@types/jest": "^29.5.13",
+    "babel-jest": "^29.7.0",
+    "babel-preset-react-native": "^4.0.1",
     "css-loader": "^6.9.1",
     "fusioncharts": "^3.21.1",
     "gulp": "^4.0.2",
     "gulp-clean": "^0.4.0",
     "gulp-remove-files": "0.0.3",
-    "gulp-rename": "^2.0.0"
+    "gulp-rename": "^2.0.0",
+    "jest": "^29.7.0",
+    "metro-react-native-babel-preset": "^0.77.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-native": "^0.75.3",
+    "react-test-renderer": "^18.3.1",
+    "ts-jest": "^29.2.5",
+    "typescript": "^5.6.2"
   },
   "peerDependencies": {
     "react": "^18.0.0 || ^19.0.0",
-    "react-native": "^0.73.0",
-    "react-native-webview": "^13.7.0"
-  },
-  "workspaces": [
-    "packages/*"
-  ]
+    "react-native": ">=0.70.8 <=0.74.5"
+  }
 }

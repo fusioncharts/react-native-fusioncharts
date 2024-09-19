@@ -42,7 +42,7 @@ In bare React Native application you need to also install the expo-modules packa
 - Run the following command in your project
 
 ```bash
-$ npm install react-native-webview
+$ npm i react-native-webview @notifee/react-native @react-native-camera-roll/camera-roll react-native-fs react-native-share
 ```
 
 - After that install react-native-fusioncharts in your app
