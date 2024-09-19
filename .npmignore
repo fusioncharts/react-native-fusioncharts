@@ -4,3 +4,6 @@
 assets/
 bin/
 node_modules/
+examples/
+testData/
+__tests__/
