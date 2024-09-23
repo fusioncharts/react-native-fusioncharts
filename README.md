@@ -89,44 +89,22 @@ npx create-expo-app My-test-app.
 ```
 npm i react-native-fusioncharts
 ```
+5. Replace the code in the "App.js" file to receive a desired chart. [Example](https://github.com/fusioncharts/react-native-fusioncharts#quick-start)
 
-5.  Now create the "metro.config.js" in the root folder by running this command:
-```
-npx expo customize metro.config.js
-```
-
-6. Add the following code in metro.config.js file:
-```javascript
-const { getDefaultConfig } = require('expo/metro-config');
-
-const config = getDefaultConfig(__dirname);
-
-config.resolver.assetExts.push(
-  // Adds support for `.fcscript` files for Fusionchart
-  'fcscript'
-);
-module.exports = config;
-
-```
-
-7. Replace the code in the "App.js" file to receive a desired chart. [Example](https://github.com/fusioncharts/react-native-fusioncharts#quick-start)
-
-8. Run the following command: 
+6. Run the following command: 
 ```expo start```
 Expo should create a QR-code in your Command Prompt window.
 
-9. Open the Expo Go application on your device – you should have installed it in order to run your FusionCharts app on this device.
+7. Open the Expo Go application on your device – you should have installed it in order to run your FusionCharts app on this device.
 
-10. Make sure your device is on the same Wi-Fi network as the computer where you are executing Expo commands.
+8. Make sure your device is on the same Wi-Fi network as the computer where you are executing Expo commands.
 
-11. Scan the QR-code with the Expo Go scanner. The application will run on this device. It should display the charts properly.
+9. Scan the QR-code with the Expo Go scanner. The application will run on this device. It should display the charts properly.
 
-12. You can make changes to your code while running the application on your device: it should automatically reload after you save the changes.
+10. You can make changes to your code while running the application on your device: it should automatically reload after you save the changes.
 
 
 ## How to create your own application using FusionCharts – with React-Native CLI
-
-
 
 1. Make sure you have the latest versions of Node and JDK installed in your environment. Dependencies for Android and iOS emulators.
 should also be setup properly. Check the official [React Native documentation](https://reactnative.dev/docs/environment-setup) for more details.
@@ -159,27 +137,6 @@ should also be setup properly. Check the official [React Native documentation](h
 
 After installing `react-native-fusioncharts`, follow the steps below:
 
-It is required to add the .fcscript into the asset extensions section of metro.config.js file, or create that file within your project, and configure it like below:
-
-```javascript
-const { getDefaultConfig } = require('expo/metro-config');
-const { mergeConfig } = require('@react-native/metro-config');
-
-module.exports = function (baseConfig) {
-    const defaultConfig = mergeConfig(baseConfig, getDefaultConfig(__dirname));
-    const { resolver: { assetExts, sourceExts } } = defaultConfig;
-
-    return mergeConfig(
-        defaultConfig,
-        {
-            resolver: {
-                sourceExts,
-                assetExts: [...assetExts, 'fcscript']
-            },
-        },
-    );
-};
-```
 
 ## Quick Start
 
