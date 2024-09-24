@@ -7,8 +7,7 @@
     "clean:FC": "rimraf ./src/modules/fusioncharts",
     "copy:FC": "cp -r ./node_modules/fusioncharts ./src/modules/fusioncharts",
     "clean:package": "rimraf ./src/modules/fusioncharts/package.json",
-    "addDep:RN": "node ./bin/fc-builder.js",
-    "build:FC": "npm run clean:FC && npm run copy:FC && npm run clean:package && npm run addDep:RN && gulp",
+    "build:FC": "npm run clean:FC && npm run copy:FC && npm run clean:package && gulp",
     "test": "jest ./__tests__/index.test.js"
   },
   "dependencies": {
