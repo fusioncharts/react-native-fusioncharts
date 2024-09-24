@@ -1,6 +1,12 @@
+<p align="center">
+<img src="https://cdn.fusioncharts.com/fusioncharts/assets/fusioncharts-logo.svg" width="234px" alt="FusionCharts - Build beautiful web & mobile dashboards">
+</p>
+
 ## React Native FusionCharts
 
-A `React Native` component which provides bindings for `FusionCharts` JavaScript Charting Library. It easily adds rich and interactive charts to any `React Native` Projects.
+Welcome to the official GitHub repository for the React Native FusionCharts component! This component provides seamless bindings for the FusionCharts JavaScript Charting Library, allowing you to effortlessly integrate rich and interactive charts into your React Native projects.
+
+Enhance your applications with our diverse range of charts designed to meet all your data visualization needs. Get started today and bring your data to life!
 
 ## Table of Contents
 
