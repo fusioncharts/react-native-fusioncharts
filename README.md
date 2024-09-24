@@ -1,142 +1,157 @@
-## FusionCharts React Native :
-A `React Native` component which provides bindings for `FusionCharts` JavaScript Charting Library. It easily adds rich and interactive charts to any `React Native` Projects.
+<p align="center">
+<img src="https://cdn.fusioncharts.com/fusioncharts/assets/fusioncharts-logo.svg" width="234px" alt="FusionCharts - Build beautiful web & mobile dashboards">
+</p>
 
-## [Demo](https://fusioncharts.github.io/react-native-fusioncharts)
+## React Native FusionCharts
 
-- Github Repo: [https://github.com/fusioncharts/react-native-fusioncharts](https://github.com/fusioncharts/react-native-fusioncharts)
-- Documentation: [https://www.fusioncharts.com/dev/getting-started/react-native/your-first-chart-using-react-native](https://www.fusioncharts.com/dev/getting-started/react-native/your-first-chart-using-react-native)
-- Support: [https://www.fusioncharts.com/contact-support](https://www.fusioncharts.com/contact-support)
-- FusionCharts
-  - Official Website: [https://www.fusioncharts.com/](https://www.fusioncharts.com/)
-  - Official NPM Package: [https://www.npmjs.com/package/fusioncharts](https://www.npmjs.com/package/fusioncharts)
-- Issues: [https://github.com/fusioncharts/react-native-fusioncharts/issues](https://github.com/fusioncharts/react-native-fusioncharts/issues)
+Welcome to the official GitHub repository for the React Native FusionCharts component! This component provides seamless bindings for the FusionCharts JavaScript Charting Library, allowing you to effortlessly integrate rich and interactive charts into your React Native projects.
 
----
+Enhance your applications with our diverse range of charts designed to meet all your data visualization needs. Get started today and bring your data to life!
 
 ## Table of Contents
 
-- [Important Note](#important-note)
-  - [Getting Started](#getting-started)
-    - [Requirements](#requirements)
-    - [Installation](#installation)
-  - [How to create your own application using FusionCharts – with Expo](#how-to-create-your-own-application-using-fusioncharts--with-expo)
-  - [How to create your own application using FusionCharts – with React-Native CLI](#how-to-create-your-own-application-using-fusioncharts--with-react-native-cli)
-  - [You can also use React-Native CLI to run an application created with Expo. This is how you do it:](#you-can-also-use-react-native-cli-to-run-an-application-created-with-expo-this-is-how-you-do-it)
-  - [Quick Start](#quick-start)
-  - [Working with Events](#working-with-events)
-  - [Working with APIs](#working-with-apis)
-  - [Working with modules](#working-with-modules)
-  - [License Configuration](#license-configuration)
-  - [Usage and integration of FusionTime](#usage-and-integration-of-fusiontime)
-    - [Consider the example below for integration of FusionTime](#consider-the-example-below-for-integration-of-fusiontime)
-  - [Going Beyond Charts](#going-beyond-charts)
-  - [For Contributors](#for-contributors)
-  - [Licensing](#licensing)
+Here's the updated GitHub documentation with rephrased section headings and modified slugs:
 
-# Important Note
+- [Important Links](#important-links)
+- [Introduction](#introduction)
+- [Overview](#overview)
+- [Getting Started](#getting-started)
+  - [Requirements](#requirements)
+  - [Installation](#installation)
+- [Developing Applications with FusionCharts and Expo](#developing-applications-with-fusioncharts-and-expo)
+- [Creating an App with FusionCharts using React Native CLI](#creating-an-app-with-fusioncharts-using-react-native-cli)
+- [Quick Start](#quick-start)
+  - [Event Handling](#event-handling)
+  - [API Integration](#api-integration)
+  - [Module Management](#module-management)
+  - [Setting Up Licenses](#setting-up-licenses)
+  - [FusionTime Integration](#fusiontime-integration)
+    - [Example Integration](#example-integration)
+- [Going Beyond Charts](#going-beyond-charts)
+- [Contributor Guidelines](#contributor-guidelines)
+- [License Information](#license-information)
 
-If you're using this package with Expo Tools, please make sure your Expo SDK version is higher than or equal to `v50.0.0`.
+## Important Links
 
-In bare React Native application you need to also install the expo-modules package, and configure the content of ios and android build directiories like it's described [here](https://docs.expo.dev/bare/installing-expo-modules/). Make sure to use React Native latest version.
+- [Github Repo](https://github.com/fusioncharts/react-native-fusioncharts)
+- [Documentation](https://www.fusioncharts.com/dev/getting-started/react-native/your-first-chart-using-react-native)
+- [FusionCharts Website](https://www.fusioncharts.com/)
+- [FusionCharts NPM Package](https://www.npmjs.com/package/fusioncharts)
+- [Support](https://www.fusioncharts.com/contact-support)
+- [Issues](https://github.com/fusioncharts/react-native-fusioncharts/issues)
 
-- Run the following command in your project
+## Introduction
 
-```bash
-$ npm i react-native-webview @notifee/react-native @react-native-camera-roll/camera-roll react-native-fs react-native-share
-```
+React Native FusionCharts version 6.0.0 is compatible with the following versions of Expo and React Native. While it is possible that version 6.0.0 may function with newer versions of React Native and Expo, it has only been tested up to React Native 74.5.
 
-- After that install react-native-fusioncharts in your app
+| Expo SDK Versions   | React Native Versions |
+| ------------------- | --------------------- |
+| 47, 48, 49, 50 & 51 | >=0.70.8 & <=0.74.5   |
 
-```bash
-$ npm install react-native-fusioncharts
-```
+## Overview
 
-- For iOS, go to your `ios` directory and run the following
+To quickly integrate React Native FusionCharts into your existing application, follow these essential steps. This process installs all required dependencies, allowing those already familiar with FusionCharts to get up and running quickly. If you are new to FusionCharts, referring the [Getting Started](#getting-started) section will be more helpful.
 
-```bash
-$ npx pod-install
-```
+1. **Initial Dependencies Installation**: Begin by running the following command in your project directory to install the necessary dependencies:
 
-- For iOS, if you want to add export functionality for your charts, go to your `info.plist` file and add the following code
+   ```
+   npm i react-native-webview @notifee/react-native @react-native-camera-roll/camera-roll react-native-fs react-native-share
+   ```
 
-```swift
-    <key>NSPhotoLibraryUsageDescription</key>
-	  <string>Photo Library Access for downloading the chart</string>
-```
+2. **Installing React Native FusionCharts**: Next, install the `react-native-fusioncharts` package:
+
+   ```
+   npm install react-native-fusioncharts
+   ```
+
+3. **iOS Setup**: For iOS applications, navigate to your `ios` directory and execute:
+
+   ```
+   pod install
+   ```
+
+4. **Enabling Chart Export Functionality on iOS**: To add export functionality for your charts in iOS, modify your `info.plist` file by adding the following code to request photo library access:
+
+   ```swift
+   <key>NSPhotoLibraryUsageDescription</key>
+   <string>Photo Library Access for downloading the chart</string>
+   ```
+
+Now that you have all essential components integrated into your project. You can now check the the [quick start](#quick-start) guide to render a chart or explore the APIs.
 
 ## Getting Started
 
 ### Requirements
 
-- **Node.js**, **NPM/Yarn** installed globally in your OS.
+**Node.js**, **NPM/Yarn** installed globally in your OS.
 
 ### Installation
 
-This wrapper can be installed within app based on [Expo tools](https://docs.expo.io/), or bare [React Native](https://reactnative.dev/docs/getting-started) app.
+React Native FusionCharts can be integrated into applications using [Expo tools](https://docs.expo.io/) or bare [React Native](https://reactnative.dev/docs/getting-started) environments.
 
-## How to create your own application using FusionCharts – with Expo
-
+## Developing Applications with FusionCharts and Expo
 
 1. Make sure you have Node.js and Git installed in your environment. Check the official [Expo’s documentation](https://docs.expo.dev/get-started/installation/) for more details.
 
-2. Run the following command in Command Prompt to create a new application: 
-```
-npx create-expo-app My-test-app.
-```
-3. Move to the previously created app folder: cd My-test-app
+2. Run the following command in terminal to create a new application and navigate in the project directory. You can check [here](https://docs.expo.dev/tutorial/create-your-first-app/) for more details on creating an new expo app.
 
-4. Install needed libraries for the FusionCharts:
+```
+npx create-expo-app FusionApp --template blank && cd FusionApp
+```
+
+3. Install React Native FusionCharts:
+
 ```
 npm i react-native-fusioncharts
 ```
-5. Replace the code in the "App.js" file to receive a desired chart. [Example](https://github.com/fusioncharts/react-native-fusioncharts#quick-start)
 
-6. Run the following command: 
-```expo start```
-Expo should create a QR-code in your Command Prompt window.
+4. Install dependencies for React Native FusionCharts:
 
-7. Open the Expo Go application on your device – you should have installed it in order to run your FusionCharts app on this device.
+```
+npm i react-native-webview @notifee/react-native @react-native-camera-roll/camera-roll react-native-fs react-native-share
+```
 
-8. Make sure your device is on the same Wi-Fi network as the computer where you are executing Expo commands.
+5. Replace the code in the "App.js" file and replace it with the example [here](#quick-start)
 
-9. Scan the QR-code with the Expo Go scanner. The application will run on this device. It should display the charts properly.
+6. Run the `npx expo start` in the project directory and expo should generate a QR-code that you can scan from your iOS camera app to open Expo Go or directly from the Expo Go app in an android device. Make sure your device and system is on the same network.
 
-10. You can make changes to your code while running the application on your device: it should automatically reload after you save the changes.
+7. If everything went well so far then you should be able to see FusionCharts sample column2D chart on the app.
 
+## Creating an App with FusionCharts using React Native CLI
 
-## How to create your own application using FusionCharts – with React-Native CLI
+This guide is for building an app from scratch using React Native without any framework. If you already have an existing app, then please check the [overview](#overview) section and [examples](#quick-start) to setup FusionCharts.
 
-1. Make sure you have the latest versions of Node and JDK installed in your environment. Dependencies for Android and iOS emulators.
-should also be setup properly. Check the official [React Native documentation](https://reactnative.dev/docs/environment-setup) for more details.
+The initial steps(1-5) to setup the React Native app is taken from the official React Native [guide](https://reactnative.dev/docs/getting-started-without-a-framework) to setup a new app. Please refer to the React Native documentation in case you encounter an issue setting up your app.
 
-2. Run the following command in Command Prompt to install the React Native CLI: ```npm install -g react-native-cli```
+1. If you previously installed a global react-native-cli package, please remove it as it may cause unexpected issues:
 
-3. Run the following command in Command Prompt to create a new application: ```react-native init My-test-app```.
+```
+npm uninstall -g react-native-cli @react-native-community/cli
+```
 
-4. Run the command ```cd My-test-app``` to access your app.
+2. Use React Native Community CLI to generate a new project.
 
-5. A new application named ‘My-test-app’ has been created. Update its code to include charts that you need to get displayed. Check [our instructions](https://www.fusioncharts.com/dev/fusiontime/getting-started/create-your-first-chart-in-fusiontime) for details.
+```
+npx @react-native-community/cli@latest init FusionApp
+```
 
-6. In order to run your application on a connected Android device or an emulator, execute the following command: npx react-native run-android. It would take a few minutes to run the application.
+3. Start Metro (Metro is the JavaScript build tool for React Native. To start the Metro development server, run the following from your project folder)
 
-7. To run it on an iOS device or simulator, execute the following command: ```npx react-native run-iOS```.
+```
+npm start
+```
 
+4. Start your application. Let Metro Bundler run in its own terminal. Open a new terminal inside your React Native project folder. Run the following:
 
-## You can also use React-Native CLI to run an application created with Expo. This is how you do it:
+```bash
+npm run android
+# or
+npm run ios
+```
 
-1. Follow steps 1-4 of the Expo guide above.
+5. If everything is set up correctly, you should see your new app running in your Android/iOS emulator shortly.
 
-2. You have finished updating the code and accessed your application’s folder. Now run the following command: ```expo eject```
-
-3. Expo will create /Android and /IOs folders in your application allowing you to run it with React-Native CLI
-
-4. Make sure you have configured your environment dependencies for Android and iOS emulators. Check the official React Native documentation for more details.
-
-5. Now you can use the command npx react-native run-android to run your application on Android or the command npx react-native run-iOS to run it on iOS.
-
-
-After installing `react-native-fusioncharts`, follow the steps below:
-
+6. A new application named 'FusionApp' has been created. Open App.tsx in your text editor of choice and add chart samples from the [quick start](#quick-start) section. You can find more chart samples in our official [documentation](https://www.fusioncharts.com/dev/getting-started/react-native/your-first-chart-using-react-native)
 
 ## Quick Start
 
@@ -145,9 +160,9 @@ Include the `react-native-fusioncharts` library as follows:
 The `App.js` file:
 
 ```jsx
-import React from 'react';
-import { Text, View } from 'react-native';
-import ReactNativeFusionCharts from 'react-native-fusioncharts';
+import React from "react";
+import { Text, View } from "react-native";
+import ReactNativeFusionCharts from "react-native-fusioncharts";
 
 const Chart = () => {
   const chartData = [
@@ -173,37 +188,36 @@ const Chart = () => {
         yAxisName: "Reserves (MMbbl)",
         numberSuffix: "K",
         theme: "fusion",
-        exportEnabled: 1 // to enable the export chart functionality
+        exportEnabled: 1, // to enable the export chart functionality
       },
-      data: chartData
-    }
+      data: chartData,
+    },
   };
   return (
     <View
       style={{
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 50
-      }}>
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 50,
+      }}
+    >
       <Text>Fusioncharts</Text>
-      <ReactNativeFusionCharts
-        chartConfig={chartConfig}
-      />
+      <ReactNativeFusionCharts chartConfig={chartConfig} />
     </View>
   );
 };
 export default Chart;
 ```
 
-## Working with Events
+## Event Handling
 
 In this sample we are attaching dataplotclick event in the chart.
 
 ```javascript
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Alert } from 'react-native';
-import ReactNativeFusionCharts from 'react-native-fusioncharts';
+import { StatusBar } from "expo-status-bar";
+import { StyleSheet, Text, View, Alert } from "react-native";
+import ReactNativeFusionCharts from "react-native-fusioncharts";
 
 export default function App() {
   const chartData = [
@@ -229,25 +243,22 @@ export default function App() {
         yAxisName: "Reserves (MMbbl)",
         numberSuffix: "K",
         theme: "fusion",
-        exportEnabled: 1 // to enable the export chart functionality
+        exportEnabled: 1, // to enable the export chart functionality
       },
-      data: chartData
-    }
+      data: chartData,
+    },
   };
   const events = {
     // Add your events method here:
     // Event name should be in small letters.
     dataplotclick: (e, a) => {
       Alert.alert(`You clicked on ${e.data.categoryLabel}`);
-    }
-  }
+    },
+  };
   return (
     <View style={styles.container}>
       <Text>Fusioncharts</Text>
-      <ReactNativeFusionCharts
-        chartConfig={chartConfig}
-        events={events}
-      />
+      <ReactNativeFusionCharts chartConfig={chartConfig} events={events} />
       <StatusBar style="auto" />
     </View>
   );
@@ -256,23 +267,22 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 50
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 50,
   },
 });
-
 ```
 
-## Working with APIs
+## API Integration
 
 In this sample we can change the chart type dynamically using chart APIs.
 
 ```javascript
-import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View, Button, Alert } from 'react-native';
-import ReactNativeFusionCharts from 'react-native-fusioncharts';
+import React, { Component } from "react";
+import { Platform, StyleSheet, Text, View, Button, Alert } from "react-native";
+import ReactNativeFusionCharts from "react-native-fusioncharts";
 
 export default class ChartRunTime extends Component {
   constructor(props) {
@@ -281,50 +291,50 @@ export default class ChartRunTime extends Component {
     // where you can pass Chart API methods you want to run.
     this.apiCaller = null;
     const chartConfig = {
-      type: 'column2d',
-      width: '100%',
-      height: '100%',
-      dataFormat: 'json',
+      type: "column2d",
+      width: "100%",
+      height: "100%",
+      dataFormat: "json",
       dataSource: {
         chart: {
-          caption: 'Recommended Portfolio Split',
-          subCaption: 'For a net-worth of $1M',
-          showValues: '1',
-          showPercentInTooltip: '0',
-          numberPrefix: '$',
-          enableMultiSlicing: '1',
-          theme: 'fusion',
-          exportEnabled: 1
+          caption: "Recommended Portfolio Split",
+          subCaption: "For a net-worth of $1M",
+          showValues: "1",
+          showPercentInTooltip: "0",
+          numberPrefix: "$",
+          enableMultiSlicing: "1",
+          theme: "fusion",
+          exportEnabled: 1,
         },
         data: [
           {
-            label: 'Equity',
-            value: '300000'
+            label: "Equity",
+            value: "300000",
           },
           {
-            label: 'Debt',
-            value: '230000'
+            label: "Debt",
+            value: "230000",
           },
           {
-            label: 'Bullion',
-            value: '180000'
+            label: "Bullion",
+            value: "180000",
           },
           {
-            label: 'Real-estate',
-            value: '270000'
+            label: "Real-estate",
+            value: "270000",
           },
           {
-            label: 'Insurance',
-            value: '20000'
-          }
-        ]
-      }
+            label: "Insurance",
+            value: "20000",
+          },
+        ],
+      },
     };
 
     this.state = {
       chartConfig,
-      chartType: ''
-    }
+      chartType: "",
+    };
   }
 
   changeType(type) {
@@ -340,8 +350,7 @@ export default class ChartRunTime extends Component {
     // Now this.apiCaller will be a function where you can pass js code for the WebView
     // to access the chart Object. See the method changeType.
     this.apiCaller = caller;
-    if (this.state.chartType === '')
-      this.setState({ chartType: this.state.type });
+    if (this.state.chartType === "") this.setState({ chartType: this.state.type });
   }
 
   render() {
@@ -351,7 +360,7 @@ export default class ChartRunTime extends Component {
         <View style={styles.chartContainer}>
           <ReactNativeFusionCharts
             chartConfig={this.state.chartConfig}
-            onInitialized={caller => {
+            onInitialized={(caller) => {
               this.bindApiCaller(caller);
             }}
           />
@@ -359,26 +368,20 @@ export default class ChartRunTime extends Component {
         <Text style={styles.info}>Press button to change chart type</Text>
         <View style={styles.buttonContainer}>
           <Button
-            disabled={
-              this.state.chartType === '' || this.state.chartType == 'column2d'
-            }
+            disabled={this.state.chartType === "" || this.state.chartType == "column2d"}
             style={{ margin: 8 }}
             title="Column2D"
-            onPress={() => this.changeType('column2d')}
+            onPress={() => this.changeType("column2d")}
           />
           <Button
-            disabled={
-              this.state.chartType === '' || this.state.chartType == 'pie2d'
-            }
+            disabled={this.state.chartType === "" || this.state.chartType == "pie2d"}
             title="Pie2D"
-            onPress={() => this.changeType('pie2d')}
+            onPress={() => this.changeType("pie2d")}
           />
           <Button
-            disabled={
-              this.state.chartType === '' || this.state.chartType == 'bar2d'
-            }
+            disabled={this.state.chartType === "" || this.state.chartType == "bar2d"}
             title="Bar2D"
-            onPress={() => this.changeType('bar2d')}
+            onPress={() => this.changeType("bar2d")}
           />
         </View>
       </View>
@@ -389,35 +392,35 @@ export default class ChartRunTime extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10
+    padding: 10,
   },
   header: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 20,
-    textAlign: 'center',
-    paddingBottom: 10
+    textAlign: "center",
+    paddingBottom: 10,
   },
   chartContainer: {
     height: 400,
-    borderColor: '#000',
-    borderWidth: 1
+    borderColor: "#000",
+    borderWidth: 1,
   },
   buttonContainer: {
     padding: 10,
-    display: 'flex',
-    justifyContent: 'space-around',
-    flexDirection: 'row',
-    alignItems: 'center'
+    display: "flex",
+    justifyContent: "space-around",
+    flexDirection: "row",
+    alignItems: "center",
   },
   info: {
     fontSize: 16,
-    textAlign: 'center',
-    marginTop: 5
-  }
+    textAlign: "center",
+    marginTop: 5,
+  },
 });
 ```
 
-## Working with modules
+## Module Management
 
 In this sample we can add the modules dynamically e.g gantt, timeseries, powercharts etc
 
@@ -425,108 +428,103 @@ In this sample we can add the modules dynamically e.g gantt, timeseries, powerch
 import React, { Component } from "react";
 import { StyleSheet, View } from "react-native";
 import ReactNativeFusionCharts from "react-native-fusioncharts";
- 
+
 export default class App extends Component {
   constructor(props) {
     super(props);
- 
+
     const chartConfig = {
       type: "gantt", // your chart type goes here
       width: "100%",
       height: "400",
       dataFormat: "json",
-      dataSource: { // your data goes here
+      dataSource: {
+        // your data goes here
         // for gantt chart data please visit https://www.fusioncharts.com/dev/chart-attributes/gantt
-      }
-    };  
+      },
+    };
     this.state = {
-      chartConfig
+      chartConfig,
     };
   }
- 
+
   render() {
-    const modules = ['gantt']; // module names goes here
+    const modules = ["gantt"]; // module names goes here
     return (
       <View style={styles.container}>
         <View style={styles.chartContainer}>
-          <ReactNativeFusionCharts
-            chartConfig={this.state.chartConfig}
-            modules={modules}
-          />
+          <ReactNativeFusionCharts chartConfig={this.state.chartConfig} modules={modules} />
         </View>
       </View>
     );
   }
 }
- 
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10
+    padding: 10,
   },
- 
+
   chartContainer: {
-    height: '60%',
+    height: "60%",
     borderColor: "#000",
-    borderWidth: 1
-  }
+    borderWidth: 1,
+  },
 });
 ```
 
 In this sample we can add the theme modules dynamically e.g candy, carbon, gammel etc
 
 ```javascript
-import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View, Alert } from 'react-native';
-import ReactNativeFusionCharts from 'react-native-fusioncharts';
+import React, { Component } from "react";
+import { Platform, StyleSheet, Text, View, Alert } from "react-native";
+import ReactNativeFusionCharts from "react-native-fusioncharts";
 
 export default class ListenEvents extends Component {
   constructor(props) {
     super(props);
 
     const chartConfig = {
-      type: 'column2d',
-      width: '100%',
-      height: '100%',
-      dataFormat: 'json',
+      type: "column2d",
+      width: "100%",
+      height: "100%",
+      dataFormat: "json",
       dataSource: {
         chart: {
-          caption: 'Countries With Most Oil Reserves [2017-18]',
-          subCaption: 'In MMbbl = One Million barrels',
-          xAxisName: 'Country',
-          yAxisName: 'Reserves (MMbbl)',
-          numberSuffix: 'K',
-          theme: 'carbon', // your theme name goes here
-          exportEnabled: 1
+          caption: "Countries With Most Oil Reserves [2017-18]",
+          subCaption: "In MMbbl = One Million barrels",
+          xAxisName: "Country",
+          yAxisName: "Reserves (MMbbl)",
+          numberSuffix: "K",
+          theme: "carbon", // your theme name goes here
+          exportEnabled: 1,
         },
         data: [
-          { label: 'Venezuela', value: '290' },
-          { label: 'Saudi', value: '260' },
-          { label: 'Canada', value: '180' },
-          { label: 'Iran', value: '140' },
-          { label: 'Russia', value: '115' },
-          { label: 'UAE', value: '100' },
-          { label: 'US', value: '30' },
-          { label: 'China', value: '30' }
-        ]
-      }
+          { label: "Venezuela", value: "290" },
+          { label: "Saudi", value: "260" },
+          { label: "Canada", value: "180" },
+          { label: "Iran", value: "140" },
+          { label: "Russia", value: "115" },
+          { label: "UAE", value: "100" },
+          { label: "US", value: "30" },
+          { label: "China", value: "30" },
+        ],
+      },
     };
 
     this.state = {
-      chartConfig
+      chartConfig,
     };
   }
 
   render() {
-    const modules = ['carbon']; // theme module name
+    const modules = ["carbon"]; // theme module name
     return (
       <View style={styles.container}>
         <Text style={styles.header}>Listen to events from chart</Text>
         <View style={styles.chartContainer}>
-          <ReactNativeFusionCharts
-            chartConfig={this.state.chartConfig}
-            modules={modules}
-          />
+          <ReactNativeFusionCharts chartConfig={this.state.chartConfig} modules={modules} />
         </View>
       </View>
     );
@@ -536,23 +534,23 @@ export default class ListenEvents extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10
+    padding: 10,
   },
   header: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 20,
-    textAlign: 'center',
-    paddingBottom: 10
+    textAlign: "center",
+    paddingBottom: 10,
   },
   chartContainer: {
     height: 400,
-    borderColor: '#000',
-    borderWidth: 1
-  }
+    borderColor: "#000",
+    borderWidth: 1,
+  },
 });
 ```
 
-## License Configuration
+## Setting Up Licenses
 
 If you are using a licensed verison of fusioncharts and have a valid license key, add the license object by either creating a new file with your license configuration inside it and import it in app.js or add ‘global.licenseConfig’ object to the app.js file as shown below
 
@@ -560,15 +558,15 @@ If you are using a licensed verison of fusioncharts and have a valid license key
 import React, { Component } from "react";
 import { StyleSheet, View } from "react-native";
 import ReactNativeFusionCharts from "react-native-fusioncharts";
- 
+
 global.licenseConfig = {
   key: "your key goes here",
-  creditLabel: false // true/false to show/hide watermark respectively
+  creditLabel: false, // true/false to show/hide watermark respectively
 };
 export default class App extends Component {
   constructor(props) {
     super(props);
- 
+
     const chartConfig = {
       type: "column2D",
       width: "100%",
@@ -582,7 +580,7 @@ export default class App extends Component {
           yAxisName: "Reserves (MMbbl)",
           numberSuffix: "K",
           theme: "fusion",
-          exportEnabled: 1
+          exportEnabled: 1,
         },
         data: [
           { label: "Venezuela", value: "250" },
@@ -592,93 +590,91 @@ export default class App extends Component {
           { label: "Russia", value: "115" },
           { label: "UAE", value: "100" },
           { label: "US", value: "30" },
-          { label: "China", value: "30" }
+          { label: "China", value: "30" },
         ],
       },
     };
     this.state = {
-      chartConfig
+      chartConfig,
     };
-}
- 
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <View style={styles.chartContainer}>
-          <ReactNativeFusionCharts
-            chartConfig={this.state.chartConfig}
-          />
+          <ReactNativeFusionCharts chartConfig={this.state.chartConfig} />
         </View>
       </View>
     );
   }
 }
- 
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10
+    padding: 10,
   },
- 
+
   chartContainer: {
-    height: '60%',
+    height: "60%",
     borderColor: "#000",
-    borderWidth: 1
-  }
+    borderWidth: 1,
+  },
 });
 ```
 
-## Usage and integration of FusionTime
+## FusionTime Integration
 
 From `fusioncharts@3.13.3-sr.1` and `react-native-fusioncharts@3.0.0`, You can visualize timeseries data easily on react.
 
 Learn more about FusionTime [here](https://www.fusioncharts.com/fusiontime).
 
-### Consider the example below for integration of FusionTime
+### Example Integration
 
 ```js
 // In App.js
-import React, { Component } from 'react';
-import { AppRegistry, StyleSheet, Text, View, Platform } from 'react-native';
-import ReactNativeFusionCharts from 'react-native-fusioncharts';
+import React, { Component } from "react";
+import { AppRegistry, StyleSheet, Text, View, Platform } from "react-native";
+import ReactNativeFusionCharts from "react-native-fusioncharts";
 
 export default class App extends Component {
   constructor(props) {
     super(props);
 
     const chartConfig = {
-      type: 'timeseries',
-      width: '100%',
-      height: '100%',
-      dataFormat: 'json',
+      type: "timeseries",
+      width: "100%",
+      height: "100%",
+      dataFormat: "json",
       dataSource: {
         data: null,
         caption: {
-          text: 'Sales Analysis'
+          text: "Sales Analysis",
         },
         subcaption: {
-          text: 'Grocery'
+          text: "Grocery",
         },
         yAxis: [
           {
             plot: {
-              value: 'Grocery Sales Value',
-              type: 'line'
+              value: "Grocery Sales Value",
+              type: "line",
             },
             format: {
-              prefix: '$'
+              prefix: "$",
             },
-            title: 'Sale Value'
-          }
-        ]
+            title: "Sale Value",
+          },
+        ],
       },
       schemaJson: null,
-      dataJson: null
+      dataJson: null,
     };
 
     this.state = {
-      chartConfig
-    }
+      chartConfig,
+    };
   }
 
   componentDidMount() {
@@ -686,35 +682,30 @@ export default class App extends Component {
   }
 
   fetchDataAndSchema() {
-    const jsonify = res => res.json();
+    const jsonify = (res) => res.json();
     const dFetch = fetch(
-      'https://s3.eu-central-1.amazonaws.com/fusion.store/ft/data/line-chart-with-time-axis-data.json'
+      "https://s3.eu-central-1.amazonaws.com/fusion.store/ft/data/line-chart-with-time-axis-data.json"
     ).then(jsonify);
     // This is the remote url to fetch the schema.
     const sFetch = fetch(
-      'https://s3.eu-central-1.amazonaws.com/fusion.store/ft/schema/line-chart-with-time-axis-schema.json'
+      "https://s3.eu-central-1.amazonaws.com/fusion.store/ft/schema/line-chart-with-time-axis-schema.json"
     ).then(jsonify);
-    Promise.all([dFetch, sFetch]).then(res => {
+    Promise.all([dFetch, sFetch]).then((res) => {
       const data = res[0];
       const schema = res[1];
-      const updatedChartConfig = {...this.state.chartConfig, dataJson: data, schemaJson: schema}
+      const updatedChartConfig = { ...this.state.chartConfig, dataJson: data, schemaJson: schema };
       this.setState({ chartConfig: updatedChartConfig });
     });
   }
 
   render() {
-    const modules = ['timeseries'];
+    const modules = ["timeseries"];
 
     return (
       <View style={styles.container}>
-        <Text style={styles.heading}>
-          FusionCharts Integration with React Native
-        </Text>
+        <Text style={styles.heading}>FusionCharts Integration with React Native</Text>
         <View style={styles.chartContainer}>
-          <ReactNativeFusionCharts
-            chartConfig={this.state.chartConfig}
-            modules={modules}
-          />
+          <ReactNativeFusionCharts chartConfig={this.state.chartConfig} modules={modules} />
         </View>
       </View>
     );
@@ -724,16 +715,16 @@ export default class App extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10
+    padding: 10,
   },
   heading: {
     fontSize: 20,
-    textAlign: 'center',
-    marginBottom: 10
+    textAlign: "center",
+    marginBottom: 10,
   },
   chartContainer: {
-    height: 500
-  }
+    height: 500,
+  },
 });
 ```
 
@@ -742,7 +733,7 @@ const styles = StyleSheet.create({
 - Explore 20+ pre-built business specific dashboards for different industries like energy and manufacturing to business functions like sales, marketing and operations [here](https://www.fusioncharts.com/explore/dashboards).
 - See [Data Stories](https://www.fusioncharts.com/explore/data-stories) built using FusionCharts’ interactive JavaScript visualizations and learn how to communicate real-world narratives through underlying data to tell compelling stories.
 
-## For Contributors
+## Contributor Guidelines
 
 - Clone the repository.
 - Install dependencies
@@ -750,21 +741,21 @@ const styles = StyleSheet.create({
 - Run on Android or iOS emulator.
 
 ```sh
-$ git clone https://github.com/fusioncharts/react-native-fusioncharts.git
-$ cd react-native-fusioncharts
-$ npm i
-$ npm start
-$ emulator @<name_of_android_emulator>
-$ npm run android [to run on Android platform]
-$ npm run ios [to run on iOS platform]
+git clone https://github.com/fusioncharts/react-native-fusioncharts.git
+cd react-native-fusioncharts
+npm i
+npm start
+emulator @<name_of_android_emulator>
+npm run android [to run on Android platform]
+npm run ios [to run on iOS platform]
 ```
 
 To create a build & publish on MyGet/NPM, run:
 
 ```sh
-$ npm run build:FC
+npm run build:FC
 ```
 
-## Licensing
+## License Information
 
 The FusionCharts React Native integration component is open-source and distributed under the terms of the MIT/X11 License. However, you will need to download and include FusionCharts library in your page separately, which has a [separate license](https://www.fusioncharts.com/buy).
