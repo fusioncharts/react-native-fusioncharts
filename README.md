@@ -735,25 +735,22 @@ const styles = StyleSheet.create({
 
 ## Contributor Guidelines
 
-- Clone the repository.
-- Install dependencies
-- Run `npm start` to start React Native Packager server.
-- Run on Android or iOS emulator.
-
 ```sh
-git clone https://github.com/fusioncharts/react-native-fusioncharts.git
+#  Clone repo
+git clone git@github.com:fusioncharts/react-native-fusioncharts.git
 cd react-native-fusioncharts
-npm i
-npm start
-emulator @<name_of_android_emulator>
-npm run android [to run on Android platform]
-npm run ios [to run on iOS platform]
-```
 
-To create a build & publish on MyGet/NPM, run:
+# Install dependencies
+npm install
 
-```sh
-npm run build:FC
+# Run
+npm run start
+
+# Build
+npm run build
+
+# Publish
+npm publish
 ```
 
 ## License Information
