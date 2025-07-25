@@ -135,13 +135,25 @@ npm uninstall -g react-native-cli @react-native-community/cli
 npx @react-native-community/cli@latest init FusionApp
 ```
 
-3. Start Metro (Metro is the JavaScript build tool for React Native. To start the Metro development server, run the following from your project folder)
+3. Install React Native FusionCharts:
+
+```
+npm i react-native-fusioncharts
+```
+
+4. Install dependencies for React Native FusionCharts:
+
+```
+npm i react-native-webview @notifee/react-native @react-native-camera-roll/camera-roll react-native-fs react-native-share
+```
+
+5. Start Metro (Metro is the JavaScript build tool for React Native. To start the Metro development server, run the following from your project folder)
 
 ```
 npm start
 ```
 
-4. Start your application. Let Metro Bundler run in its own terminal. Open a new terminal inside your React Native project folder. Run the following:
+6. Start your application. Let Metro Bundler run in its own terminal. Open a new terminal inside your React Native project folder. Run the following:
 
 ```bash
 npm run android
