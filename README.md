@@ -50,7 +50,7 @@ React Native FusionCharts version 6.0.0 is compatible with the following version
 
 ## Overview
 
-To quickly integrate React Native FusionCharts into your existing application, follow these essential steps. This process installs all required dependencies, allowing those already familiar with FusionCharts to get up and running quickly. If you are new to FusionCharts, referring the [Getting Started](#getting-started) section will be more helpful.
+To quickly integrate React Native FusionCharts, follow these essential steps. This process installs all required dependencies, allowing those already familiar with FusionCharts to get up and running quickly. If you are new to FusionCharts, referring the [Getting Started](#getting-started) section will be more helpful.
 
 1. **Initial Dependencies Installation**: Begin by running the following command in your project directory to install the necessary dependencies:
 
