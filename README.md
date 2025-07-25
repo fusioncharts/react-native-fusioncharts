@@ -163,7 +163,7 @@ npm run ios
 
 5. If everything is set up correctly, you should see your new app running in your Android/iOS emulator shortly.
 
-6. A new application named 'FusionApp' has been created. Open App.tsx in your text editor of choice and add chart samples from the [quick start](#quick-start) section. You can find more chart samples in our official [documentation](https://www.fusioncharts.com/dev/getting-started/react-native/your-first-chart-using-react-native)
+6. Now open App.tsx in your text editor of choice and add chart samples from the [quick start](#quick-start) section to render FusionCharts in your app. You can find more chart samples in our official [documentation](https://www.fusioncharts.com/dev/getting-started/react-native/your-first-chart-using-react-native)
 
 ## Quick Start
 
