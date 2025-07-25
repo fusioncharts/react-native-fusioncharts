@@ -132,7 +132,7 @@ npm uninstall -g react-native-cli @react-native-community/cli
 2. Use React Native Community CLI to generate a new project.
 
 ```
-npx @react-native-community/cli@latest init FusionApp
+npx @react-native-community/cli@latest init FusionApp && cd FusionApp
 ```
 
 3. Install React Native FusionCharts:
