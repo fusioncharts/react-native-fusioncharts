@@ -12,7 +12,7 @@ module.exports = {
       '|react-native-screens' +
       '|react-native-reanimated' +
       '|react-native-webview' +
-      '|react-native-fs'+
+      '|@dr.pogodin/react-native-fs'+
 
       ')/)',
   ],

@@ -11,11 +11,11 @@
     "test": "jest ./__tests__/index.test.js"
   },
   "dependencies": {
-    "@notifee/react-native": "^7.8.2",
-    "@react-native-camera-roll/camera-roll": "^7.8.3",
-    "react-native-fs": "^2.20.0",
-    "react-native-share": "^11.0.2",
-    "react-native-webview": "^13.12.2"
+    "@dr.pogodin/react-native-fs": "^2.39.2",
+    "@notifee/react-native": "^9.1.8",
+    "@react-native-camera-roll/camera-roll": "^7.10.2",
+    "react-native-share": "^12.3.1",
+    "react-native-webview": "^14.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
@@ -28,22 +28,22 @@
     "babel-jest": "^29.7.0",
     "babel-preset-react-native": "^4.0.1",
     "css-loader": "^6.9.1",
-    "fusioncharts": "^4.2.0",
+    "fusioncharts": "4.2.2",
     "gulp": "^4.0.2",
     "gulp-clean": "^0.4.0",
     "gulp-remove-files": "0.0.3",
     "gulp-rename": "^2.0.0",
     "jest": "^29.7.0",
     "metro-react-native-babel-preset": "^0.77.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "react-native": "^0.75.3",
-    "react-test-renderer": "^18.3.1",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-native": "^0.86.0",
+    "react-test-renderer": "^19.2.0",
     "ts-jest": "^29.2.5",
     "typescript": "^5.6.2"
   },
   "peerDependencies": {
     "react": "^18.0.0 || ^19.0.0",
-    "react-native": ">=0.70.8 <=0.74.5"
+    "react-native": ">=0.75.0 <0.87.0"
   }
 }

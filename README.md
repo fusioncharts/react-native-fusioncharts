@@ -55,7 +55,7 @@ To quickly integrate React Native FusionCharts, follow these essential steps. Th
 1. **Initial Dependencies Installation**: Begin by running the following command in your project directory to install the necessary dependencies:
 
    ```
-   npm i react-native-webview @notifee/react-native @react-native-camera-roll/camera-roll react-native-fs react-native-share
+   npm i react-native-webview @notifee/react-native @react-native-camera-roll/camera-roll @dr.pogodin/react-native-fs react-native-share
    ```
 
 2. **Installing React Native FusionCharts**: Next, install the `react-native-fusioncharts` package:
@@ -108,7 +108,7 @@ npm i react-native-fusioncharts
 4. Install dependencies for React Native FusionCharts:
 
 ```
-npm i react-native-webview @notifee/react-native @react-native-camera-roll/camera-roll react-native-fs react-native-share
+npm i react-native-webview @notifee/react-native @react-native-camera-roll/camera-roll @dr.pogodin/react-native-fs react-native-share
 ```
 
 5. Replace the code in the "App.js" file and replace it with the example [here](#quick-start)
@@ -144,7 +144,7 @@ npm i react-native-fusioncharts
 4. Install dependencies for React Native FusionCharts:
 
 ```
-npm i react-native-webview @notifee/react-native @react-native-camera-roll/camera-roll react-native-fs react-native-share
+npm i react-native-webview @notifee/react-native @react-native-camera-roll/camera-roll @dr.pogodin/react-native-fs react-native-share
 ```
 
 5. Start Metro (Metro is the JavaScript build tool for React Native. To start the Metro development server, run the following from your project folder)

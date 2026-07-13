@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { View, StyleSheet, Platform, PermissionsAndroid } from "react-native";
 import { WebView } from "react-native-webview";
-import FileSystem from 'react-native-fs';
+import FileSystem from '@dr.pogodin/react-native-fs';
 import notifee, { AndroidImportance } from '@notifee/react-native';
 import Share from 'react-native-share';
 import { CameraRoll } from '@react-native-camera-roll/camera-roll';
