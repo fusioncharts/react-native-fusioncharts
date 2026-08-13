@@ -7,5 +7,6 @@ node_modules/
 examples/
 testData/
 __tests__/
+scripts/
 src/modules/fusioncharts/
 src/modules/index.html

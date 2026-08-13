@@ -1,6 +1,6 @@
 module.exports = {
   verbose: true,
-  preset: 'react-native',
+  preset: '@react-native/jest-preset',
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   transformIgnorePatterns: [
     'node_modules/(?!(react-native' +
@@ -12,8 +12,10 @@ module.exports = {
       '|react-native-screens' +
       '|react-native-reanimated' +
       '|react-native-webview' +
-      '|@dr.pogodin/react-native-fs'+
-
+      '|react-native-share' +
+      '|@notifee/react-native' +
+      '|@react-native-camera-roll/camera-roll' +
+      '|@dr.pogodin/react-native-fs' +
       ')/)',
   ],
 };

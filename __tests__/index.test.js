@@ -25,7 +25,7 @@ jest.mock('react-native-webview', () => {
   };
 });
 
-jest.mock('react-native-fs', () => ({
+jest.mock('@dr.pogodin/react-native-fs', () => ({
   default: () => jest.fn() // or any mocked component instead of native view,
 }));
 
