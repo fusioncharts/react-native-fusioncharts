@@ -1,6 +1,0 @@
-framework module glog {
-  umbrella header "Glog.h"
-
-  export *
-  module * { export * }
-}

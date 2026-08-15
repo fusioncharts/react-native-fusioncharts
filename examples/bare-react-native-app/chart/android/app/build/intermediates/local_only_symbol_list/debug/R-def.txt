@@ -1,9 +1,0 @@
-R_DEF: Internal format may change without notice
-local
-drawable rn_edit_text_material
-integer react_native_dev_server_port
-integer react_native_inspector_proxy_port
-mipmap ic_launcher
-mipmap ic_launcher_round
-string app_name
-style AppTheme

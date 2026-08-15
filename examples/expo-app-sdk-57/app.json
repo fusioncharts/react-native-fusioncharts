@@ -1,0 +1,49 @@
+{
+  "expo": {
+    "name": "FusionChartsExpoExample",
+    "slug": "FusionChartsExpoExample",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.fusioncharts.wrapperexample",
+      "infoPlist": {
+        "NSPhotoLibraryAddUsageDescription": "Allow chart images to be saved to the photo library.",
+        "NSPhotoLibraryUsageDescription": "Allow chart images to be saved to the photo library."
+      }
+    },
+    "android": {
+      "package": "com.fusioncharts.wrapperexample",
+      "permissions": [
+        "WRITE_EXTERNAL_STORAGE"
+      ],
+      "adaptiveIcon": {
+        "backgroundColor": "#E6F4FE",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      }
+    },
+    "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "extraMavenRepos": [
+              "$rootDir/../node_modules/@notifee/react-native/android/libs"
+            ]
+          }
+        }
+      ],
+      [
+        "react-native-share",
+        {
+          "ios": [],
+          "android": []
+        }
+      ]
+    ]
+  }
+}
