@@ -1,0 +1,417 @@
+name: React Native compatibility and release checks
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches: [master, main, develop]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: react-native-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  package-and-unit:
+    name: Package source · build and unit tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out candidate
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Configure Node.js 24.3
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 24.3.0
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Rebuild offline FusionCharts assets
+        run: |
+          npm run build:FC
+          git diff --exit-code -- src/modules
+      - name: Run unit and asset tests
+        run: npm test
+
+  javascript-compatibility:
+    name: JavaScript · RN ${{ matrix.rn }} · clean consumer
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - rn: 0.75.5
+            cli: 14.1.2
+            node: 20.19.4
+            fs: 2.28.1
+          - rn: 0.76.9
+            cli: 15.1.3
+            node: 20.19.4
+            fs: 2.30.3
+          - rn: 0.77.3
+            cli: 15.1.3
+            node: 20.19.4
+            fs: 2.31.0
+          - rn: 0.78.3
+            cli: 15.1.3
+            node: 20.19.4
+            fs: 2.32.1
+          - rn: 0.79.7
+            cli: 18.0.1
+            node: 20.19.4
+            fs: 2.33.1
+          - rn: 0.80.3
+            cli: 19.1.2
+            node: 20.19.4
+            fs: 2.34.1
+          - rn: 0.81.6
+            cli: 20.2.0
+            node: 22.13.0
+            fs: 2.35.1
+          - rn: 0.82.1
+            cli: 20.2.0
+            node: 22.13.0
+            fs: 2.36.1
+          - rn: 0.83.10
+            cli: 20.2.0
+            node: 22.13.0
+            fs: 2.36.2
+          - rn: 0.84.1
+            cli: 20.2.0
+            node: 22.13.0
+            fs: 2.37.0
+          - rn: 0.85.3
+            cli: 20.2.0
+            node: 22.13.0
+            fs: 2.38.2
+          - rn: 0.86.2
+            cli: 20.2.0
+            node: 22.13.0
+            fs: 2.39.2
+          - rn: 0.87.0
+            cli: 20.2.0
+            node: 24.3.0
+            fs: 2.40.0
+    steps:
+      - name: Check out candidate
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Configure Node.js ${{ matrix.node }}
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Create a clean consumer from the package archive
+        run: |
+          PACKAGE_NAME="$(npm pack --pack-destination "$RUNNER_TEMP" --silent)"
+          PACKAGE_ARCHIVE="$RUNNER_TEMP/$PACKAGE_NAME"
+          APP_DIR="$RUNNER_TEMP/react-native-${{ matrix.rn }}"
+          npx --yes @react-native-community/cli@${{ matrix.cli }} init FusionChartsCompatibility \
+            --version ${{ matrix.rn }} \
+            --directory "$APP_DIR" \
+            --skip-install \
+            --skip-git-init
+          cd "$APP_DIR"
+          npm install --save-exact --legacy-peer-deps --no-audit --no-fund \
+            "$PACKAGE_ARCHIVE" \
+            "@dr.pogodin/react-native-fs@${{ matrix.fs }}" \
+            '@notifee/react-native@^9.1.8' \
+            '@react-native-camera-roll/camera-roll@^7.10.2' \
+            'react-native-share@^12.3.1' \
+            'react-native-webview@^14.0.1'
+          cp "$GITHUB_WORKSPACE/.github/fixtures/App.tsx" App.tsx
+      - name: Verify types, native autolinking, and Metro bundle
+        run: |
+          APP_DIR="$RUNNER_TEMP/react-native-${{ matrix.rn }}"
+          cd "$APP_DIR"
+          npx tsc --noEmit
+          npx react-native config > "$RUNNER_TEMP/react-native-config.json"
+          node "$GITHUB_WORKSPACE/scripts/assert-autolinking.js" \
+            "$RUNNER_TEMP/react-native-config.json"
+          mkdir -p "$RUNNER_TEMP/metro-assets"
+          CI=true npx react-native bundle \
+            --platform android \
+            --dev false \
+            --max-workers 2 \
+            --entry-file index.js \
+            --bundle-output "$RUNNER_TEMP/index.android.bundle" \
+            --assets-dest "$RUNNER_TEMP/metro-assets"
+
+  android-builds:
+    name: Android · RN ${{ matrix.rn }} · clean consumer
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - rn: 0.75.5
+            cli: 14.1.2
+            node: 20.19.4
+            fs: 2.28.1
+          - rn: 0.79.7
+            cli: 18.0.1
+            node: 20.19.4
+            fs: 2.33.1
+          - rn: 0.82.1
+            cli: 20.2.0
+            node: 22.13.0
+            fs: 2.36.1
+          - rn: 0.86.2
+            cli: 20.2.0
+            node: 22.13.0
+            fs: 2.39.2
+          - rn: 0.87.0
+            cli: 20.2.0
+            node: 24.3.0
+            fs: 2.40.0
+    steps:
+      - name: Check out candidate
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Configure Node.js ${{ matrix.node }}
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Configure JDK 17
+        uses: actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3 # v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - name: Create and configure a clean consumer
+        run: |
+          PACKAGE_NAME="$(npm pack --pack-destination "$RUNNER_TEMP" --silent)"
+          PACKAGE_ARCHIVE="$RUNNER_TEMP/$PACKAGE_NAME"
+          APP_DIR="$RUNNER_TEMP/react-native-${{ matrix.rn }}"
+          npx --yes @react-native-community/cli@${{ matrix.cli }} init FusionChartsCompatibility \
+            --version ${{ matrix.rn }} \
+            --directory "$APP_DIR" \
+            --skip-install \
+            --skip-git-init
+          cd "$APP_DIR"
+          npm install --save-exact --legacy-peer-deps --no-audit --no-fund \
+            "$PACKAGE_ARCHIVE" \
+            "@dr.pogodin/react-native-fs@${{ matrix.fs }}" \
+            '@notifee/react-native@^9.1.8' \
+            '@react-native-camera-roll/camera-roll@^7.10.2' \
+            'react-native-share@^12.3.1' \
+            'react-native-webview@^14.0.1'
+          cp "$GITHUB_WORKSPACE/.github/fixtures/App.tsx" App.tsx
+          node "$GITHUB_WORKSPACE/scripts/configure-android-min-sdk.js" \
+            android/build.gradle 24
+          npx react-native config > "$RUNNER_TEMP/react-native-config.json"
+          node "$GITHUB_WORKSPACE/scripts/assert-autolinking.js" \
+            "$RUNNER_TEMP/react-native-config.json"
+      - name: Build Android debug APK
+        run: |
+          cd "$RUNNER_TEMP/react-native-${{ matrix.rn }}/android"
+          ./gradlew assembleDebug --no-daemon -PreactNativeArchitectures=arm64-v8a
+
+  ios-builds:
+    name: iOS · RN ${{ matrix.rn }} · clean consumer
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - rn: 0.75.5
+            cli: 14.1.2
+            node: 20.19.4
+            fs: 2.28.1
+            runner: macos-15
+          - rn: 0.79.7
+            cli: 18.0.1
+            node: 20.19.4
+            fs: 2.33.1
+            runner: macos-15
+          - rn: 0.82.1
+            cli: 20.2.0
+            node: 22.13.0
+            fs: 2.36.1
+            runner: macos-15
+          - rn: 0.86.2
+            cli: 20.2.0
+            node: 22.13.0
+            fs: 2.39.2
+            runner: macos-26
+          - rn: 0.87.0
+            cli: 20.2.0
+            node: 24.3.0
+            fs: 2.40.0
+            runner: macos-26
+    steps:
+      - name: Check out candidate
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Configure Node.js ${{ matrix.node }}
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Record Xcode version
+        run: xcodebuild -version
+      - name: Create and configure a clean consumer
+        run: |
+          PACKAGE_NAME="$(npm pack --pack-destination "$RUNNER_TEMP" --silent)"
+          PACKAGE_ARCHIVE="$RUNNER_TEMP/$PACKAGE_NAME"
+          APP_DIR="$RUNNER_TEMP/react-native-${{ matrix.rn }}"
+          npx --yes @react-native-community/cli@${{ matrix.cli }} init FusionChartsCompatibility \
+            --version ${{ matrix.rn }} \
+            --directory "$APP_DIR" \
+            --skip-install \
+            --skip-git-init
+          cd "$APP_DIR"
+          npm install --save-exact --legacy-peer-deps --no-audit --no-fund \
+            "$PACKAGE_ARCHIVE" \
+            "@dr.pogodin/react-native-fs@${{ matrix.fs }}" \
+            '@notifee/react-native@^9.1.8' \
+            '@react-native-camera-roll/camera-roll@^7.10.2' \
+            'react-native-share@^12.3.1' \
+            'react-native-webview@^14.0.1'
+          cp "$GITHUB_WORKSPACE/.github/fixtures/App.tsx" App.tsx
+          npx react-native config > "$RUNNER_TEMP/react-native-config.json"
+          node "$GITHUB_WORKSPACE/scripts/assert-autolinking.js" \
+            "$RUNNER_TEMP/react-native-config.json"
+      - name: Install CocoaPods dependencies
+        run: |
+          APP_DIR="$RUNNER_TEMP/react-native-${{ matrix.rn }}"
+          cd "$APP_DIR"
+          bundle config set path "$RUNNER_TEMP/ruby-${{ matrix.rn }}"
+          bundle install --jobs 4 --retry 3
+          cd ios
+          bundle exec pod install
+      - name: Build iOS simulator app
+        run: |
+          APP_DIR="$RUNNER_TEMP/react-native-${{ matrix.rn }}"
+          cd "$APP_DIR/ios"
+          xcodebuild \
+            -workspace FusionChartsCompatibility.xcworkspace \
+            -scheme FusionChartsCompatibility \
+            -configuration Debug \
+            -sdk iphonesimulator \
+            -destination 'generic/platform=iOS Simulator' \
+            -derivedDataPath "$RUNNER_TEMP/derived-${{ matrix.rn }}" \
+            CODE_SIGNING_ALLOWED=NO \
+            build
+
+  expo-android:
+    name: Expo SDK 57 · RN 0.86 · Android development build
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Check out candidate
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Configure Node.js 22.13
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 22.13.0
+      - name: Configure JDK 17
+        uses: actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3 # v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - name: Install clean Expo development-build consumer
+        run: |
+          PACKAGE_NAME="$(npm pack --pack-destination "$RUNNER_TEMP" --silent)"
+          PACKAGE_ARCHIVE="$RUNNER_TEMP/$PACKAGE_NAME"
+          APP_DIR="$RUNNER_TEMP/expo-consumer"
+          cp -R examples/expo-app-sdk-57 "$APP_DIR"
+          cd "$APP_DIR"
+          npm pkg set dependencies.react-native-fusioncharts="file:$PACKAGE_ARCHIVE"
+          npm install --no-audit --no-fund
+          npx expo config --type public
+          npx expo-modules-autolinking react-native-config -p android -j \
+            > "$RUNNER_TEMP/expo-autolinking.json"
+          node "$GITHUB_WORKSPACE/scripts/assert-autolinking.js" \
+            "$RUNNER_TEMP/expo-autolinking.json" android
+      - name: Export the Hermes JavaScript bundle
+        run: |
+          cd "$RUNNER_TEMP/expo-consumer"
+          npx expo export --platform android --output-dir "$RUNNER_TEMP/expo-dist"
+      - name: Generate and build the Android development app
+        run: |
+          cd "$RUNNER_TEMP/expo-consumer"
+          npx expo prebuild --clean --platform android --no-install
+          cd android
+          ./gradlew assembleDebug --no-daemon -PreactNativeArchitectures=arm64-v8a
+
+  expo-ios:
+    name: Expo SDK 57 · RN 0.86 · iOS development build
+    runs-on: macos-26
+    timeout-minutes: 50
+    steps:
+      - name: Check out candidate
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Configure Node.js 22.13
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 22.13.0
+      - name: Enforce Expo SDK 57 Xcode prerequisite
+        run: node scripts/assert-xcode-version.js 26.4
+      - name: Install clean Expo development-build consumer
+        run: |
+          PACKAGE_NAME="$(npm pack --pack-destination "$RUNNER_TEMP" --silent)"
+          PACKAGE_ARCHIVE="$RUNNER_TEMP/$PACKAGE_NAME"
+          APP_DIR="$RUNNER_TEMP/expo-consumer"
+          cp -R examples/expo-app-sdk-57 "$APP_DIR"
+          cd "$APP_DIR"
+          npm pkg set dependencies.react-native-fusioncharts="file:$PACKAGE_ARCHIVE"
+          npm install --no-audit --no-fund
+          npx expo config --type public
+          npx expo-modules-autolinking react-native-config -p ios -j \
+            > "$RUNNER_TEMP/expo-autolinking.json"
+          node "$GITHUB_WORKSPACE/scripts/assert-autolinking.js" \
+            "$RUNNER_TEMP/expo-autolinking.json" ios
+      - name: Generate iOS project and install pods
+        run: |
+          cd "$RUNNER_TEMP/expo-consumer"
+          npx expo prebuild --clean --platform ios --no-install
+          cd ios
+          pod install
+      - name: Build iOS simulator development app
+        run: |
+          cd "$RUNNER_TEMP/expo-consumer/ios"
+          xcodebuild \
+            -workspace FusionChartsExpoExample.xcworkspace \
+            -scheme FusionChartsExpoExample \
+            -configuration Debug \
+            -sdk iphonesimulator \
+            -destination 'generic/platform=iOS Simulator' \
+            -derivedDataPath "$RUNNER_TEMP/expo-derived" \
+            CODE_SIGNING_ALLOWED=NO \
+            build
+
+  release-audit:
+    name: Release · archive, license, and security gates
+    needs:
+      - package-and-unit
+      - javascript-compatibility
+      - android-builds
+      - ios-builds
+      - expo-android
+      - expo-ios
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out candidate
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Configure Node.js 24.3
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 24.3.0
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Reject new Critical or High npm advisories
+        run: |
+          set +e
+          npm audit --json > "$RUNNER_TEMP/npm-audit.json"
+          AUDIT_STATUS=$?
+          set -e
+          if [ "$AUDIT_STATUS" -gt 1 ]; then
+            exit "$AUDIT_STATUS"
+          fi
+          node scripts/assert-npm-audit.js "$RUNNER_TEMP/npm-audit.json"
+      - name: Audit immutable release-candidate archive
+        run: |
+          PACKAGE_NAME="$(npm pack --pack-destination "$RUNNER_TEMP" --silent)"
+          node scripts/audit-package.js "$RUNNER_TEMP/$PACKAGE_NAME"
