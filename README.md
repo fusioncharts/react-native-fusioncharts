@@ -30,6 +30,9 @@ Here's the updated GitHub documentation with rephrased section headings and modi
 - [Going Beyond Charts](#going-beyond-charts)
 - [Contributor Guidelines](#contributor-guidelines)
 - [License Information](#license-information)
+- [Compatibility evidence](docs/compatibility.md)
+- [Version 7 migration guide](docs/migration/6-to-7.md)
+- [Changelog](https://github.com/fusioncharts/react-native-fusioncharts/blob/master/CHANGELOG.md)
 
 ## Important Links
 
@@ -42,40 +45,83 @@ Here's the updated GitHub documentation with rephrased section headings and modi
 
 ## Introduction
 
-React Native FusionCharts version 6.0.0 is compatible with the following versions of Expo and React Native. While it is possible that version 6.0.0 may function with newer versions of React Native and Expo, it has only been tested up to React Native 74.5.
+React Native FusionCharts 7 supports React Native 0.75 through 0.87. The
+declared peer range is `>=0.75.0 <0.88.0`, with React 18 and 19 supported as
+selected by the corresponding React Native release.
 
-| Expo SDK Versions   | React Native Versions |
-| ------------------- | --------------------- |
-| 47, 48, 49, 50 & 51 | >=0.70.8 & <=0.74.5   |
+| Wrapper version | React Native | React | Expo |
+| --- | --- | --- | --- |
+| `7.0.0-rc.0` | `>=0.75.0 <0.88.0` | `^18.0.0 \|\| ^19.0.0` | SDK 51, 52, 53, 54, 55, 56, 57 development builds |
+
+The CI matrix performs a clean-consumer type check, native autolinking check,
+and production Metro bundle on every React Native minor from 0.75 to 0.87. It
+also compiles Android and iOS consumers at the floor, representative deep
+versions, the Expo target, and the latest supported release.
+
+Separately, every React Native minor from 0.75 to 0.87 has a dedicated consumer
+application that installs the published archive, builds natively, and renders a
+chart on both an Android emulator and an iOS simulator, along with one
+application per stable Expo SDK pairing. See
+[compatibility evidence](docs/compatibility.md) for the exact patch versions,
+the Expo pairing table, and known upstream React Native and Expo issues.
 
 ## Overview
 
 To quickly integrate React Native FusionCharts, follow these essential steps. This process installs all required dependencies, allowing those already familiar with FusionCharts to get up and running quickly. If you are new to FusionCharts, referring the [Getting Started](#getting-started) section will be more helpful.
 
-1. **Initial Dependencies Installation**: Begin by running the following command in your project directory to install the necessary dependencies:
+1. **Install the wrapper and native dependencies**. Declare the native
+   packages directly in the application so React Native and Expo autolinking
+   discover them consistently:
 
-   ```
-   npm i react-native-webview @notifee/react-native @react-native-camera-roll/camera-roll @dr.pogodin/react-native-fs react-native-share
+   ```bash
+   npm install react-native-fusioncharts \
+     @dr.pogodin/react-native-fs@2.40.0 \
+     @notifee/react-native@^9.1.8 \
+     @react-native-camera-roll/camera-roll@^7.10.2 \
+     react-native-share@^12.3.1 \
+     react-native-webview@^14.0.1
    ```
 
-2. **Installing React Native FusionCharts**: Next, install the `react-native-fusioncharts` package:
+2. **iOS setup**: For iOS applications, navigate to your `ios` directory and
+   install pods:
 
-   ```
-   npm install react-native-fusioncharts
-   ```
-
-3. **iOS Setup**: For iOS applications, navigate to your `ios` directory and execute:
-
-   ```
+   ```bash
    pod install
    ```
 
-4. **Enabling Chart Export Functionality on iOS**: To add export functionality for your charts in iOS, modify your `info.plist` file by adding the following code to request photo library access:
+3. **Export permissions**: Add photo-library usage descriptions to the iOS
+   application `Info.plist`:
 
-   ```swift
+   ```xml
    <key>NSPhotoLibraryUsageDescription</key>
    <string>Photo Library Access for downloading the chart</string>
+   <key>NSPhotoLibraryAddUsageDescription</key>
+   <string>Photo Library Access for downloading the chart</string>
    ```
+
+   Android 10 (API 29) and newer can add exported images through MediaStore
+   without storage permission. To support Android 7–9, declare only the legacy
+   write permission:
+
+   ```xml
+   <uses-permission
+     android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+     android:maxSdkVersion="28" />
+   ```
+
+   Android API 24 is the minimum supported SDK because
+   `react-native-webview@14` requires it. React Native 0.75 projects generated
+   with a lower default must set `minSdkVersion` to 24 before building.
+
+   The filesystem module is the one native package whose version you choose.
+   Use `2.40.0` as shown above unless you have a reason not to; any release in
+   the supported range `>=2.28.1 <2.41.0` works. If you are on React Native
+   0.75 and prefer the oldest supported release, note that `2.28.1` lists
+   `react-native-windows` as a required peer even for iOS and Android projects,
+   so install it with `--legacy-peer-deps`.
+
+   The exact versions used to validate each React Native minor are recorded in
+   the [compatibility guide](docs/compatibility.md).
 
 Now that you have all essential components integrated into your project. You can now check the the [quick start](#quick-start) guide to render a chart or explore the APIs.
 
@@ -91,31 +137,62 @@ React Native FusionCharts can be integrated into applications using [Expo tools]
 
 ## Developing Applications with FusionCharts and Expo
 
-1. Make sure you have Node.js and Git installed in your environment. Check the official [Expo’s documentation](https://docs.expo.dev/get-started/installation/) for more details.
+This wrapper uses native filesystem, notification, camera-roll, share, and
+WebView modules. It works in an Expo **development build** after prebuild and
+autolinking; it does not run in Expo Go.
 
-2. Run the following command in terminal to create a new application and navigate in the project directory. You can check [here](https://docs.expo.dev/tutorial/create-your-first-app/) for more details on creating an new expo app.
+1. Create an Expo application and install the development client:
 
-```
-npx create-expo-app FusionApp --template blank && cd FusionApp
-```
+   ```bash
+   npx create-expo-app FusionApp --template blank
+   cd FusionApp
+   npx expo install expo-dev-client expo-build-properties
+   npm install react-native-fusioncharts \
+     @dr.pogodin/react-native-fs@2.39.2 \
+     @notifee/react-native@^9.1.8 \
+     @react-native-camera-roll/camera-roll@^7.10.2 \
+     react-native-share@^12.3.1 \
+     react-native-webview@^14.0.1
+   ```
 
-3. Install React Native FusionCharts:
+2. Add the Notifee local Maven repository and the share configuration plugin
+   to `app.json`:
 
-```
-npm i react-native-fusioncharts
-```
+   ```json
+   {
+     "expo": {
+       "plugins": [
+         [
+           "expo-build-properties",
+           {
+             "android": {
+               "extraMavenRepos": [
+                 "$rootDir/../node_modules/@notifee/react-native/android/libs"
+               ]
+             }
+           }
+         ],
+         ["react-native-share", {"ios": [], "android": []}]
+       ]
+     }
+   }
+   ```
 
-4. Install dependencies for React Native FusionCharts:
+   `@notifee/react-native` 9.1.8 is autolinked native code and is deliberately
+   not listed as an Expo config plugin.
 
-```
-npm i react-native-webview @notifee/react-native @react-native-camera-roll/camera-roll @dr.pogodin/react-native-fs react-native-share
-```
+3. Add the iOS usage descriptions and legacy Android write permission shown in the
+   [overview](#overview), then generate and build the native projects:
 
-5. Replace the code in the "App.js" file and replace it with the example [here](#quick-start)
+   ```bash
+   npx expo prebuild --clean
+   npx expo run:android
+   # or: npx expo run:ios
+   npx expo start --dev-client
+   ```
 
-6. Run the `npx expo start` in the project directory and expo should generate a QR-code that you can scan from your iOS camera app to open Expo Go or directly from the Expo Go app in an android device. Make sure your device and system is on the same network.
-
-7. If everything went well so far then you should be able to see FusionCharts sample column2D chart on the app.
+The checked-in Expo example targets SDK 57 / RN 0.86.2. Expo SDK 57 requires
+Node 22.13 or newer and Xcode 26.4 or newer for iOS builds.
 
 ## Creating an App with FusionCharts using React Native CLI
 
@@ -131,29 +208,29 @@ npm uninstall -g react-native-cli @react-native-community/cli
 
 2. Use React Native Community CLI to generate a new project.
 
-```
-npx @react-native-community/cli@latest init FusionApp && cd FusionApp
-```
-
-3. Install React Native FusionCharts:
-
-```
-npm i react-native-fusioncharts
+```bash
+npx @react-native-community/cli@20.2.0 init FusionApp --version 0.87.0
+cd FusionApp
 ```
 
-4. Install dependencies for React Native FusionCharts:
+3. Install React Native FusionCharts and its native dependencies directly:
 
-```
-npm i react-native-webview @notifee/react-native @react-native-camera-roll/camera-roll @dr.pogodin/react-native-fs react-native-share
+```bash
+npm install react-native-fusioncharts \
+  @dr.pogodin/react-native-fs@2.40.0 \
+  @notifee/react-native@^9.1.8 \
+  @react-native-camera-roll/camera-roll@^7.10.2 \
+  react-native-share@^12.3.1 \
+  react-native-webview@^14.0.1
 ```
 
-5. Start Metro (Metro is the JavaScript build tool for React Native. To start the Metro development server, run the following from your project folder)
+4. Start Metro (Metro is the JavaScript build tool for React Native. To start the Metro development server, run the following from your project folder)
 
 ```
 npm start
 ```
 
-6. Start your application. Let Metro Bundler run in its own terminal. Open a new terminal inside your React Native project folder. Run the following:
+5. Start your application. Let Metro Bundler run in its own terminal. Open a new terminal inside your React Native project folder. Run the following:
 
 ```bash
 npm run android
@@ -161,9 +238,9 @@ npm run android
 npm run ios
 ```
 
-5. If everything is set up correctly, you should see your new app running in your Android/iOS emulator shortly.
+6. If everything is set up correctly, you should see your new app running in your Android/iOS emulator shortly.
 
-6. Now open App.tsx in your text editor of choice and add chart samples from the [quick start](#quick-start) section to render FusionCharts in your app. You can find more chart samples in our official [documentation](https://www.fusioncharts.com/dev/getting-started/react-native/your-first-chart-using-react-native)
+7. Now open App.tsx in your text editor of choice and add chart samples from the [quick start](#quick-start) section to render FusionCharts in your app. You can find more chart samples in our official [documentation](https://www.fusioncharts.com/dev/getting-started/react-native/your-first-chart-using-react-native)
 
 ## Quick Start
 
@@ -767,4 +844,6 @@ npm publish
 
 ## License Information
 
-The FusionCharts React Native integration component is open-source and distributed under the terms of the MIT/X11 License. However, you will need to download and include FusionCharts library in your page separately, which has a [separate license](https://www.fusioncharts.com/buy).
+The FusionCharts React Native integration component is open-source and distributed under the terms of the MIT License. That licence covers the wrapper source and examples only.
+
+This package bundles the FusionCharts JavaScript library, which is commercial software under a [separate license](https://www.fusioncharts.com/buy) and is **not** covered by the MIT licence above. Charts render with a FusionCharts watermark until you apply your own FusionCharts licence. See [LICENSE.md](LICENSE.md) and [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for the full terms and attributions.
