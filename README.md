@@ -32,7 +32,7 @@ Here's the updated GitHub documentation with rephrased section headings and modi
 - [License Information](#license-information)
 - [Compatibility evidence](docs/compatibility.md)
 - [Version 7 migration guide](docs/migration/6-to-7.md)
-- [Changelog](https://github.com/fusioncharts/react-native-fusioncharts/blob/master/CHANGELOG.md)
+- [Changelog](https://github.com/fusioncharts/react-native-fusioncharts/blob/main/CHANGELOG.md)
 
 ## Important Links
 
