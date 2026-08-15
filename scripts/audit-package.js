@@ -33,8 +33,21 @@ if (packageJson.name !== 'react-native-fusioncharts') {
   throw new Error(`Unexpected package name: ${packageJson.name}`);
 }
 
-if (packageJson.version !== '7.0.0-rc.0') {
-  throw new Error(`Expected immutable release candidate 7.0.0-rc.0; found ${packageJson.version}`);
+// Compare the archive against this repository rather than a hardcoded version,
+// so promoting a release candidate to a final release needs no edit here.
+const repositoryVersion = JSON.parse(
+  fs.readFileSync(path.join(__dirname, '..', 'package.json'), 'utf8'),
+).version;
+
+if (!/^\d+\.\d+\.\d+(?:-[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?$/.test(repositoryVersion)) {
+  throw new Error(`package.json version is not valid semver: ${repositoryVersion}`);
+}
+
+if (packageJson.version !== repositoryVersion) {
+  throw new Error(
+    `Archive version ${packageJson.version} does not match package.json ${repositoryVersion}; ` +
+      'the archive is stale, repack it before auditing.',
+  );
 }
 
 const requiredEntries = [
