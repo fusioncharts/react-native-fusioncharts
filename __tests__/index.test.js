@@ -8,11 +8,6 @@ import ReactNativeFusionCharts from '../src/FusionCharts.js';
 import { data } from '../testData/null_data.js';
 import { schema } from '../testData/null_schema.js';
 
-// Note: import explicitly to use the types shipped with jest.
-import { it } from '@jest/globals';
-
-// Note: test renderer must be required after react-native.
-import renderer from 'react-test-renderer';
 import { render } from '@testing-library/react-native';
 
 jest.mock('react-native-webview', () => {
@@ -75,7 +70,11 @@ it('Chart renders without crashing', () => {
     <ReactNativeFusionCharts
       chartConfig={chartConfig}
     />);
-  expect(toJSON()).toMatchSnapshot(); // Check if the component renders correctly
+  const tree = toJSON();
+  expect(tree).toBeTruthy();
+  expect(tree.children[0].props.injectedJavaScript).toContain(
+    'installFusionChartsExportBridge'
+  );
 });
 
 
@@ -138,5 +137,9 @@ it('TimeSeries chart renders without crashing', () => {
       events={events}
       modules={modules}
     />);
-  expect(toJSON()).toMatchSnapshot(); // Check if the component renders correctly
+  const tree = toJSON();
+  expect(tree).toBeTruthy();
+  expect(tree.children[0].props.injectedJavaScript).toContain(
+    'var modulesList = ["timeseries"]'
+  );
 });

@@ -4,6 +4,7 @@ export default `<!DOCTYPE html>
         <title>FusionCharts</title>
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+        <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; font-src data:; connect-src 'none'; form-action 'none'; base-uri 'none'">
         <style type="text/css">
             body,
             html {
@@ -106,4 +107,5 @@ export default `<!DOCTYPE html>
             };
         </script>
     </body>
-</html>`;
+</html>
+`;
