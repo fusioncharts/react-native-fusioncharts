@@ -1,0 +1,58 @@
+{
+  "fusioncharts_version": "4.2.2",
+  "purpose": "Replace the seven remote fonts.gstatic.com references in the bundled FusionCharts themes with integrity-checked data URLs.",
+  "font_urls_rewritten": 7,
+  "remote_font_urls_allowed": 0,
+  "files": [
+    {
+      "path": "assets/fonts/fira-sans-light-300-latin.woff2",
+      "sha256": "969bdc335fa55bd57f33bb7df3b20f17774fb498a4d138c33494167986b3a116",
+      "source": "https://fonts.gstatic.com/s/firasans/v8/va9B4kDNxMZdWfMOD5VnPKreRhf6Xl7Glw.woff2"
+    },
+    {
+      "path": "assets/fonts/fira-sans-regular-400-latin.woff2",
+      "sha256": "f7e6fbc051b999488b3914a139e192613c9964236075b9fc2278de021918a6d3",
+      "source": "https://fonts.gstatic.com/s/firasans/v8/va9E4kDNxMZdWfMOD5Vvl4jLazX3dA.woff2"
+    },
+    {
+      "path": "assets/fonts/source-sans-pro-light-300-latin.woff2",
+      "sha256": "435102c6994284c58e63143d49204d6c3876633ffec220cc73ca05ff8e0156c9",
+      "source": "https://fonts.gstatic.com/s/sourcesanspro/v11/6xKydSBYKcSV-LCoeQqfX1RYOo3ik4zwlxdu3cOWxw.woff2"
+    },
+    {
+      "path": "assets/fonts/source-sans-pro-regular-400-latin.woff2",
+      "sha256": "547ea67155dac1c27efb550426c4848b7364357ed040fd531719c4797e356a1d",
+      "source": "https://fonts.gstatic.com/s/sourcesanspro/v11/6xK3dSBYKcSV-LCoeQqfX1RYOo3qOK7lujVj9w.woff2"
+    },
+    {
+      "path": "assets/fonts/source-sans-pro-semibold-600-latin.woff2",
+      "sha256": "4a58441133d85539974e4b136c25eaa5512ac1b018d4f6d53124a08c6f19b55e",
+      "source": "https://fonts.gstatic.com/s/sourcesanspro/v11/6xKydSBYKcSV-LCoeQqfX1RYOo3i54rwlxdu3cOWxw.woff2"
+    },
+    {
+      "path": "assets/fonts/titillium-web-regular-400-latin.woff2",
+      "sha256": "dd1dad45fd0dd168ad46427307aa8a206b857b783ca3afbcfe2bc8b8724acec0",
+      "source": "https://fonts.gstatic.com/s/titilliumweb/v7/NaPecZTIAOhVxoMyOr9n_E7fdMPmDaZRbrw.woff2"
+    },
+    {
+      "path": "assets/fonts/titillium-web-semibold-600-latin.woff2",
+      "sha256": "8658dcad983dacbb3bca7bc8217fd0b75f28df85bf9259bd0dccf69e58cb0ecd",
+      "source": "https://fonts.gstatic.com/s/titilliumweb/v7/NaPDcZTIAOhVxoMyOr9n_E7ffBzCGItzY5abuWI.woff2"
+    },
+    {
+      "path": "licenses/fonts/FIRA_SANS_OFL.txt",
+      "sha256": "8f24842e9174beda18a556c2ae7d54f5dc444340c19a3a9ef77e23bca366adbd",
+      "source": "https://raw.githubusercontent.com/google/fonts/038b637da7b3fd956a4ed93ffc607c3d5e4ce172/ofl/firasans/OFL.txt"
+    },
+    {
+      "path": "licenses/fonts/SOURCE_SANS_PRO_OFL.txt",
+      "sha256": "56af9b9c6715597e458284a474dc118a50a4150e9d547c70f7b4a33c3e6a9328",
+      "source": "https://raw.githubusercontent.com/adobe-fonts/source-sans/87b37a2daaed80fcb8e8ccb0085c4d72ddade12e/LICENSE.md"
+    },
+    {
+      "path": "licenses/fonts/TITILLIUM_WEB_OFL.txt",
+      "sha256": "c0562e066174197902a4a10606673d189f067970ef89c6013943b9cf182aadbc",
+      "source": "https://raw.githubusercontent.com/google/fonts/038b637da7b3fd956a4ed93ffc607c3d5e4ce172/ofl/titilliumweb/OFL.txt"
+    }
+  ]
+}

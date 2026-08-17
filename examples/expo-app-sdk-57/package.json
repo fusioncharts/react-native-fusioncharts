@@ -1,0 +1,26 @@
+{
+  "name": "fusioncharts-expo-example",
+  "version": "1.0.0",
+  "main": "index.js",
+  "dependencies": {
+    "@dr.pogodin/react-native-fs": "2.39.2",
+    "@notifee/react-native": "^9.1.8",
+    "@react-native-camera-roll/camera-roll": "^7.10.2",
+    "expo": "~57.0.13",
+    "expo-build-properties": "~57.0.10",
+    "expo-dev-client": "~57.0.11",
+    "expo-status-bar": "~57.0.1",
+    "react": "19.2.3",
+    "react-native": "0.86.2",
+    "react-native-fusioncharts": "file:../..",
+    "react-native-share": "^12.3.1",
+    "react-native-webview": "^14.0.1"
+  },
+  "scripts": {
+    "start": "expo start --dev-client",
+    "prebuild": "expo prebuild --clean",
+    "android": "expo run:android",
+    "ios": "expo run:ios"
+  },
+  "private": true
+}
