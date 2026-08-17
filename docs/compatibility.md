@@ -74,8 +74,8 @@ are:
 | 53 | 0.79 | validated on Android and iOS |
 | 54 | 0.81 | validated on Android and iOS |
 | 55 | 0.83 | validated on Android and iOS |
-| 56 | 0.85 | validated on Android; iOS runs in the Xcode 26.4 lane |
-| 57 | 0.86 | validated on Android; iOS runs in the Xcode 26.4 lane |
+| 56 | 0.85 | validated on Android and iOS |
+| 57 | 0.86 | validated on Android and iOS |
 
 React Native 0.78, 0.80, 0.82, 0.84 and 0.87 have no stable Expo SDK pairing.
 They are supported for bare React Native consumers and are validated as such.
