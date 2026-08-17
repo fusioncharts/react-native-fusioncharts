@@ -40,7 +40,9 @@
   ],
   "scripts": {
     "build:FC": "node ./scripts/build-fc.js",
-    "test": "jest --runInBand --no-watchman"
+    "test": "jest --runInBand --no-watchman",
+    "verify:package": "node ./scripts/verify-package.js",
+    "prepublishOnly": "npm run verify:package"
   },
   "dependencies": {
     "@notifee/react-native": "^9.1.8",
