@@ -96,17 +96,42 @@ try {
 step('packing and auditing the release archive');
 const packDir = fs.mkdtempSync(path.join(os.tmpdir(), 'rnfc-verify-'));
 
-try {
-  const archiveName = run('npm', [
-    'pack',
-    '--pack-destination',
-    packDir,
-    '--silent',
-  ]).trim();
+// `npm publish --dry-run` exports npm_config_dry_run=true into the lifecycle
+// environment, which a nested `npm pack` inherits - it would then print a
+// filename without writing the file, and the audit below would stat a path
+// that does not exist. Strip it so the archive is always really produced and
+// the audit runs identically whether or not this is a rehearsal.
+const packEnv = {...process.env};
+delete packEnv.npm_config_dry_run;
 
-  run('node', [path.join('scripts', 'audit-package.js'), path.join(packDir, archiveName)], {
+try {
+  const packOutput = run(
+    'npm',
+    ['pack', '--pack-destination', packDir, '--silent'],
+    {env: packEnv},
+  );
+  // Take the last non-empty line: npm may prepend notices even under --silent.
+  const archiveName = packOutput.trim().split('\n').pop().trim();
+  const archivePath = path.join(packDir, archiveName);
+
+  if (!fs.existsSync(archivePath)) {
+    throw new VerificationError(
+      `npm pack reported "${archiveName}" but wrote nothing to ${packDir}.\n` +
+        'If this ran under a dry run, the npm_config_dry_run strip above failed.',
+    );
+  }
+
+  run('node', [path.join('scripts', 'audit-package.js'), archivePath], {
     stdio: 'inherit',
   });
+} catch (error) {
+  if (error instanceof VerificationError) {
+    throw error;
+  }
+
+  throw new VerificationError(
+    `Packing or auditing the release archive failed.\n${error.message}`,
+  );
 } finally {
   fs.rmSync(packDir, {recursive: true, force: true});
 }
