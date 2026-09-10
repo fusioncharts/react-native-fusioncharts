@@ -1,6 +1,6 @@
 # Changelog
 
-## 7.0.0-rc.0 - 2026-08-13
+## 7.0.0
 
 ### Added
 
@@ -26,11 +26,10 @@
 
 ### Security
 
-- Removed all Critical findings and reduced the repository High baseline to two
-  upstream Metro build-tool advisories, both in the development bundler. The
-  packed runtime dependency closure has no known vulnerabilities.
+- Addressed known OSV advisories in the dependency graph.
+- Updated the inlined jsPDF in the shipped bundle from 3.0.2 to 4.2.1, which
+  clears two Critical advisories reachable through chart export.
 
-### Release status
+## 6.x and earlier
 
-- `7.0.0-rc.0` is a release candidate. The component API is final for the 7.x
-  line; please report any issue found while testing it.
+See the [release history](https://github.com/fusioncharts/react-native-fusioncharts/releases) for versions 1.0.0 through 6.0.1.

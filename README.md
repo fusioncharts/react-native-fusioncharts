@@ -28,6 +28,7 @@ Here's the updated GitHub documentation with rephrased section headings and modi
   - [FusionTime Integration](#fusiontime-integration)
     - [Example Integration](#example-integration)
 - [Going Beyond Charts](#going-beyond-charts)
+- [Troubleshooting](#troubleshooting)
 - [Contributor Guidelines](#contributor-guidelines)
 - [License Information](#license-information)
 - [Compatibility evidence](docs/compatibility.md)
@@ -51,7 +52,7 @@ selected by the corresponding React Native release.
 
 | Wrapper version | React Native | React | Expo |
 | --- | --- | --- | --- |
-| `7.0.0-rc.0` | `>=0.75.0 <0.88.0` | `^18.0.0 \|\| ^19.0.0` | SDK 51, 52, 53, 54, 55, 56, 57 development builds |
+| `7.0.0` | `>=0.75.0 <0.88.0` | `^18.0.0 \|\| ^19.0.0` | SDK 51, 52, 53, 54, 55, 56, 57 development builds |
 
 The CI matrix performs a clean-consumer type check, native autolinking check,
 and production Metro bundle on every React Native minor from 0.75 to 0.87. It
@@ -100,7 +101,7 @@ To quickly integrate React Native FusionCharts, follow these essential steps. Th
    ```
 
    Android 10 (API 29) and newer can add exported images through MediaStore
-   without storage permission. To support Android 7–9, declare only the legacy
+   without storage permission. To support Android 7 to 9, declare only the legacy
    write permission:
 
    ```xml
@@ -821,6 +822,36 @@ const styles = StyleSheet.create({
 
 - Explore 20+ pre-built business specific dashboards for different industries like energy and manufacturing to business functions like sales, marketing and operations [here](https://www.fusioncharts.com/explore/dashboards).
 - See [Data Stories](https://www.fusioncharts.com/explore/data-stories) built using FusionCharts’ interactive JavaScript visualizations and learn how to communicate real-world narratives through underlying data to tell compelling stories.
+
+## Troubleshooting
+
+### `pod install` fails with `unknown keyword: quirks_mode`
+
+```
+[!] Invalid `Podfile` file: unknown keyword: quirks_mode.
+```
+
+Add a `json` constraint to your application's `Gemfile`, then reinstall:
+
+```ruby
+gem "json", "~> 2.7"
+```
+
+```bash
+bundle install
+```
+
+```bash
+cd ios && bundle exec pod install
+```
+
+**Why.** The React Native app template does not constrain the `json` gem. On a
+fresh install Bundler resolves `json` 3.x, which removed `quirks_mode`, while
+the CocoaPods version pinned by older templates still passes it. This affects
+any React Native project on an affected template and is unrelated to this
+wrapper. Newer React Native versions pin a CocoaPods release that is
+unaffected, so you are most likely to see this on the lower end of the
+supported range.
 
 ## Contributor Guidelines
 

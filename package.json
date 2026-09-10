@@ -1,6 +1,6 @@
 {
   "name": "react-native-fusioncharts",
-  "version": "7.0.0-rc.0",
+  "version": "7.0.0",
   "description": "React Native component for FusionCharts Javascript Charting Library",
   "license": "SEE LICENSE IN LICENSE.md",
   "keywords": [
@@ -70,10 +70,10 @@
     "react-native": ">=0.75.0 <0.88.0"
   },
   "overrides": {
-    "brace-expansion": "1.1.18",
-    "dompurify": "3.4.13",
-    "js-yaml": "3.15.1",
-    "minimatch": "3.1.4",
-    "picomatch": "2.3.2"
+    "brace-expansion": "^1.1.18",
+    "dompurify": "^3.4.13",
+    "js-yaml": "^3.15.2",
+    "minimatch": "^3.1.4",
+    "picomatch": "^2.3.2"
   }
 }
