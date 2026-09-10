@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   pull_request:
   push:
-    branches: [master, main, develop]
+    branches: [main, develop]
 
 permissions:
   contents: read
@@ -271,11 +271,22 @@ jobs:
           npx react-native config > "$RUNNER_TEMP/react-native-config.json"
           node "$GITHUB_WORKSPACE/scripts/assert-autolinking.js" \
             "$RUNNER_TEMP/react-native-config.json"
+      # The generated app's Gemfile comes from React Native's own template and
+      # does not constrain the `json` gem. Bundler therefore resolves json 3.x,
+      # which dropped `quirks_mode`, while the CocoaPods version the older
+      # templates pin still passes it. `pod install` then fails with
+      # "Invalid Podfile file: unknown keyword: quirks_mode".
+      #
+      # This is not specific to this wrapper: any fresh React Native project on
+      # an affected template hits it. The same constraint is documented for
+      # consumers in README.md under Troubleshooting, so this step verifies the
+      # documented path rather than a configuration nobody would have.
       - name: Install CocoaPods dependencies
         run: |
           APP_DIR="$RUNNER_TEMP/react-native-${{ matrix.rn }}"
           cd "$APP_DIR"
           bundle config set path "$RUNNER_TEMP/ruby-${{ matrix.rn }}"
+          bundle add json --version "~> 2.7" --skip-install
           bundle install --jobs 4 --retry 3
           cd ios
           bundle exec pod install
