@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string gender="unknown" name="combobox_description">Qutiya Vebûnok</string>
-    <string gender="unknown" name="image_description">Dîmen</string>
-    <string gender="unknown" name="imagebutton_description">Bişkok, Dîmen</string>
-    <string gender="unknown" name="link_description">Lînk</string>
-    <string gender="unknown" name="menu_description">Menû</string>
-    <string gender="unknown" name="state_on_description">vekirî</string>
-</resources>

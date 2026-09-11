@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string gender="unknown" name="image_description">Sawir</string>
-    <string gender="unknown" name="imagebutton_description">Batoon, Sawir</string>
-    <string gender="unknown" name="link_description">Linki</string>
-    <string gender="unknown" name="menu_description">Tusmada</string>
-    <string gender="unknown" name="state_off_description">dansan</string>
-    <string gender="unknown" name="state_on_description">daaran</string>
-</resources>

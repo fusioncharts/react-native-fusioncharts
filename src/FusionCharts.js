@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { View, StyleSheet, Platform, PermissionsAndroid } from "react-native";
 import { WebView } from "react-native-webview";
-import FileSystem from 'react-native-fs';
+import FileSystem from '@dr.pogodin/react-native-fs';
 import notifee, { AndroidImportance } from '@notifee/react-native';
 import Share from 'react-native-share';
 import { CameraRoll } from '@react-native-camera-roll/camera-roll';
@@ -10,6 +10,10 @@ import fusonChartsOptions from "./utils/options";
 import layout from "./modules/layout";
 import scripts from "./modules/scripts";
 import modules from "./modules/modules";
+import exportBridge from "./modules/exportBridge";
+import { normalizeExportPayload } from "./utils/export";
+
+const WEBVIEW_TARGETS = new Set(["handleChartEvents", "chartRendered"]);
 
 export default class ReactNativeFusionCharts extends Component {
   constructor(props) {
@@ -63,43 +67,33 @@ export default class ReactNativeFusionCharts extends Component {
     } catch (err) {
       return;
     }
-    if (msgData.targetFunc) {
+    if (
+      WEBVIEW_TARGETS.has(msgData.targetFunc) &&
+      typeof this[msgData.targetFunc] === "function"
+    ) {
       this[msgData.targetFunc].apply(this, [data]);
     }
-    if (data.eventName === "download") {
-      this.exportData(data);
+    if (data && data.eventName === "download") {
+      await this.exportData(data);
     }
   };
 
   getCheckPermissionPromise = () => {
-    if (Platform.Version >= 33) {
-      return Promise.all([
-        PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.READ_MEDIA_IMAGES),
-        PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.READ_MEDIA_VIDEO),
-      ]).then(
-        ([hasReadMediaImagesPermission, hasReadMediaVideoPermission]) =>
-          hasReadMediaImagesPermission && hasReadMediaVideoPermission,
-      );
-    } else {
-      return PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE);
+    if (Platform.Version >= 29) {
+      return Promise.resolve(true);
     }
+    return PermissionsAndroid.check(
+      PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
+    );
   };
 
   getRequestPermissionPromise = () => {
-    if (Platform.Version >= 33) {
-      return PermissionsAndroid.requestMultiple([
-        PermissionsAndroid.PERMISSIONS.READ_MEDIA_IMAGES,
-        PermissionsAndroid.PERMISSIONS.READ_MEDIA_VIDEO,
-      ]).then(
-        (statuses) =>
-          statuses[PermissionsAndroid.PERMISSIONS.READ_MEDIA_IMAGES] ===
-          PermissionsAndroid.RESULTS.GRANTED &&
-          statuses[PermissionsAndroid.PERMISSIONS.READ_MEDIA_VIDEO] ===
-          PermissionsAndroid.RESULTS.GRANTED,
-      );
-    } else {
-      return PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE).then((status) => status === PermissionsAndroid.RESULTS.GRANTED);
+    if (Platform.Version >= 29) {
+      return Promise.resolve(true);
     }
+    return PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
+    ).then((status) => status === PermissionsAndroid.RESULTS.GRANTED);
   };
 
   hasAndroidPermission = async () => {
@@ -116,7 +110,7 @@ export default class ReactNativeFusionCharts extends Component {
         console.log("No permission");
         return;
       }
-      CameraRoll.saveAsset(uri)
+      await CameraRoll.saveAsset(uri);
       console.log("Photo saved successfully.");
     } catch (error) {
       console.log("error while saving" + error);
@@ -124,7 +118,7 @@ export default class ReactNativeFusionCharts extends Component {
 
   };
 
-  // Method to request permission (iOS only)
+  // Request notification permission where the platform requires it.
   async requestUserPermission() {
     const settings = await notifee.requestPermission();
     if (settings.authorizationStatus !== 1) {
@@ -134,26 +128,25 @@ export default class ReactNativeFusionCharts extends Component {
 
   // Method to create a notification channel (Android only)
   async createNotificationChannel() {
-    // For Android, create a notification channel with custom sound
     await notifee.createChannel({
       id: 'download',
       name: 'Download Notifications',
-      sound: 'email-sound.wav', // Custom sound (needs to be placed in the correct Android directory)
-      importance: AndroidImportance.HIGH, // High importance for pop-up notifications
+      importance: AndroidImportance.HIGH,
     });
   }
 
   // Method to schedule a notification
   async scheduleNotification(data, fileUri) {
-    await this.createNotificationChannel(); // Ensure the channel is created
+    if (Platform.OS === "android") {
+      await this.createNotificationChannel();
+    }
 
     // Schedule a local notification
     await notifee.displayNotification({
       title: data.name,
       body: 'Download complete',
       android: {
-        channelId: 'download', // Reference the created channel
-        sound: 'email-sound.wav', // Custom sound
+        channelId: 'download',
       },
       data: {
         fileUri: fileUri, // Attach any additional data you want
@@ -162,47 +155,17 @@ export default class ReactNativeFusionCharts extends Component {
   }
 
   exportData = async (data) => {
-    let extension, base64Code;
     try {
-      const fileUri = `file://${FileSystem.DocumentDirectoryPath}/${data.name}`;
-      extension = data.name.substr(data.name.indexOf(".") + 1);
-      switch (extension) {
-        case "jpg": {
-          base64Code = data.edata.split("data:image/jpeg;base64,")[1];
-          break;
-        }
-        case "png": {
-          base64Code = data.edata.split("data:image/png;base64,")[1];
-          break;
-        }
-        case "svg": {
-          base64Code = data.edata.split("data:image/svg+xml;base64,")[1];
-          break;
-        }
-        case "pdf": {
-          base64Code = data.edata.split("data:application/pdf;base64,")[1];
-          break;
-        }
-        case "csv": {
-          if (Platform.OS === "ios") {
-            base64Code = data.edata.split("data:text/csv;base64,")[1];
-          } else {
-            base64Code = data.edata.split("data:text/csv;base64;;base64,")[1];
-          }
-          break;
-        }
-        case "xlsx": {
-          base64Code = data.edata.split(
-            "data:application/vnd.ms-excel;base64,"
-          )[1];
-          break;
-        }
+      const { base64, extension, fileName } = normalizeExportPayload(data);
+      const filePath = `${FileSystem.DocumentDirectoryPath}/${fileName}`;
+      const fileUri = `file://${filePath}`;
+      await FileSystem.writeFile(filePath, base64, 'base64');
+      await Share.open({ url: fileUri, name: fileName, failOnCancel: false });
+      if (extension === "jpg" || extension === "png") {
+        await this.savePicture(fileUri);
       }
-      await FileSystem.writeFile(fileUri, base64Code, 'base64')
-      await Share.open({ url: fileUri, name: data.name });
-      await this.savePicture(fileUri);
-      await this.requestNotificationPermission();
-      await this.scheduleNotification(data, fileUri);
+      await this.requestUserPermission();
+      await this.scheduleNotification({ name: fileName }, fileUri);
     } catch (error) {
       console.log("Error while exporting data :" + error);
     }
@@ -573,11 +536,12 @@ export default class ReactNativeFusionCharts extends Component {
       .reduce((filterdModules, key) => {
         filterdModules[key] = modules[key];
         return filterdModules;
-      }, scripts);
+      }, {...scripts});
 
     const runFirst = `
     var modulesList = ${JSON.stringify(this.state.modules)};
     var readable = ${JSON.stringify(scriptWithModules)};
+    ${exportBridge}
       function loadScripts(file, callback) {
           var fcScript = document.createElement('script');
           fcScript.innerHTML = readable[file]
@@ -623,9 +587,9 @@ export default class ReactNativeFusionCharts extends Component {
           onMessage={this.onWebViewMessage}
           javaScriptEnabled
           domStorageEnabled
-          mixedContentMode="compatibility"
-          allowFileAccess
-          allowFileAccessFromFileURLs
+          mixedContentMode="never"
+          allowFileAccess={false}
+          allowFileAccessFromFileURLs={false}
           scrollEnabled={false}
           automaticallyAdjustContentInsets
         />
