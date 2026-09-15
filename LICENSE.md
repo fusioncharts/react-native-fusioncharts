@@ -1,7 +1,3 @@
-This MIT License applies to the React Native wrapper source and examples only.
-The bundled FusionCharts JavaScript library is commercial software licensed
-separately; see THIRD_PARTY_NOTICES.md.
-
 MIT License
 
 Copyright (c) 2017-2026 FusionCharts, Inc.
